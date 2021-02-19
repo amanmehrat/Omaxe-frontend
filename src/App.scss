@@ -1,0 +1,131 @@
+$color-white: #fff;
+$color-gray-1:#F1F1F1;
+$color-gray-2:#F8F8F8;
+$color-gray-3:#F6F6F6;
+$color-gray-4:#EFEFEF;
+$color-gray-5:#EEEEEE;
+$color-gray-6:#0000001A;
+$color-gray-7:#00000029;
+$color-gray-8:#E4E4E4;
+$color-gray-9:#595959;
+$color-gray-10:#DCDCDC;
+$color-gray-11:#DCDCDC;
+$color-gray-12:#DCDCDC;
+$color-gray-13:#DCDCDC;
+
+$color-blue-1:#072A3E;
+$color-blue-2:#169BB9;
+$color-blue-3:#00A2C8;
+$color-blue-4:#15BDE4;
+
+$color-pink-1:#DCDCDC;
+
+$screen-desktop: 83.5625em; //1335px
+$screen-desktop1: 80em; //1280px
+$screen-desktop2: 76.25em; //1220px
+$screen-desktop3: 68.75em;//1100px
+$screen-ipad-pro: 64.062em; //1025px
+$screen-ipad:61.3125em;//981px
+$screen-ipad1:57.25em;//900px
+$screen-mobile: 56.25em;//900px
+*,
+*::after,
+*::before{
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+html{
+  font-size: 62.5%;  //1rem=10px;  10px/16px=62.5%
+}
+body{
+  overflow: hidden;
+  box-sizing: border-box;
+  font-family: "Segoe UI","Lato",'Anonymous Pro',"Roboto Thin",sans-serif;
+  
+}
+button{
+  cursor:pointer;
+}
+input{
+  outline: none;
+}
+.container{
+  height: 100vh;
+  display: grid;
+  position: relative;
+  grid-template-rows: 7rem 1fr;
+  @media only screen and (max-width: $screen-ipad-pro){
+    grid-template-rows: 7rem 1fr 5rem;
+  }
+  .navDash{
+    grid-row: 1/2;
+    z-index: 4;
+    @media only screen and (max-width:$screen-mobile){
+      z-index: 2;
+    }
+  }
+
+  .content{
+    grid-row: 2/3;
+    min-height: 55rem;
+    @media only screen and (max-width: $screen-ipad-pro){
+      grid-row: 2/3;
+    }
+  }
+  .bottom{
+    grid-row: 3/-1;
+    height: 5rem;
+    background-color: $color-blue-2;
+    display: none;
+    @media only screen and (max-width: $screen-ipad-pro){
+      display: block;
+    }
+    &__nav{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 3rem;
+
+    }
+    &__home{
+      display: block;
+      width: 100%;
+
+    }
+    &__job{
+      display: block;
+      width: 100%;
+
+    }
+    &__user{
+      display: block;
+      width: 100%;
+
+    }
+    &__message{
+      display: block;
+      width: 100%;
+
+    }
+
+    &__add{
+      display: block;
+      width: 100%;
+      &--btn{
+        font-size: 1.2rem;
+        background-color: $color-blue-3;
+        border: none;
+        color: #fff;
+      }
+      &--img{
+
+      }
+    }
+
+  }
+}
+::selection{
+  background-color: deepskyblue;
+  color: white;
+}

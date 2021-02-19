@@ -1,0 +1,98 @@
+
+.errorDialog{
+  .sweet-alert{
+    width: 50% !important;
+    @media only screen and(max-width:900px) {
+      width: 70% !important;
+    }
+    @media only screen and(max-width:560px) {
+      width: 90% !important;
+    }
+  }
+  a{
+    color: #FFDFDF;
+    background: #00A2C8;
+    border-radius: .5rem;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    box-shadow: none;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 1rem 0;
+    margin-bottom: 3rem;
+    margin-top: 2rem;
+    width: 12rem;
+  }
+}
+.successDialog{
+  .sweet-alert{
+    width: 50% !important;
+    @media only screen and(max-width:900px) {
+      width: 70% !important;
+    }
+    @media only screen and(max-width:560px) {
+      width: 90% !important;
+    }
+  }
+  a{
+    color: #ffffff;
+    background: #00A2C8;
+    border-radius: .5rem;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    box-shadow: none;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 1rem 0;
+    margin-bottom: 3rem;
+    margin-top: 2rem;
+    width: 12rem;
+  }
+}
+.warningDialog{
+  .sweet-alert{
+    width: 50% !important;
+    @media only screen and(max-width:900px) {
+      width: 70% !important;
+    }
+    @media only screen and(max-width:560px) {
+      width: 90% !important;
+    }
+  }
+  .btn-primary{
+    color: #ffffff;
+    background: #00A2C8;
+    border-radius: .5rem;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    box-shadow: none;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 1rem 3rem;
+    margin-bottom: 3rem;
+    margin-top: 2rem;
+    margin-left: 2rem;
+  }
+  .btn-link{
+    color: #000000;
+    background: #eee;
+    border-radius: .5rem;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    box-shadow: none;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 1rem 3rem;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
+}
+.message{
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin: 1rem 0;
+}
