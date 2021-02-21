@@ -35,7 +35,7 @@ const RootProvider = combineProviders(providers);
 
 const App = () => (
   <RootProvider>
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Switch>
         <ErrorContext>
         <Route path="/" component={Dashboard} />
