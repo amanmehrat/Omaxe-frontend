@@ -256,16 +256,18 @@ const MyTeam = ({ history }) => {
                                             className="editInput"
                                             onChange={(e) => setPhoneNumber(e.target.value)}
                                         /></div>
-                                    <div className="editForm">
-                                        <input
-                                            type="password"
-                                            name="password"
-                                            placeholder="Password"
-                                            value={password}
-                                            className="editInput"
-                                            onChange={(e) => setPassword(e.target.value)}
-                                        /></div>
-
+                                    {!id &&
+                                        <div className="editForm">
+                                            <input
+                                                type="password"
+                                                name="password"
+                                                placeholder="Password"
+                                                value={password}
+                                                className="editInput"
+                                                onChange={(e) => setPassword(e.target.value)}
+                                            />
+                                        </div>
+                                    }
                                     <div className="editForm">
                                         <Select isSearchable={false}
                                             styles={{

@@ -8,12 +8,17 @@ import { Switch, Route } from "react-router-dom";
 
 //#region Inbuilt
 import "../App.scss";
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
+import AddProject from '../components/project/AddProject';
+
 import IfAuth from "../components/IfAuth";
-import NavBar from "./dashboard/NavBar";
+import LeftNav from "./dashboard/LeftNav";
 import SideNav from "./dashboard/SideNav";
 import MyTeam from "./myTeam/myTeam";
 import Project from "./project/project";
 import ProjectById from "./project/projectById";
+//import AddProject from "./project/AddProject";
 import FlatById from "./flat/flatById";
 //#endregion
 
@@ -23,16 +28,20 @@ const Dashboard = () => {
   return (
     <IfAuth>
       <div className="container">
-        <NavBar />
+        <Navbar />
         <div className={"content"}>
-          <SideNav />
+          <Sidebar />
           <Switch>
             <Route exact={true} path="/" component={Project} />
-            <Route exact={true} path="/project" component={Project} />
-            <Route exact={true} path="/project/:projectId" component={ProjectById} />
+
+            <Route exact={true} path="/projects" component={Project} />
+            <Route exact={true} path="/AddProject" component={AddProject} />
+            <Route exact={true} path="/AddProject/:projectId" component={AddProject} />
+            <Route exact={true} path="/Project/:projectId" component={ProjectById} />
+
             <Route exact={true} path="/flat" component={FlatById} />
             <Route exact={true} path="/flat/:flatId" component={FlatById} />
-            <Route exact={true} path="/team" component={MyTeam} />
+            <Route exact={true} path="/users" component={MyTeam} />
           </Switch>
         </div>
       </div>

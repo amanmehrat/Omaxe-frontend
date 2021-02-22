@@ -26,16 +26,25 @@ $screen-mobile: 56.25em;//900px
 $screen-mobile--small: 37.5em;//600px
 $screen-mobile--smallest: 28.125em;//450px
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 .myprojects{
-  display: grid;
-  margin-left: 18%;
-  width: 82%;
+  display: flex;
+  flex: 45;
   height: calc(100vh - 7rem);
   @media only screen and (max-width: 1025px){
     margin-left: 0;
-    width:100%;
- 
+    flex: 45;
+  
   }
  
   @media only screen and (max-width:850px){
@@ -170,10 +179,12 @@ $screen-mobile--smallest: 28.125em;//450px
       background-color: #ececec;
       padding: 1rem 3%;
       height: 100%;
+      
       .contentMid:hover{
         border: 2px solid #00A2C8;
         color: #00A2C8;
       }
+
       .contentMid{
         height: 5rem;
         padding-left: 1.5rem;
@@ -182,7 +193,149 @@ $screen-mobile--smallest: 28.125em;//450px
         margin-bottom: .5rem;
         display: grid;
         grid-template-columns: 18% 18% 18% 28%  18%;
-        
+        .editContent{
+        grid-row: 2/-1;
+        overflow: scroll;
+        height: 100%;
+        padding: 0 5.5rem;
+        &::-webkit-scrollbar{
+          display: none;
+        }
+        @media only screen and (max-width:1100px){
+          padding: 0 3.5rem;
+        }
+        @media only screen and (max-width:1045px){
+          padding: 0 3rem;
+        }
+      }
+      
+      .editText{
+        font-size: 2.4rem;
+        margin-top: 3rem;
+        @media only screen and (max-width:1100px){
+          font-size: 2.2rem;
+        }
+      }
+      .editContentForm{
+        margin-top: 4rem;
+        .blue_button{
+          background-color: $color_btn_blue_primary_dark;
+          color: $color_white;
+          margin-left:1rem ;
+          text-transform: uppercase;
+          padding: 1.3rem 0;
+  
+        }
+        .grey_button{
+          background-color:  #ececec;
+          color: black;
+          padding: 1.3rem 0;
+  
+        }
+        .dbutton{
+          font-size: 1.2rem;
+          border: none;
+          border-radius: 4px;
+          margin: 2rem 1rem;
+          width: 40%;
+          @media only screen and (max-width:850px){
+            width: 30%;
+            
+          }
+        }
+        .btn{
+          margin-top: 3rem;
+        }
+        .editUp{
+          margin-right: 3.5rem;
+          margin-left:0;
+          @media only screen and (max-width:1045px){
+            margin-right: 2rem;
+          }
+        }
+      }
+      .editInput{
+        background-color: #ececec;
+        display: block;
+        display: flex;
+        width: 100%;
+        padding: 1.5rem;
+        border: none;
+        border-radius: 4px;
+        margin-bottom: .5rem;
+        outline: none;
+      }
+      .select--opt{
+        background-color: #ececec;
+        display: block;
+        display: flex;
+        width: 100%;
+        padding: 1.5rem;
+        border: none;
+        border-radius: 4px;
+        margin-bottom: .5rem;
+      }
+      
+      .editInput::-webkit-input-placeholder{
+        font-size: 1.2rem;
+        color: #c4c0c0;
+      }
+      .editInput::-webkit-input-value{
+        color: $color_light_black;
+      }
+      .editInput--pass::-webkit-input-value{
+        color: $color_light_black;
+      }
+      .editActive{
+        margin-bottom: 1rem ;
+      }
+      .editForm{
+        position: relative;
+      }
+     
+      .editButton{
+        position: absolute;
+        top: .49rem;
+        right: .4rem;
+        border: none;
+        border-radius: 4px;
+        padding: 1rem 3rem;
+        background-color: #fff;
+        color: $color_light_black;
+
+      }
+      .editVerified{
+        padding: 0 .75rem;
+      }
+      .editIcon{
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        display: inline-block;
+        transform: rotate(90deg);
+      }
+      .editLink:link,
+      .editLink:visited{
+        text-decoration: none;
+        color:black;
+        font-size: 1.2rem;
+      }
+      .editUpdate{
+        margin-top: 4rem;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+      .btn{
+        margin-top: 3rem;
+      }
+      .editUp{
+        margin-right: 3.5rem;
+        margin-left:0;
+        @media only screen and (max-width:1045px){
+          margin-right: 2rem;
+        }
+      }
         &__active{
           border: 2px solid #15bde4;
           .text1{
