@@ -1,0 +1,111 @@
+.navbar {
+    display: flex;
+    flex-direction: column;
+    background-color: #637390;
+    color: white;
+}
+
+.navbar__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    padding-left: 15px;
+    border-right: 1px solid lightgray;
+}
+
+.navbar__headerLeft {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 10vw;
+}
+
+.navbar__headerRight {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 10vw;
+}
+
+.navbar__headerRight--Icon {
+    font-size: 20px!important;
+    color: white!important;
+}
+
+.navbar--heading {
+    font-size: 20px !important;
+    margin-left: 6px !important;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar__chats {
+    background-color: white;
+    flex: 1;
+    overflow: scroll;
+}
+
+.rightnavlist {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    height: 100%
+}
+
+.rightnavlist li {
+    position: relative;
+}
+
+.rightnavlist li:hover .hovermenu {
+    display: block;
+}
+
+.rightnavlist li:hover .righticon {
+    color: #fff;
+}
+
+.hovermenu {
+    position: absolute;
+    right: 3px;
+    top: 55px;
+    background: white;
+    color: black;
+    border-radius: 3px;
+    width: 140px;
+    z-index: 20;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    display: none;
+    font-size: 1.2rem;
+}
+
+.hovermenu .hmenulink {
+    padding: .9rem .8rem;
+    width: 100%;
+    display: inline-flex;
+    color: #637390;
+    justify-content: space-between;
+    text-decoration: none;
+}
+
+.hovermenu .hmenulink:hover {
+    color: white;
+    background: #637390;
+}
+
+.hovermenu a:not(:last-child) {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.notificationmainbox {
+    position: absolute;
+    right: 10px;
+    top: 25px;
+    background: #f7f7f7;
+    border-radius: 3px;
+    width: 300px;
+    z-index: 100;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}

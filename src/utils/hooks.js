@@ -1,8 +1,8 @@
-import {useAsync} from 'react-async';
+import { useAsync } from 'react-async';
 import axios from 'axios';
 
 import config from '../config';
-import {partial} from '../utils/func';
+import { partial } from '../utils/func';
 
 const buildHeaders = (additionalHeaders = {}) => ({
   ...{ Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -16,9 +16,20 @@ const useRest = (
   raOpts = {},
   additionalHeaders = {}
 ) => {
+  // console.log("method", method);
+  // console.log("endPoint", endPoint);
+  // console.log("args", args);
+  // console.log("raOpts", raOpts);
+  // console.log("additionalHeaders", additionalHeaders);
   return useAsync({
     deferFn: ([runArgs]) =>
-      new Promise((resolve, reject) =>
+      new Promise((resolve, reject) => {
+        // console.log("method1", method);
+        // console.log("endPoint2", endPoint);
+        // console.log("args3", args);
+        // console.log("runArgs4", runArgs);
+        // console.log("raOpts4", raOpts);
+        // console.log("additionalHeaders5", additionalHeaders);
         axios({
           method,
           headers: buildHeaders(additionalHeaders),
@@ -26,12 +37,13 @@ const useRest = (
           [method === "get" ? "params" : "data"]: args || runArgs,
         })
           .then(({ data }) => {
-            if(!(data && data.meta))
+            console.log("-----------------------", data);
+            if (!(data && data.meta))
               reject({ msg: "An unknown error occurred." });
-            if(data.meta.code >= 200 && data.meta.code<300){
+            if (data.meta.code >= 200 && data.meta.code < 300) {
               resolve(data.data);
-            }else{
-              reject({ message : data.meta.message});
+            } else {
+              reject({ message: data.meta.message });
             }
           })
           .catch((error) => {
@@ -41,7 +53,7 @@ const useRest = (
               reject({ msg: "An unknown error occurred." });
             }
           })
-      ),
+      }),
     ...raOpts, // react-async options
   });
 };

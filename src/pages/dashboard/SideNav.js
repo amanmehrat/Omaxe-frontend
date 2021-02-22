@@ -10,20 +10,20 @@ const SideNav = (props) => {
     <>
       <div className="sideNav">
         <NavLink
-          to="/project"
+          to="/projects"
           // activeClassName={"sideNav__head--active"}
           className={"sideNav__textDecoration"}
         >
           <div className="sideNav__head  ">
             <div className="sideNav__head--name">
-                <p className="sideNav__head--name--text">{user.name}</p>
-                <p className="sideNav__head--name--org">{user.role}</p>
+              <p className="sideNav__head--name--text">{user.name}</p>
+              <p className="sideNav__head--name--org">{user.role}</p>
             </div>
           </div>
         </NavLink>
 
         <NavLink
-          to="/project"
+          to="/projects"
           className={"sideNav__textDecoration"}
           activeClassName={"sideNav__link--active"}
         >
@@ -44,7 +44,7 @@ const SideNav = (props) => {
 
         {
           user && user.role == "admin" && (<NavLink
-            to="/team"
+            to="/teams"
             className={"sideNav__textDecoration"}
             activeClassName={"sideNav__link--active"}
           >
@@ -54,15 +54,15 @@ const SideNav = (props) => {
           </NavLink>)
         }
 
-          <NavLink
-            to="/logout"
-            className={"sideNav__textDecoration"}
-            activeClassName={"sideNav__link--active"}
-          >
-            <div className="sideNav__link">
-              <p className="sideNav__link--text" onClick={logout}>Log Out</p>
-            </div>
-          </NavLink>
+        <NavLink
+          to="/logout"
+          className={"sideNav__textDecoration"}
+          activeClassName={"sideNav__link--active"}
+        >
+          <div className="sideNav__link">
+            <p className="sideNav__link--text" onClick={logout}>Log Out</p>
+          </div>
+        </NavLink>
       </div>
     </>
   );

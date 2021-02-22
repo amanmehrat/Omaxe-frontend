@@ -41,7 +41,7 @@ html{
 body{
   overflow: hidden;
   box-sizing: border-box;
-  font-family: "Segoe UI","Lato",'Anonymous Pro',"Roboto Thin",sans-serif;
+  font-family: "Cambria", "Segoe UI","Lato",'Anonymous Pro',"Roboto Thin",sans-serif;
   
 }
 button{
@@ -69,6 +69,7 @@ input{
   .content{
     grid-row: 2/3;
     min-height: 55rem;
+    display:flex;
     @media only screen and (max-width: $screen-ipad-pro){
       grid-row: 2/3;
     }

@@ -1,0 +1,135 @@
+.project {
+    display: flex;
+    width: 78%;
+    margin: 10px;
+    height: calc(100vh - 7rem);
+    flex-direction: column;
+}
+
+.project__header {
+    width: 100%;
+    height: 5rem;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.project__header--filter {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 5rem;
+}
+
+.project__header--field {
+    display: flex;
+    width: 50%;
+    border: 1px solid #d6d3d3;
+    padding: .5rem;
+    border-radius: 4px;
+    margin-left: 3%;
+}
+
+.project__header--field--input {
+    border-radius: 4px;
+    border: none;
+    width: 100%;
+    margin-left: 5%;
+}
+
+.project__header--filter--button {
+    background-color: #637390;
+    border: none;
+    color: white;
+    padding: 7px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px 2px;
+    cursor: pointer;
+    border-radius: 50px;
+    margin-right: 27px;
+}
+
+.project__body {
+    background-color: #ececec;
+    padding: 1.3rem;
+    height: 100%;
+}
+
+.project__body--content {
+    padding: 1.5rem;
+    border-radius: 4px;
+    background-color: #ffffff;
+    margin-bottom: .5rem;
+    display: flex;
+}
+
+.project__body--contentBody {
+    padding: 10px 20px;
+    width: 100%;
+}
+
+.project__body--heading {
+    text-align: center;
+    font-size: 35px;
+    color: #637390;
+}
+
+.row {
+    display: flex;
+}
+
+.form-group {
+    width: 50%;
+    display: flex;
+    margin: 5px;
+    padding: 2px;
+    align-items: center;
+}
+
+.react-datepicker-wrapper, .input-text {
+    width: 70%;
+}
+
+.input-label {
+    width: 30%;
+    font-size: 15px;
+}
+
+.wid-100 {
+    width: 100%!important;
+}
+
+.input-text {
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 100px;
+}
+
+.formSubHeading {
+    font-size: 1.5rem;
+    margin: 0.6rem;
+    text-decoration: solid;
+    color: #637390;
+}
+
+.btn {
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 100px;
+    width: 200px;
+}
+
+.blue_button {
+    background-color: #637390;
+    color: white;
+}
+
+.btn-group {
+    justify-content: center;
+    margin-top: 5px;
+}
