@@ -141,13 +141,7 @@ const AddProject = ({ history }) => {
     return (
         <div className="project">
             <div className="project__header">
-                <div className="project__header--field">
-                    <img
-                        src={search}
-                        alt="search"
-                        className="project__header--field--search"
-                    />
-                </div>
+                <div className="project__body--heading">{isEdit ? "Edit" : "Add"} Project</div>
                 <div className="project__header--filter">
                     <Link className="project__header--filter--button" to="/Projects" >View All Projects</Link>
                 </div>
@@ -198,7 +192,6 @@ const AddProject = ({ history }) => {
                                     return (
                                         <div className="project__body--content">
                                             <div className="project__body--contentBody">
-                                                <div className="project__body--heading">{isEdit ? "Edit" : "Add"} Project</div>
                                                 <Form className="ProjectForm">
                                                     <div className="row">
                                                         <MyTextInput
