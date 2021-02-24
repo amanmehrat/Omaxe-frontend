@@ -27,6 +27,7 @@ const Project = ({ history }) => {
     const errorCtx = useContext(errorContext);
 
     const [loading, setLoading] = useState(true);
+    const [loadFlats, setLoadFlats] = useState(false);
     const [searchText, setSearchText] = useState("");
     const [project, setProject] = useState(null);
     const [flats, setFlats] = useState(null);
@@ -42,6 +43,7 @@ const Project = ({ history }) => {
     const { run: getProjectById } = usePost("/projects/GetProject", null,
         {
             onResolve: (data) => {
+                setLoadFlats(false);
                 let requiredProject = data?.projects.find(project => project.id == projectId);
                 requiredProject.projectsBillingInformations = requiredProject?.projectsBillingInformations?.find(billingInfo => billingInfo.proj_id == projectId);
                 setProject(requiredProject);
@@ -74,6 +76,13 @@ const Project = ({ history }) => {
             getFlatsList({ projectId: projectId });
         }
     }, [projectId]);
+
+    useEffect(() => {
+        if (projectId && loadFlats) {
+            console.log("Load Flats");
+            getFlatsList({ projectId: projectId });
+        }
+    }, [loadFlats]);
 
     useEffect(() => {
         if (searchText && searchText != "") {
@@ -165,6 +174,7 @@ const Project = ({ history }) => {
                 open={importOpen}
                 handleOpen={handleImportOpen}
                 handleClose={handleImportClose}
+                setLoadFlats={setLoadFlats}
             />
             <div className="projectId__body">
                 {project ?
