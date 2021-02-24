@@ -11,6 +11,7 @@ import AuthContext from "../../components/contexts/Auth";
 
 import Search from '../customInputs/Search';
 import ExportExcel from '../ExportExcel';
+import ImportExcel from '../ImportExcel';
 import Loading from '../Loading';
 import NoData from "../NoData";
 import pencil_black from "../../img/pencil_black.svg";
@@ -31,14 +32,13 @@ const Project = ({ history }) => {
     const [flats, setFlats] = useState(null);
     const [oldFlats, setOldFlats] = useState(null);
     const [exportOpen, setExportOpen] = useState(false);
+    const [importOpen, setImportOpen] = useState(false);
 
-    const handleExportOpen = () => {
-        setExportOpen(true);
-    };
+    const handleExportOpen = () => setExportOpen(true);
+    const handleExportClose = () => setExportOpen(false);
+    const handleImportOpen = () => setImportOpen(true);
+    const handleImportClose = () => setImportOpen(false);
 
-    const handleExportClose = () => {
-        setExportOpen(false);
-    };
     const { run: getProjectById } = usePost("/projects/GetProject", null,
         {
             onResolve: (data) => {
@@ -151,7 +151,7 @@ const Project = ({ history }) => {
                 <div className="projectId__header--filter">
                     <Link className="projectId__header--filter--button" to="/Projects" >Add Flat</Link>
                     <Link onClick={() => handleExportOpen()} className="projectId__header--filter--button" >Export Excel</Link>
-                    <Link onClick={() => console.log("Export Excel")} className="projectId__header--filter--button" >Import Excel</Link>
+                    <Link onClick={() => handleImportOpen()} className="projectId__header--filter--button" >Import Excel</Link>
                 </div>
             </div>
             <ExportExcel
@@ -159,6 +159,12 @@ const Project = ({ history }) => {
                 open={exportOpen}
                 handleOpen={handleExportOpen}
                 handleClose={handleExportClose}
+            />
+            <ImportExcel
+                projectId={project?.id}
+                open={importOpen}
+                handleOpen={handleImportOpen}
+                handleClose={handleImportClose}
             />
             <div className="projectId__body">
                 {project ?
