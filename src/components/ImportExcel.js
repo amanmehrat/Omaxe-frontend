@@ -83,7 +83,7 @@ const ImportExcel = ({ open, handleClose, projectId }) => {
         const year = dateString.getFullYear();
 
         let formData = new FormData();
-        formData.append("file", selectedFile);
+        formData.append("csv", selectedFile);
         formData.append("projectId", projectId);
         formData.append("month", month);
         formData.append("year", year);
@@ -99,6 +99,7 @@ const ImportExcel = ({ open, handleClose, projectId }) => {
             }
         ).then(response => {
             setLoading(false);
+            setError("Import Successfully");
             console.log("Response", response);
         }).catch((error) => {
             setError("Unable To Download Excel. Please Contact To Tech-Team");
