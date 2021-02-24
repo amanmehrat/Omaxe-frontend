@@ -10,6 +10,7 @@ import { useGet, usePost } from "../utils/hooks";
 
 import axios from 'axios';
 import config from '../config';
+import { FormatAlignJustify } from '@material-ui/icons';
 
 function getModalStyle() {
     const top = 50;
@@ -26,6 +27,12 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
     error: {
         color: 'red',
+        textAlign: 'center',
+        fontSize: '12px',
+        marginTop: '5px'
+    },
+    success: {
+        color: 'green',
         textAlign: 'center',
         fontSize: '12px',
         marginTop: '5px'
@@ -57,16 +64,30 @@ const useStyles = makeStyles((theme) => ({
     },
     downloadBtnDiv: {
         textAlign: 'center'
-    }
+    },
+    selectDropdown: {
+        fontSize: '14px',
+        padding: '5px',
+        borderRadius: '100px',
+        width: '100%',
+        marginTop: '5px'
+    },
+    selectInputDiv: {
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100%'
+
+    },
 }));
 
-const ImportExcel = ({ open, handleClose, projectId }) => {
+const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedFile, setSelectedFile] = useState(new Date());
     const [csvType, setCsvType] = useState(-1);
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
 
     const handleDateChange = (date) => setSelectedDate(date);
     const onSelectFile = (event) => {
@@ -77,6 +98,8 @@ const ImportExcel = ({ open, handleClose, projectId }) => {
     const importExcel = (event) => {
         event.stopPropagation();
         setLoading(true);
+        setSuccess("");
+        setError("");
 
         let dateString = new Date(selectedDate);
         const month = dateString.getMonth() + 1;
@@ -98,11 +121,19 @@ const ImportExcel = ({ open, handleClose, projectId }) => {
                 }
             }
         ).then(response => {
-            setLoading(false);
-            setError("Import Successfully");
             console.log("Response", response);
+            setLoading(false);
+            let { data } = response;
+            if (!(data && data.meta))
+                setError("Unable to import excel");
+            if (data.meta.code >= 200 && data.meta.code < 300) {
+                setSuccess("Import Successfully");
+                setLoadFlats(true);
+            } else {
+                setError("Unable to import excel");
+            }
         }).catch((error) => {
-            setError("Unable To Download Excel. Please Contact To Tech-Team");
+            setError("Unable to import excel");
             console.log(error);
         });
     };
@@ -114,10 +145,12 @@ const ImportExcel = ({ open, handleClose, projectId }) => {
     const body = (
         <div style={modalStyle} className={classes.paper}>
             <h2 id="simple-modal-title" className={classes.modalHeading}>Import Excel</h2>
+            {success && <div className={classes.success}>{success}</div>}
+            {error && <div className={classes.error}>{error}</div>}
             { !loading &&
                 <div id="simple-modal-description" className={classes.exportInput}>
-                    <div>
-                        <select onChange={(e) => setCsvType(e.target.value)}>
+                    <div className={classes.selectInputDiv}>
+                        <select onChange={(e) => setCsvType(e.target.value)} className={classes.selectDropdown}>
                             <option value="-1">Choose Billing</option>
                             <option value="0">CAM Billling</option>
                             <option value="1">Electricity Billling</option>
@@ -153,7 +186,6 @@ const ImportExcel = ({ open, handleClose, projectId }) => {
                     <div className={classes.downloadBtnDiv}>
                         <button onClick={(e) => importExcel(e)} className={classes.downloadBtn} >Upload</button>
                     </div>
-                    {error && <div className={classes.error}>{error}</div>}
                 </div>
             }
             { loading && <Spinner />}

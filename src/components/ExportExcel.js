@@ -116,6 +116,7 @@ const ExportExcel = ({ open, handleClose, projectId }) => {
     const body = (
         <div style={modalStyle} className={classes.paper}>
             <h2 id="simple-modal-title" className={classes.modalHeading}>Export Excel</h2>
+            {error && <div className={classes.error}>{error}</div>}
             { !loading &&
                 <div id="simple-modal-description" className={classes.exportInput}>
                     <div>
@@ -139,7 +140,6 @@ const ExportExcel = ({ open, handleClose, projectId }) => {
                     <div className={classes.downloadBtnDiv}>
                         <button onClick={(e) => exportExcel(e)} className={classes.downloadBtn} >Download</button>
                     </div>
-                    {error && <div className={classes.error}>{error}</div>}
                 </div>
             }
             { loading && <Spinner />}
