@@ -1,9 +1,9 @@
 .project {
     display: flex;
     width: 78%;
-    margin: 10px;
     height: calc(100vh - 7rem);
     flex-direction: column;
+    padding: 5px;
 }
 
 .project__header {

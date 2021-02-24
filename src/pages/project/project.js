@@ -51,7 +51,6 @@ const Project = ({ history }) => {
         <div className="myprojects">
             <div className="midContainer">
                 <div className="midContainer__head">
-
                     <div className="midContainer__head--field">
                         <img
                             src={search}
@@ -65,12 +64,9 @@ const Project = ({ history }) => {
                             className="midContainer__head--field--input"
                         />
                     </div>
-
-
                     <div className="midContainer__head--filter">
                         <Link className="midContainer__head--filter--button" to="/AddProject" >Add Project</Link>
                     </div>
-
                 </div>
                 <div className="midContainer__body">
                     {
@@ -83,7 +79,7 @@ const Project = ({ history }) => {
                                             showFlatList(e, id);
                                         }}
                                     >
-                                        <div className="text1 ">
+                                        <div className="text1">
                                             <p className="text pointer">{name}</p>
                                         </div>
                                         <div className="text2">

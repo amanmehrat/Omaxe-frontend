@@ -1,0 +1,155 @@
+.projectId {
+    display: flex;
+    width: 78%;
+    margin: 10px;
+    height: calc(100vh - 7rem);
+    flex-direction: column;
+}
+
+.projectId__header {
+    width: 100%;
+    height: 5rem;
+    border: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 27px;
+}
+
+.projectId__header--filter {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 5rem;
+}
+
+.projectId__header--field {
+    display: flex;
+    width: 50%;
+    border: 1px solid #d6d3d3;
+    padding: .5rem;
+    border-radius: 4px;
+    margin-left: 3%;
+}
+
+.projectId__header--field--input {
+    border-radius: 4px;
+    border: none;
+    width: 100%;
+    margin-left: 5%;
+}
+
+.projectId__header--filter--button {
+    background-color: #637390;
+    border: none;
+    color: white;
+    padding: 7px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px 2px;
+    cursor: pointer;
+    border-radius: 50px;
+}
+
+.projectId__body {
+    background-color: #ececec;
+    padding: 1.3rem;
+    height: 100%;
+}
+
+.projectId__body--content {
+    padding: 1.5rem;
+    border-radius: 4px;
+    background-color: #ffffff;
+    margin-bottom: .5rem;
+    display: flex;
+}
+
+.projectId__body--contentBody {
+    padding: 10px 20px;
+    width: 100%;
+}
+
+.projectId__body--heading {
+    text-align: center;
+    font-size: 35px;
+    color: #637390;
+    width: 40%;
+}
+
+.projectId__header--field {
+    display: flex;
+    width: 50%;
+    border: 1px solid #d6d3d3;
+    padding: .5rem;
+    border-radius: 4px;
+    margin-left: 3%;
+}
+
+.parentGrid:not(.gridHeader):hover {
+    border: 1px solid #00A2C8;
+    color: #00A2C8;
+}
+
+.parentGrid {
+    display: grid;
+    color: #637390;
+    grid-template-columns: 15% 12% 25% 25% 10% 10%;
+    grid-template-areas: "header header header" ". main sidebar" "footer . .";
+    border-radius: 0.5rem;
+    background-color: white;
+    margin: 0.2rem 0.4rem;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    text-align: center;
+    /* Three columns, one three times as wide as the others */
+    /* grid-template-rows: 200px auto 100px; */
+    /* Three rows, two with explicit widths */
+}
+
+.gridHeader {
+    font-weight: bold;
+}
+
+.child6 {
+    text-align: right;
+}
+
+.projectId__body--header {
+    display: flex;
+    color: #637390;
+    border-radius: 0.5rem;
+    background-color: white;
+    padding: 1rem 1.2rem 0 1.2rem;
+    margin: 0 0 1.5rem 0.4rem;
+    font-size: 1rem;
+    justify-content: space-between;
+}
+
+.MuiPickersToolbar-toolbar {
+    background-color: #637390!important;
+}
+
+.MuiFormControl-root {
+    display: flex!important;
+}
+
+.MuiFormLabel-root {
+    font-size: 15px!important;
+}
+
+.MuiInputBase-root {
+    font-size: 14px!important;
+}
+
+.MuiFormLabel-root.Mui-focused {
+    color: #637390!important;
+}
+
+.projectGrid {
+    max-height: 70%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
