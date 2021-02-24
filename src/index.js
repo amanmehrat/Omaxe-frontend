@@ -38,9 +38,9 @@ const App = () => (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Switch>
         <ErrorContext>
-        <Route path="/" component={Dashboard} />
-        <Route exact={true} path="/login" component={Login} />
-        <Route component={HomePage} />
+          <Route path="/" component={Dashboard} />
+          <Route exact={true} path="/login" component={Login} />
+          {/* <Route component={HomePage} />*/}
         </ErrorContext>
       </Switch>
     </BrowserRouter>
