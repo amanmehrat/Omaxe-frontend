@@ -60,49 +60,46 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ExportExcel = ({ open, handleClose, projectId }) => {
+const ImportExcel = ({ open, handleClose, projectId }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedFile, setSelectedFile] = useState(new Date());
+    const [csvType, setCsvType] = useState(-1);
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
-    const exportExcel = (event) => {
+    const handleDateChange = (date) => setSelectedDate(date);
+    const onSelectFile = (event) => {
+        console.log("vent.target.files", event.target.files[0]);
+        setSelectedFile(event.target.files[0]);
+    }
 
-        console.log(selectedDate);
-        var dateString = new Date(selectedDate);
-        console.log(dateString);
+    const importExcel = (event) => {
+        event.stopPropagation();
+        setLoading(true);
+
+        let dateString = new Date(selectedDate);
         const month = dateString.getMonth() + 1;
         const year = dateString.getFullYear();
 
-        const requestObject = {
-            projectId: projectId,
-            month: month,
-            year: year
-        }
+        let formData = new FormData();
+        formData.append("file", selectedFile);
+        formData.append("projectId", projectId);
+        formData.append("month", month);
+        formData.append("year", year);
+        formData.append("csvType", csvType);
+        console.log(formData);
 
-        event.stopPropagation();
-        setLoading(true);
-        axios.post(`${config.restApiBase}/projects/exportCSV`,
-            requestObject
+        axios.post(`${config.restApiBase}/projects/importCSV`, formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Access-Control-Allow-Origin': '*'
+                }
+            }
         ).then(response => {
             setLoading(false);
-            console.log(response);
-            let { data } = response;
-            if (data && data.meta) {
-                setError("Unable To Download Excel. Please Contact To Tech-Team");
-            } else {
-                setError("");
-                handleClose();
-                const url = window.URL.createObjectURL(new Blob([response.data]));
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', `Project-${month}-${year}.csv`);
-                document.body.appendChild(link);
-                link.click();
-                link.remove();
-            }
+            console.log("Response", response);
         }).catch((error) => {
             setError("Unable To Download Excel. Please Contact To Tech-Team");
             console.log(error);
@@ -115,9 +112,16 @@ const ExportExcel = ({ open, handleClose, projectId }) => {
 
     const body = (
         <div style={modalStyle} className={classes.paper}>
-            <h2 id="simple-modal-title" className={classes.modalHeading}>Export Excel</h2>
+            <h2 id="simple-modal-title" className={classes.modalHeading}>Import Excel</h2>
             { !loading &&
                 <div id="simple-modal-description" className={classes.exportInput}>
+                    <div>
+                        <select onChange={(e) => setCsvType(e.target.value)}>
+                            <option value="-1">Choose Billing</option>
+                            <option value="0">CAM Billling</option>
+                            <option value="1">Electricity Billling</option>
+                        </select>
+                    </div>
                     <div>
                         <MuiPickersUtilsProvider utils={MomentUtils}>
                             <KeyboardDatePicker
@@ -136,8 +140,17 @@ const ExportExcel = ({ open, handleClose, projectId }) => {
                             />
                         </MuiPickersUtilsProvider>
                     </div>
+                    <div>
+                        <input
+                            className={""}
+                            id="contained-button-file"
+                            type="file"
+                            onChange={onSelectFile}
+                            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                        />
+                    </div>
                     <div className={classes.downloadBtnDiv}>
-                        <button onClick={(e) => exportExcel(e)} className={classes.downloadBtn} >Download</button>
+                        <button onClick={(e) => importExcel(e)} className={classes.downloadBtn} >Upload</button>
                     </div>
                     {error && <div className={classes.error}>{error}</div>}
                 </div>
@@ -158,4 +171,4 @@ const ExportExcel = ({ open, handleClose, projectId }) => {
     );
 }
 
-export default ExportExcel;
+export default ImportExcel;
