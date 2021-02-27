@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useHistory, Link } from 'react-router-dom';
-import AuthContext from "./contexts/Auth";
+import { useGet, usePost, usePut } from "../utils/hooks";
 
+import AuthContext from "./contexts/Auth";
+import { useProjectContext } from './contexts/Project';
 
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import ReceiptIcon from '@material-ui/icons/Receipt';
@@ -12,44 +14,36 @@ import SubdirectoryArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRigh
 import './Sidebar.css'
 
 const Sidebar = () => {
+    const [selectedProject, setSelectedProject] = useState(null);
     const { user, logout } = useContext(AuthContext);
+    const { selectedProjectId } = useProjectContext();
+
+    const { run: getProjectById } = usePost("/projects/GetProject", null,
+        {
+            onResolve: (data) => {
+                let requiredProject = data?.projects.find(project => project.id == selectedProjectId);
+                requiredProject.projectsBillingInformations = requiredProject?.projectsBillingInformations?.find(billingInfo => billingInfo.proj_id == selectedProjectId);
+                setSelectedProject(requiredProject);
+            },
+            onReject: (err) => {
+
+            }
+        });
+
+    useEffect(() => {
+        if (selectedProjectId) {
+            console.log("selectedProject Changed1", selectedProjectId)
+            getProjectById({ projId: selectedProjectId });
+        } else {
+            console.log("selectedProject Changed2", selectedProjectId)
+            setSelectedProject(null);
+        }
+    }, [selectedProjectId]);
 
     console.log("user", user);
-    let history = useHistory();
 
     return (
         <div className="sidebar">
-            {/* <div className="sidebar__header">
-                <Avatar src="https://pbs.twimg.com/profile_images/964867480580636672/7BCvJq4g_400x400.jpg" />
-                <div className="sidebar__headerRight">
-                    <IconButton>
-                        <DonutLargeIcon />
-                    </IconButton>
-                    <IconButton>
-                        <ChatIcon />
-                    </IconButton>
-                    <IconButton>
-                        <MoreVertIcon />
-                    </IconButton>
-                </div>
-            </div>
-            <div className="sidebar__search">
-                <div className="sidebar__searchContainer">
-                    <SearchIcon />
-                    <input
-                        type="text"
-                        value={value}
-                        //                 onChange={searchRoom}
-                        placeholder="Search or start new chat"
-                    />
-                    <AddIcon
-                        //               onClick={addRoom}
-                        ref={addButton}
-                        style={{ display: "none" }}
-                    />
-                </div>
-            </div>
-            */}
             <div className="sidebar__chats">
                 <Link to="/projects" className="sidebarChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
                     <AssessmentIcon />
@@ -57,12 +51,27 @@ const Sidebar = () => {
                         <h2>Projects</h2>
                     </div>
                 </Link>
-                <Link to="/" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
-                    <div className="sidebarChat_info">
-                        <SubdirectoryArrowRightIcon />
-                        <p>Project Name</p>
-                    </div>
-                </Link>
+                {selectedProject && <>
+                    <Link to={"/project/" + selectedProjectId} className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                        <div className="sidebarChat_info">
+                            <SubdirectoryArrowRightIcon />
+                            <p>{selectedProject?.name}</p>
+                        </div>
+                    </Link>
+                    <Link to="/flat/new" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                        <div className="sidebarChat_info">
+                            <SubdirectoryArrowRightIcon />
+                            <p>Add Flat</p>
+                        </div>
+                    </Link>
+                    <Link to="/project/Billing" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                        <div className="sidebarChat_info">
+                            <SubdirectoryArrowRightIcon />
+                            <p>Generate Bill</p>
+                        </div>
+                    </Link>
+                </>
+                }
                 {
                     user && user.role == "admin" && <Link to="/users" className="sidebarChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
                         <PeopleOutlineIcon />
@@ -77,28 +86,10 @@ const Sidebar = () => {
                         <h2>Transactions</h2>
                     </div>
                 </Link>
-                <Link to="/billings" className="sidebarChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                <Link to="/project/billings" className="sidebarChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
                     <ReceiptIcon />
                     <div className="sidebarChat_info">
                         <h2>Billing</h2>
-                    </div>
-                </Link>
-                <Link to="/projects" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
-                    <div className="sidebarChat_info">
-                        <SubdirectoryArrowRightIcon />
-                        <p>Generate Bill</p>
-                    </div>
-                </Link>
-                <Link to="/projects" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
-                    <div className="sidebarChat_info">
-                        <SubdirectoryArrowRightIcon />
-                        <p>Send SMS</p>
-                    </div>
-                </Link>
-                <Link to="/projects" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
-                    <div className="sidebarChat_info">
-                        <SubdirectoryArrowRightIcon />
-                        <p>Send Email</p>
                     </div>
                 </Link>
             </div>
