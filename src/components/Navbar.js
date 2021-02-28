@@ -23,7 +23,7 @@ const Navbar = () => {
                                 </IconButton>
                             </a>
                             <div className="hovermenu">
-                                <NavLink to="/projects" className="hmenulink">{user.name}({user.role})</NavLink>
+                                <NavLink to="/" className="hmenulink">{user.name}({user.role})</NavLink>
                                 <NavLink to="/logout" className="hmenulink" onClick={logout}> Logout</NavLink>
                             </div>
                         </li>

@@ -14,12 +14,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Spinner = () => {
+const Spinner = ({ SpinnerText }) => {
     const classes = useStyles();
     return (
         <div className={classes.spinnerdiv}>
             <img src={spinner} className={classes.spinnerImg} />
-            <div className={classes.spinnerText}>Loading...</div>
+            <div className={classes.spinnerText}>{SpinnerText}</div>
         </div>
     );
 }

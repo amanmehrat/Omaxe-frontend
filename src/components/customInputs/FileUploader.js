@@ -69,7 +69,7 @@ const FileUploader = ({ onSelectFile, selectedFile }) => {
                 />
                 <label
                     className={classes.customFileLabel}
-                    for="customFile"
+                    htmlFor="customFile"
                 >
                     Choose file
                         </label>

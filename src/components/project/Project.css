@@ -51,6 +51,8 @@
     margin: 2px 2px;
     cursor: pointer;
     border-radius: 50px;
+    outline: none;
+    font-family: inherit;
 }
 
 .projectId__body {

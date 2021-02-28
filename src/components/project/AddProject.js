@@ -45,6 +45,7 @@ const AddProject = ({ history }) => {
     }
 
     const { projectId } = useParams();
+    console.log("useparams", projectId);
     const [loading, setLoading] = useState(false)
     const [isEdit, setIsEdit] = useState(false);
     const [isReset, setIsReset] = useState(false);
@@ -284,7 +285,8 @@ const AddProject = ({ history }) => {
                                                             {isEdit ? "Update" : "Save"}
                                                         </button>
                                                         <button className={cm("grey_button", "dbutton", "btn")} type="reset">Cancel</button>
-                                                    </div></Form>
+                                                    </div>
+                                                </Form>
                                             </div>
                                         </div>
                                     );

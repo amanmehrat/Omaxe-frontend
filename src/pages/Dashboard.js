@@ -1,49 +1,40 @@
-//#region Modules
+import { Switch, Route, useRouteMatch } from "react-router-dom";
 
-//#region 3rd party app
-import React from "react";
-import { Switch, Route } from "react-router-dom";
-
-//#endregion
-
-//#region Inbuilt
 import "../App.scss";
+
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
-import AddProject from '../components/project/AddProject';
-import Project from '../components/project/Project';
-
 import IfAuth from "../components/IfAuth";
-import LeftNav from "./dashboard/LeftNav";
-import SideNav from "./dashboard/SideNav";
+import NotFound from "../components/NotFound";
 import MyTeam from "./myTeam/myTeam";
 import Projects from "./project/project";
-import ProjectById from "./project/projectById";
-//import AddProject from "./project/AddProject";
-import FlatById from "./flat/flatById";
-//#endregion
 
-//#endregion
+import FlatRoutes from '../routes/FlatRoutes';
+import ProjectRoutes from '../routes/ProjectRoutes';
+
+import ProjectContextProvider from '../components/contexts/Project';
 
 const Dashboard = () => {
+  let { path, url } = useRouteMatch();
+  console.log("pathdashboard", path);
+  console.log("urldasnboad", url);
+
   return (
     <IfAuth>
       <div className="container">
         <Navbar />
         <div className={"content"}>
-          <Sidebar />
-          <Switch>
-            <Route exact={true} path="/" component={Project} />
-
-            <Route exact={true} path="/projects" component={Projects} />
-            <Route exact={true} path="/AddProject" component={AddProject} />
-            <Route exact={true} path="/AddProject/:projectId" component={AddProject} />
-            <Route exact={true} path="/Project/:projectId" component={Project} />
-
-            <Route exact={true} path="/flat" component={FlatById} />
-            <Route exact={true} path="/flat/:flatId" component={FlatById} />
-            <Route exact={true} path="/users" component={MyTeam} />
-          </Switch>
+          <ProjectContextProvider>
+            <Sidebar />
+            <Switch>
+              <Route exact={true} path="/" component={Projects} />
+              <Route exact={true} path="/projects" component={Projects} />
+              <Route exact={true} path="/users" component={MyTeam} />
+              <Route path="/project" component={ProjectRoutes} />
+              <Route path="/flat" component={FlatRoutes} />
+              <Route component={NotFound} />
+            </Switch>
+          </ProjectContextProvider>
         </div>
       </div>
     </IfAuth>

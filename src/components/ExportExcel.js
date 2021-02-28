@@ -104,6 +104,7 @@ const ExportExcel = ({ open, handleClose, projectId }) => {
                 link.remove();
             }
         }).catch((error) => {
+            setLoading(false);
             setError("Unable To Download Excel. Please Contact To Tech-Team");
             console.log(error);
         });
@@ -142,7 +143,7 @@ const ExportExcel = ({ open, handleClose, projectId }) => {
                     </div>
                 </div>
             }
-            { loading && <Spinner />}
+            { loading && <Spinner SpinnerText={"Downloading..."} />}
         </div>
     );
 

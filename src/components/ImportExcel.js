@@ -145,6 +145,7 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
                     setError("Unable to import excel");
                 }
             }).catch((error) => {
+                setLoading(false);
                 setError("Unable to import excel");
                 console.log(error);
             });
@@ -196,7 +197,7 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
                     </div>
                 </div>
             }
-            {loading && <Spinner />}
+            {loading && <Spinner SpinnerText={"Uploading..."} />}
         </div>
     );
 

@@ -49,13 +49,11 @@ const MyTeam = ({ history }) => {
         null,
         {
             onResolve: (data) => {
-                console.log("ERROR");
                 errorCtx.setSuccess("Member Updated");
                 setSuccess(true);
                 setLoadGetData(true);
             },
             onReject: (err) => {
-                console.log("ERROR");
                 errorCtx.setError(err);
             }
         });
@@ -66,7 +64,6 @@ const MyTeam = ({ history }) => {
                 setLoading(false);
             },
             onReject: (error) => {
-                console.log("error ------", error);
             }
         });
 
@@ -183,7 +180,6 @@ const MyTeam = ({ history }) => {
                                                          ${isDisable ? "to" : "from"} 
                                                          logging in to the system and use it
                                                          `, () => {
-                                                        console.log("You want to diable", id);
                                                         //disableMember(id, !isDisable)
                                                     }, () => {
                                                     })
@@ -192,7 +188,6 @@ const MyTeam = ({ history }) => {
                                             <img src={pencil_black} alt={"edit"} className="icon pointer"
                                                 onClick={(e) => {
                                                     e.stopPropagation()
-                                                    console.log("Want to update user ----", id);
                                                     addMember(id);
                                                     setEdit(true)
                                                 }} />

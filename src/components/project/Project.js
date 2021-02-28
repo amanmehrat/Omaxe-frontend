@@ -1,6 +1,6 @@
 
 import React, { useState, useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import cm from "classnames";
 import { Link } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { useGet, usePost, usePut } from "../../utils/hooks";
 import { errorContext } from "../../components/contexts/error/errorContext";
 import AuthContext from "../../components/contexts/Auth";
+import { useProjectActionsContext } from '../../components/contexts/Project';
 
 import Search from '../customInputs/Search';
 import ExportExcel from '../ExportExcel';
@@ -19,8 +20,8 @@ import pencil_black from "../../img/pencil_black.svg";
 import './Project.css'
 
 
-const Project = ({ history }) => {
-
+const Project = () => {
+    let history = useHistory();
     const { projectId } = useParams();
 
     const { user } = useContext(AuthContext);
@@ -34,6 +35,7 @@ const Project = ({ history }) => {
     const [oldFlats, setOldFlats] = useState(null);
     const [exportOpen, setExportOpen] = useState(false);
     const [importOpen, setImportOpen] = useState(false);
+    const setSelectedProjectId = useProjectActionsContext();
 
     const handleExportOpen = () => setExportOpen(true);
     const handleExportClose = () => setExportOpen(false);
@@ -72,6 +74,7 @@ const Project = ({ history }) => {
     useEffect(() => {
         if (projectId) {
             setLoading(true);
+            setSelectedProjectId(projectId);
             getProjectById({ projId: projectId });
             getFlatsList({ projectId: projectId });
         }
@@ -85,36 +88,39 @@ const Project = ({ history }) => {
     }, [loadFlats]);
 
     useEffect(() => {
-        if (searchText && searchText != "") {
-            setLoading(true);
-            searchFlats();
-        }
+        setLoading(true);
+        searchFlats();
     }, [searchText]);
 
     const searchFlats = () => {
         const searchValue = searchText;
-        console.log(searchValue);
-        let newFlats = oldFlats.filter(obj => {
-            return obj.residentName.toUpperCase().includes(searchValue.toUpperCase())
-                || obj.ownerName.toUpperCase().includes(searchValue.toUpperCase())
-                || obj.flatNumber.toUpperCase().includes(searchValue.toUpperCase())
-                || obj.blockIncharge.toUpperCase().includes(searchValue.toUpperCase())
-                || obj.meterNumber.toUpperCase().includes(searchValue.toUpperCase());
-        });
+        console.log("searchValue", searchValue);
+        let newFlats = [];
+        if (searchValue == "") {
+            console.log("searchValue1", searchValue);
+            newFlats = oldFlats
+        } else {
+            newFlats = oldFlats.filter(obj => {
+                return obj.residentName.toUpperCase().includes(searchValue.toUpperCase())
+                    || obj.ownerName.toUpperCase().includes(searchValue.toUpperCase())
+                    || obj.flatNumber.toUpperCase().includes(searchValue.toUpperCase())
+                    || obj.blockIncharge.toUpperCase().includes(searchValue.toUpperCase())
+                    || obj.meterNumber.toUpperCase().includes(searchValue.toUpperCase());
+            });
+        }
         setFlats(newFlats);
         setLoading(false);
     }
-
+    const goToFlat = (id) => { history.push("/flat/" + id) }
+    const goToEditFlat = (id) => { history.push("/flat/edit/" + id) }
     const renderFlats = () => {
         if (flats && flats.length > 0) {
             return [
                 flats.map(flat => {
-                    let { id, residentName, ownerName, propertyType, flatNumber, blockNumber } = flat;
+                    let { id, residentName, ownerName, propertyType, flatNumber, blockNumber, projectId } = flat;
                     return (
                         <div key={id} className={cm("parentGrid", { "parentGrid__active": false })}
-                            onClick={(e) => {
-                                //showDetails(e, id);
-                            }}
+                            onClick={(e) => goToFlat(id)}
                         >
                             <div className="child1 ">
                                 <p className="text pointer">{flatNumber}</p>
@@ -132,14 +138,14 @@ const Project = ({ history }) => {
                                 <p className="text pointer">{propertyType === 0 ? "3BHK" : "2BHK"}</p>
                             </div>
                             <div className="child6">
-                                <Link to={`/AddFlat/${id}`} >
+                                <Link to={'/flat/edit/' + id} onClick={(e) => e.stopPropagation()}>
                                     <img src={pencil_black}
                                         alt={"edit"}
                                         className="icon pointer"
-                                        onClick={(e) => e.stopPropagation()} />
+                                    />
                                 </Link>
                             </div>
-                        </div>
+                        </div >
                     )
                 })
             ]
@@ -158,9 +164,9 @@ const Project = ({ history }) => {
                     />
                 </div>
                 <div className="projectId__header--filter">
-                    <Link className="projectId__header--filter--button" to="/Projects" >Add Flat</Link>
-                    <Link onClick={() => handleExportOpen()} className="projectId__header--filter--button" >Export Excel</Link>
-                    <Link onClick={() => handleImportOpen()} className="projectId__header--filter--button" >Import Excel</Link>
+                    <Link to="/flat/add" className="projectId__header--filter--button" >Add Flat</Link>
+                    <button onClick={(e) => { e.stopPropagation(); return handleExportOpen() }} className="projectId__header--filter--button" >Export Excel</button>
+                    <button onClick={(e) => { e.stopPropagation(); return handleImportOpen() }} className="projectId__header--filter--button" >Import Excel</button>
                 </div>
             </div>
             <ExportExcel

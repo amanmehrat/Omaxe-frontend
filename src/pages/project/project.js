@@ -2,19 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import cm from "classnames";
 
-import { useGet, usePost } from "../../utils/hooks";
+import { useGet } from "../../utils/hooks";
 import NoData from "../../components/NoData";
 import Loading from "../../components/Loading";
 import search from "../../img/search.svg";
 import pencil_black from "../../img/pencil_black.svg";
+import { useProjectActionsContext } from '../../components/contexts/Project';
 //import "./project.scss";
 
 const Project = ({ history }) => {
     const [oldProjects, setOldProjects] = useState(null)
     const [projects, setProjects] = useState(null)
     const [loadGetData, setLoadGetData] = useState(true);
-    const [loading, setLoading] = useState(true)
-
+    const [loading, setLoading] = useState(true);
+    const setSelectedProjectId = useProjectActionsContext();
 
     const { run: getProjectList } = useGet("/projects", null,
         {
@@ -24,9 +25,11 @@ const Project = ({ history }) => {
                 setLoading(false);
             },
             onReject: (error) => {
-                console.log("error ------", error);
             }
         });
+    useEffect(() => {
+        setSelectedProjectId(null);
+    }, []);
 
     useEffect(() => {
         setLoadGetData(false);
@@ -35,6 +38,7 @@ const Project = ({ history }) => {
 
     const showFlatList = (e, id) => {
         e.preventDefault();
+        setSelectedProjectId(id);
         history.push("/project/" + id);
     }
 
@@ -65,7 +69,7 @@ const Project = ({ history }) => {
                         />
                     </div>
                     <div className="midContainer__head--filter">
-                        <Link className="midContainer__head--filter--button" to="/AddProject" >Add Project</Link>
+                        <Link className="midContainer__head--filter--button" to="/project/add" >Add Project</Link>
                     </div>
                 </div>
                 <div className="midContainer__body">
@@ -86,7 +90,7 @@ const Project = ({ history }) => {
                                             <p className="text pointer">{startedOn}</p>
                                         </div>
                                         <div className="text5">
-                                            <Link to={`/AddProject/${id}`} >
+                                            <Link to={`/project/edit/${id}`} >
                                                 <img src={pencil_black} alt={"edit"} className="icon pointer"
                                                     onClick={(e) => {
                                                         e.stopPropagation()
