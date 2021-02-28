@@ -16,9 +16,7 @@ import ProjectContextProvider from '../components/contexts/Project';
 
 const Dashboard = () => {
   let { path, url } = useRouteMatch();
-  console.log("pathdashboard", path);
-  console.log("urldasnboad", url);
-
+ 
   return (
     <IfAuth>
       <div className="container">

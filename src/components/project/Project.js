@@ -66,7 +66,6 @@ const Project = () => {
                 // setLoading(false);
             },
             onReject: (error) => {
-                console.log("error ------", error);
             }
         });
 
@@ -82,7 +81,6 @@ const Project = () => {
 
     useEffect(() => {
         if (projectId && loadFlats) {
-            console.log("Load Flats");
             getFlatsList({ projectId: projectId });
         }
     }, [loadFlats]);
@@ -94,10 +92,8 @@ const Project = () => {
 
     const searchFlats = () => {
         const searchValue = searchText;
-        console.log("searchValue", searchValue);
         let newFlats = [];
         if (searchValue == "") {
-            console.log("searchValue1", searchValue);
             newFlats = oldFlats
         } else {
             newFlats = oldFlats.filter(obj => {
@@ -135,7 +131,7 @@ const Project = () => {
                                 <p className="text pointer">{ownerName}</p>
                             </div>
                             <div className="child5">
-                                <p className="text pointer">{propertyType === 0 ? "3BHK" : "2BHK"}</p>
+                                <p className="text pointer">{propertyType === 0 ? "3BHK" : "Others"}</p>
                             </div>
                             <div className="child6">
                                 <Link to={'/flat/edit/' + id} onClick={(e) => e.stopPropagation()}>

@@ -32,15 +32,12 @@ const Sidebar = () => {
 
     useEffect(() => {
         if (selectedProjectId) {
-            console.log("selectedProject Changed1", selectedProjectId)
             getProjectById({ projId: selectedProjectId });
         } else {
-            console.log("selectedProject Changed2", selectedProjectId)
             setSelectedProject(null);
         }
     }, [selectedProjectId]);
 
-    console.log("user", user);
 
     return (
         <div className="sidebar">

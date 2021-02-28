@@ -19,12 +19,10 @@ const FlatById = () => {
     const { run: getFlatDetails } = usePost("/flats/getFlat", { flatId },
         {
             onResolve: (data) => {
-                //console.log( "Thhis is my array ", JSON.stringify(data));
                 setFlatDetails(data.flat);
                 setLoading(false);
             },
             onReject: (error) => {
-                console.log("error ------", error);
             }
         });
 

@@ -96,7 +96,6 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
 
     const handleDateChange = (date) => setSelectedDate(date);
     const onSelectFile = (event) => {
-        console.log("vent.target.files", event.target.files[0]);
         setSelectedFile(event.target.files[0]);
     }
 
@@ -115,7 +114,6 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
         formData.append("month", month);
         formData.append("year", year);
         formData.append("csvType", csvType);
-        console.log(formData);
         if (csvType == "-1") {
             setError("Please Choose Billing Type");
         } else if (!selectedFile) {
@@ -130,7 +128,6 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
                     }
                 }
             ).then(response => {
-                console.log("Response", response);
                 setLoading(false);
                 let { data } = response;
                 if (!(data && data.meta))
@@ -147,12 +144,10 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
             }).catch((error) => {
                 setLoading(false);
                 setError("Unable to import excel");
-                console.log(error);
             });
         }
     };
 
-    //console.log("props", props);
     const classes = useStyles();
     const [modalStyle] = useState(getModalStyle);
 

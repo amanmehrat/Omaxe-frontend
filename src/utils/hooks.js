@@ -16,20 +16,9 @@ const useRest = (
   raOpts = {},
   additionalHeaders = {}
 ) => {
-  // console.log("method", method);
-  // console.log("endPoint", endPoint);
-  // console.log("args", args);
-  // console.log("raOpts", raOpts);
-  // console.log("additionalHeaders", additionalHeaders);
   return useAsync({
     deferFn: ([runArgs]) =>
       new Promise((resolve, reject) => {
-        // console.log("method1", method);
-        // console.log("endPoint2", endPoint);
-        // console.log("args3", args);
-        // console.log("runArgs4", runArgs);
-        // console.log("raOpts4", raOpts);
-        // console.log("additionalHeaders5", additionalHeaders);
         axios({
           method,
           headers: buildHeaders(additionalHeaders),
@@ -37,7 +26,6 @@ const useRest = (
           [method === "get" ? "params" : "data"]: args || runArgs,
         })
           .then(({ data }) => {
-            console.log("-----------------------", data);
             if (!(data && data.meta))
               reject({ msg: "An unknown error occurred." });
             if (data.meta.code >= 200 && data.meta.code < 300) {
