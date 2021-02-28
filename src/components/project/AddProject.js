@@ -45,7 +45,6 @@ const AddProject = ({ history }) => {
     }
 
     const { projectId } = useParams();
-    console.log("useparams", projectId);
     const [loading, setLoading] = useState(false)
     const [isEdit, setIsEdit] = useState(false);
     const [isReset, setIsReset] = useState(false);
@@ -56,8 +55,7 @@ const AddProject = ({ history }) => {
     const { run: getProjectById } = usePost("/projects/GetProject", null,
         {
             onResolve: (data) => {
-                console.log(data);
-                let requiredProject = data?.projects.find(project => project.id == projectId);
+                 let requiredProject = data?.projects.find(project => project.id == projectId);
                 setStartDate(new Date(requiredProject?.startedOn));
                 requiredProject.projectsBillingInformations = requiredProject?.projectsBillingInformations?.find(billingInfo => billingInfo.proj_id == projectId);
                 setProject(requiredProject);
@@ -72,9 +70,7 @@ const AddProject = ({ history }) => {
     const errorCtx = useContext(errorContext);
 
     useEffect(() => {
-        console.log("PROJECT", projectId);
-        if (projectId) {
-            console.log("PROJECT2", projectId);
+    if (projectId) {
             setLoading(true);
             setIsEdit(true);
             getProjectById({ projId: projectId });
@@ -114,17 +110,13 @@ const AddProject = ({ history }) => {
             delete projectsBillingInformations["id"];
             delete projectsBillingInformations["proj_id"];
             let updatedProject = { proj_id: id, name, startedOn, projectsBillingInformations };
-            console.log("Updated project", updatedProject);
             UpdateProject(updatedProject);
             setTimeout(() => {
                 setSubmitting(false);
             }, 400);
         } else {
             values.createdBy = user.id;
-            console.log("Save Project", values);
-            console.log(startDate);
             values.startedOn = startDate
-            console.log("Save Project", values);
             CreateProject(values);
             setTimeout(() => {
                 setSubmitting(false);
@@ -133,7 +125,6 @@ const AddProject = ({ history }) => {
     }
 
     useEffect(() => {
-        console.log("ISRESET", isReset);
         if (isReset) {
             setProject(projectStructure);
         }

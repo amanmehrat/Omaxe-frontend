@@ -70,9 +70,7 @@ const ExportExcel = ({ open, handleClose, projectId }) => {
     };
     const exportExcel = (event) => {
 
-        console.log(selectedDate);
         var dateString = new Date(selectedDate);
-        console.log(dateString);
         const month = dateString.getMonth() + 1;
         const year = dateString.getFullYear();
 
@@ -88,7 +86,6 @@ const ExportExcel = ({ open, handleClose, projectId }) => {
             requestObject
         ).then(response => {
             setLoading(false);
-            console.log(response);
             let { data } = response;
             if (data && data.meta) {
                 setError("Unable To Download Excel. Please Contact To Tech-Team");
@@ -106,11 +103,9 @@ const ExportExcel = ({ open, handleClose, projectId }) => {
         }).catch((error) => {
             setLoading(false);
             setError("Unable To Download Excel. Please Contact To Tech-Team");
-            console.log(error);
         });
     };
 
-    //console.log("props", props);
     const classes = useStyles();
     const [modalStyle] = useState(getModalStyle);
 

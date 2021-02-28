@@ -91,15 +91,12 @@ const AddFlat = () => {
     const { run: getFlatById } = usePost("/flats/getFlat", null,
         {
             onResolve: (data) => {
-                console.log(data);
-                console.log(flatId);
                 let requiredFlat = data?.flat;
                 delete requiredFlat["CAMHistories"];
                 delete requiredFlat["electricityHistories"];
                 requiredFlat.hasDG = true;
                 requiredFlat.hasLift = true;
                 setStartDate(new Date(requiredFlat?.dateOfPossession));
-                console.log("requiredFlat", requiredFlat);
                 setFlat(requiredFlat);
                 setLoading(false);
             },
@@ -111,9 +108,7 @@ const AddFlat = () => {
 
 
     useEffect(() => {
-        console.log("PROJECT", flatId);
         if (flatId) {
-            console.log("PROJECT2", flatId);
             setLoading(true);
             setIsEdit(true);
             getFlatById({ flatId: flatId });
@@ -148,26 +143,21 @@ const AddFlat = () => {
 
     const SaveFlat = (values, setSubmitting) => {
         if (isEdit) {
-            console.log("values", values);
             const updatedProjectId = values.projectId;
             delete values["projectId"];
             values.dateOfPossession = startDate;
             let updatedFlat = { projectId: updatedProjectId, flat: values };
-            console.log("Updated project", updatedFlat);
             UpdateFlat(updatedFlat);
             setTimeout(() => {
                 setSubmitting(false);
             }, 400);
         } else {
             //values.createdBy = user.id;
-            console.log(startDate);
             values.dateOfPossession = startDate;
-            console.log("Save Project", values);
             let insertedProject = {
                 projectId: selectedProjectId,
                 flats: [values]
             }
-            console.log("insertedProject", insertedProject);
             CreateFlat(insertedProject);
             setTimeout(() => {
                 setSubmitting(false);
@@ -176,7 +166,6 @@ const AddFlat = () => {
     }
 
     useEffect(() => {
-        console.log("ISRESET", isReset);
         if (isReset) {
             setFlat(FlatStructure);
         }
@@ -245,8 +234,7 @@ const AddFlat = () => {
                                                             <select name="propertyType" defaultValue={flat.propertyType} onChange={handleChange} className={cm(classes.selectDropdown, "input-text")} >
                                                                 <option value="-1">Choose PropertyType</option>
                                                                 <option value="0">3 BHK</option>
-                                                                <option value="1">Villa</option>
-                                                                <option value="2">Apartment</option>
+                                                                <option value="1">Others</option>
                                                             </select>
                                                         </div>
                                                         <div className="form-group">
