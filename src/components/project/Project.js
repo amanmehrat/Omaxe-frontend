@@ -107,7 +107,7 @@ const Project = () => {
         setFlats(newFlats);
         setLoading(false);
     }
-    const goToFlat = (id) => { history.push("/flat/" + id) }
+    const goToFlat = (id) => { history.push("/flats/" + id) }
     const goToEditFlat = (id) => { history.push("/flat/edit/" + id) }
     const renderFlats = () => {
         if (flats && flats.length > 0) {

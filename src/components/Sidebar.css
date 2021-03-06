@@ -128,6 +128,7 @@
     background-color: #637390;
     border: 1px solid #f6f6f6;
     color: white;
+    text-decoration: underline;
 }
 
 .sidebarChat:visited, .sidebarChat:active {
@@ -136,4 +137,8 @@
 
 .sidebarSubChat:visited, .sidebarChat:active {
     text-decoration: none;
+}
+
+.padLeft36 {
+    padding-left: 4rem;
 }
