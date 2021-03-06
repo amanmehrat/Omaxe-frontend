@@ -170,7 +170,7 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
                             <KeyboardDatePicker
                                 variant="inline"
                                 format="MMM-yyyy"
-                                views={["year", "month"]}
+                                views={["month", "year"]}
                                 margin="normal"
                                 id="date-picker-inline"
                                 label="Choose Month-Year"

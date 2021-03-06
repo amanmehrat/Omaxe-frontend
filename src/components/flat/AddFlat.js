@@ -78,7 +78,7 @@ const AddFlat = () => {
     const history = useHistory();
     const errorCtx = useContext(errorContext);
     const { selectedProjectId } = useProjectContext();
-
+    console.log(selectedProjectId);
     if (!selectedProjectId) history.push("/projects");
 
     const [loading, setLoading] = useState(false)
@@ -92,10 +92,11 @@ const AddFlat = () => {
         {
             onResolve: (data) => {
                 let requiredFlat = data?.flat;
+                console.log(requiredFlat);
                 delete requiredFlat["CAMHistories"];
                 delete requiredFlat["electricityHistories"];
-                requiredFlat.hasDG = true;
-                requiredFlat.hasLift = true;
+                //requiredFlat.hasDG = true;
+                //requiredFlat.hasLift = true;
                 setStartDate(new Date(requiredFlat?.dateOfPossession));
                 setFlat(requiredFlat);
                 setLoading(false);
@@ -122,7 +123,7 @@ const AddFlat = () => {
             onResolve: (data) => {
                 errorCtx.setSuccess("Flat Saved Successfully");
                 setIsReset(true);
-                history.push("/project/" + selectedProjectId);
+                history.push("/flat/add");
             },
             onReject: (err) => {
                 errorCtx.setError(err);
@@ -133,8 +134,9 @@ const AddFlat = () => {
         null,
         {
             onResolve: (data) => {
+                console.log("update", selectedProjectId);
                 errorCtx.setSuccess("Flat Updated Successfully");
-                history.push("/project/" + selectedProjectId);
+                history.push("/flat/edit/" + flatId);
             },
             onReject: (err) => {
                 errorCtx.setError(err);
@@ -143,10 +145,12 @@ const AddFlat = () => {
 
     const SaveFlat = (values, setSubmitting) => {
         if (isEdit) {
-            const updatedProjectId = values.projectId;
+            console.log("values", values);
+            const updatedProjectId = selectedProjectId;
             delete values["projectId"];
             values.dateOfPossession = startDate;
             let updatedFlat = { projectId: updatedProjectId, flat: values };
+            //values.projectId = updatedProjectId;
             UpdateFlat(updatedFlat);
             setTimeout(() => {
                 setSubmitting(false);

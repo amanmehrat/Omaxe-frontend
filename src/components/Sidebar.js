@@ -15,6 +15,7 @@ import './Sidebar.css'
 
 const Sidebar = () => {
     const [selectedProject, setSelectedProject] = useState(null);
+    const [openBillingHeads, setOpenBillingHeads] = useState(false);
     const { user, logout } = useContext(AuthContext);
     const { selectedProjectId } = useProjectContext();
 
@@ -26,15 +27,17 @@ const Sidebar = () => {
                 setSelectedProject(requiredProject);
             },
             onReject: (err) => {
-
+                console.log(err);
             }
         });
 
+
     useEffect(() => {
+        console.log(selectedProjectId);
         if (selectedProjectId) {
             getProjectById({ projId: selectedProjectId });
         } else {
-            setSelectedProject(null);
+            //setSelectedProject(null);
         }
     }, [selectedProjectId]);
 
@@ -55,18 +58,47 @@ const Sidebar = () => {
                             <p>{selectedProject?.name}</p>
                         </div>
                     </Link>
-                    <Link to="/flat/new" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                    <Link to="/flat/add" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
                         <div className="sidebarChat_info">
                             <SubdirectoryArrowRightIcon />
                             <p>Add Flat</p>
                         </div>
                     </Link>
-                    <Link to="/project/Billing" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                    <Link to="/" className="sidebarSubChat" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setOpenBillingHeads(prev => !prev); }} /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
                         <div className="sidebarChat_info">
                             <SubdirectoryArrowRightIcon />
-                            <p>Generate Bill</p>
+                            <p>Billing</p>
                         </div>
                     </Link>
+                    {openBillingHeads &&
+                        (
+                            <>
+                                <Link to={"/billing/billingheads"} className="sidebarSubChat padLeft36">
+                                    <div className="sidebarChat_info" style={{ marginLeft: "%" }} >
+                                        <SubdirectoryArrowRightIcon />
+                                        <p>Billing Heads</p>
+                                    </div>
+                                </Link>
+                                <Link to={"/billing/bills"} className="sidebarSubChat padLeft36">
+                                    <div className="sidebarChat_info" style={{ marginLeft: "%" }} >
+                                        <SubdirectoryArrowRightIcon />
+                                        <p>Generate Bill</p>
+                                    </div>
+                                </Link>
+                            </>
+                        )
+                    }
+                    {/* {openBillingHeads &&
+                        (billingHeads && billingHeads.map(({ id, billingHead }) => (
+                            <Link to={"/billing/" + id} className="sidebarSubChat">
+                                <div className="sidebarChat_info" style={{ marginLeft: "%" }} >
+                                    <SubdirectoryArrowRightIcon />
+                                    <p>{billingHead}</p>
+                                </div>
+                            </Link>
+                        ))
+                        )
+                    } */}
                 </>
                 }
                 {
@@ -83,7 +115,7 @@ const Sidebar = () => {
                         <h2>Transactions</h2>
                     </div>
                 </Link>
-                <Link to="/project/billings" className="sidebarChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                <Link to="/project/billings" className="sidebarChat"  >
                     <ReceiptIcon />
                     <div className="sidebarChat_info">
                         <h2>Billing</h2>

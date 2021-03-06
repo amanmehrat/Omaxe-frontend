@@ -52,6 +52,7 @@
     margin: 2px 2px;
     cursor: pointer;
     border-radius: 50px;
+    outline: none;
 }
 
 .project__body {
@@ -122,6 +123,8 @@
     padding: 10px;
     border-radius: 100px;
     width: 200px;
+    outline: none;
+    margin: 0 8px;
 }
 
 .blue_button {

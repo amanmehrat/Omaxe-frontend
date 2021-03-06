@@ -55,7 +55,7 @@ const AddProject = ({ history }) => {
     const { run: getProjectById } = usePost("/projects/GetProject", null,
         {
             onResolve: (data) => {
-                 let requiredProject = data?.projects.find(project => project.id == projectId);
+                let requiredProject = data?.projects.find(project => project.id == projectId);
                 setStartDate(new Date(requiredProject?.startedOn));
                 requiredProject.projectsBillingInformations = requiredProject?.projectsBillingInformations?.find(billingInfo => billingInfo.proj_id == projectId);
                 setProject(requiredProject);
@@ -70,7 +70,7 @@ const AddProject = ({ history }) => {
     const errorCtx = useContext(errorContext);
 
     useEffect(() => {
-    if (projectId) {
+        if (projectId) {
             setLoading(true);
             setIsEdit(true);
             getProjectById({ projId: projectId });
@@ -85,7 +85,7 @@ const AddProject = ({ history }) => {
                 errorCtx.setSuccess("Project Saved Successfully");
                 //errorCtx.setSuccess(true);                
                 setIsReset(true);
-                history.push("/projects");
+                history.push("/project/add");
             },
             onReject: (err) => {
                 errorCtx.setError(err);
@@ -97,7 +97,7 @@ const AddProject = ({ history }) => {
         {
             onResolve: (data) => {
                 errorCtx.setSuccess("Project Updated Successfully");
-                history.push("/projects");
+                history.push("/project/edit/" + projectId);
             },
             onReject: (err) => {
                 errorCtx.setError(err);

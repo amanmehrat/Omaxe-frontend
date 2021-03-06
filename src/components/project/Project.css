@@ -155,3 +155,7 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+.mar-left {
+    margin-left: 1.2rem;
+}

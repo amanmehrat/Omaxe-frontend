@@ -9,13 +9,12 @@ import NotFound from '../components/NotFound';
 const FlatRoutes = () => {
     let { path, url } = useRouteMatch();
     return (
-        <IfProjectSelected>
-            <Switch>
+        <Switch>
+            <IfProjectSelected>
                 <Route exact={true} path={`${path}/add`} component={AddFlat} />
                 <Route exact={true} path={`${path}/edit/:flatId`} component={AddFlat} />
-                <Route exact={true} path={`${path}/:flatId`} component={Flat} />
-            </Switch>
-        </IfProjectSelected>
+            </IfProjectSelected>
+        </Switch>
     );
 };
 export default FlatRoutes;
