@@ -1,5 +1,5 @@
 const dev = {
-    restApiBase: 'http://localhost:3000',
+    restApiBase: 'https://api.techencode.in',
     graphQLApi: 'https://graph.techencode.in/v1/graphql'
 };
 
@@ -9,7 +9,7 @@ const staging = {
 };
 
 const prod = {
-    restApiBase: 'http://localhost:3000',
+    restApiBase: 'https://api.techencode.in',
     graphQLApi: 'https://graph.techencode.in/v1/graphql'
 };
 
