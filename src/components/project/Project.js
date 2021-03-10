@@ -5,9 +5,9 @@ import { useParams, useHistory } from 'react-router-dom';
 import cm from "classnames";
 import { Link } from 'react-router-dom';
 
-import { useGet, usePost, usePut } from "../../utils/hooks";
+import { usePost } from "../../utils/hooks";
 import { errorContext } from "../../components/contexts/error/errorContext";
-import AuthContext from "../../components/contexts/Auth";
+import { LogException } from "../../utils/exception";
 import { useProjectActionsContext } from '../../components/contexts/Project';
 
 import Search from '../customInputs/Search';
@@ -24,7 +24,6 @@ const Project = () => {
     let history = useHistory();
     const { projectId } = useParams();
 
-    const { user } = useContext(AuthContext);
     const errorCtx = useContext(errorContext);
 
     const [loading, setLoading] = useState(true);
@@ -51,6 +50,7 @@ const Project = () => {
                 setProject(requiredProject);
             },
             onReject: (err) => {
+                LogException("Unable To get Project By Id", err);
                 errorCtx.setError(err);
             }
         });
@@ -65,7 +65,8 @@ const Project = () => {
                 // setTotalNoOfFlat(data.flats.length);
                 // setLoading(false);
             },
-            onReject: (error) => {
+            onReject: (err) => {
+                LogException("Unable To get Flat List", err);
             }
         });
 
@@ -108,7 +109,6 @@ const Project = () => {
         setLoading(false);
     }
     const goToFlat = (id) => { history.push("/flats/" + id) }
-    const goToEditFlat = (id) => { history.push("/flat/edit/" + id) }
     const renderFlats = () => {
         if (flats && flats.length > 0) {
             return [
@@ -182,7 +182,7 @@ const Project = () => {
                 {project ?
                     <div className="projectId__body--header">
                         <div className="projectId__body--header-name">
-                            <h1><Link to={"/project/" + projectId}><b>{project?.name}</b></Link></h1>
+                            <h1 style={{ color: "#637390" }}><Link to={"/project/" + projectId}><b>{project?.name}</b></Link></h1>
                         </div>
                         <div className="projectId__body--header-details">
                             <h3><b>Total No of Flats:</b> {flats?.length}</h3>

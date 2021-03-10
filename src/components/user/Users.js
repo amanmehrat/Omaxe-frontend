@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import Select from "react-select";
 import cm from "classnames";
 
+import { LogException } from '../../utils/exception';
 import { useGet, usePost, usePut } from "../../utils/hooks";
 import { errorContext } from "../../components/contexts/error/errorContext";
 import NoData from "../../components/NoData";
@@ -12,16 +13,17 @@ import unDraw from "../../img/undraw.svg";
 import eye_black from "../../img/lock.svg";
 import eye from "../../img/unlock.svg";
 import pencil_black from "../../img/pencil_black.svg";
-import "./myTeam.scss";
+import "./Users.scss";
+import Search from "../customInputs/Search";
 
-const MyTeam = ({ history }) => {
+const Users = ({ history }) => {
 
-
+    const [searchText, setSearchText] = useState("");
     const [selectedMember, setSelectedMember] = useState(null);
-    const [newUser, setNewUser] = useState(false);
     const [edit, setEdit] = useState(false);
     const errorCtx = useContext(errorContext);
     const [team, setTeam] = useState(null)
+    const [oldTeam, setOldTeam] = useState(null)
     const [loadGetData, setLoadGetData] = useState(true);
     const [loading, setLoading] = useState(true)
 
@@ -42,6 +44,7 @@ const MyTeam = ({ history }) => {
                 setLoadGetData(true);
             },
             onReject: (err) => {
+                LogException("Unable to create user", err);
                 errorCtx.setError(err);
             }
         });
@@ -54,6 +57,7 @@ const MyTeam = ({ history }) => {
                 setLoadGetData(true);
             },
             onReject: (err) => {
+                LogException("Unable to update user", err);
                 errorCtx.setError(err);
             }
         });
@@ -61,15 +65,18 @@ const MyTeam = ({ history }) => {
         {
             onResolve: (data) => {
                 setTeam(data.user);
+                setOldTeam(data.user);
                 setLoading(false);
             },
-            onReject: (error) => {
+            onReject: (err) => {
+                LogException("Unable to get users", err);
+                setLoading(false);
             }
         });
 
     const submitHandler = (e) => {
         e.preventDefault();
-        if (newUser) {
+        if (edit && id == null) {
             CreateMember();
         } else {
             UpdateMember({ name, email, phoneNumber, password, role, isDisable: selectedMember.isDisable });
@@ -106,7 +113,7 @@ const MyTeam = ({ history }) => {
             phoneNumber: "",
             password: "",
             role: "member",
-            isDisableMember: "",
+            isDisable: "",
         });
     }
     useEffect(() => {
@@ -123,100 +130,128 @@ const MyTeam = ({ history }) => {
         setRole("member");
     }, [success])
 
-    return (
-        <div className="myTeam">
-            <div className="midContainer">
-                <div className="midContainer__head">
+    useEffect(() => {
+        setLoading(true);
+        searchUsers();
+    }, [searchText]);
 
-                    <div className="midContainer__head--field">
-                        <img
-                            src={search}
-                            alt="search"
-                            className="midContainer__head--field--search"
-                        />
-                        <input
-                            onChange={(e) => console.log(e.target.value)}
-                            type="text"
-                            placeholder="search"
-                            className="midContainer__head--field--input"
-                        />
-                    </div>
+    const searchUsers = () => {
+        const searchValue = searchText;
+        let newUsers = [];
+        if (searchValue == "") {
+            newUsers = oldTeam;
+        } else {
+            newUsers = oldTeam?.filter(obj => {
+                return obj.name.toUpperCase().includes(searchValue.toUpperCase());
+            });
+        }
+        setTeam(newUsers);
+        setLoading(false);
+    }
 
-                </div>
-                <div className="midContainer__body">
-                    {
-                        loading ? <Loading /> : (Object.keys(team).length ?
-                            (Object.keys(team).map((key) => {
-                                let { id, name, email, phoneNumber, role, isDisable } = team[key]
-                                return (
-                                    <div className={cm("contentMid", { "contentMid__active": false })}
-                                        onClick={() => {
-                                            addMember(id)
-                                            setEdit(true)
-                                        }}
-                                    >
-                                        <div className="text1 ">
-                                            <p className="text pointer">{name}</p>
-                                        </div>
-                                        <div className="text2">
-                                            <p className="text pointer">{email}</p>
-                                        </div>
-                                        <div className="text3">
-                                            <p className="text pointer">{phoneNumber}</p>
-                                        </div>
-                                        <div className="text4">
-                                            <p className="text pointer">{role === "admin" ? "Admin" : "Member"}</p>
-                                        </div>
-
-                                        <div className="text5">
-                                            <img src={isDisable ? eye_black : eye} alt={"search"}
-                                                className="iconText pointer"
-                                                onClick={(e) => {
-                                                    e.stopPropagation()
-                                                    errorCtx.setWarning(`
-                                                         This will This action will 
+    const renderUsers = () => {
+        if (team && team.length > 0) {
+            return [
+                team.map(teamMember => {
+                    let { id, name, email, phoneNumber, role, isDisable } = teamMember;
+                    return (
+                        <div key={id} className={cm("parentGrid", { "parentGrid__active": false })}
+                            onClick={() => {
+                                addMember(id)
+                                setEdit(true)
+                            }}
+                        >
+                            <div className="child1 ">
+                                <p className="text pointer">{name}</p>
+                            </div>
+                            <div className="child2">
+                                <p className="text pointer">{email}</p>
+                            </div>
+                            <div className="child3 allignRight">
+                                <p className="text pointer">{phoneNumber}</p>
+                            </div>
+                            <div className="child4">
+                                <p className="text pointer">{role === "admin" ? "Admin" : "Member"}</p>
+                            </div>
+                            <div className="child5">
+                                <img src={isDisable ? eye_black : eye} alt={"search"}
+                                    className="iconText pointer"
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        errorCtx.setWarning(`This will This action will 
                                                          ${isDisable ? "allow" : "prevent"} 
                                                          your team member 
                                                          ${isDisable ? "to" : "from"} 
                                                          logging in to the system and use it
                                                          `, () => {
-                                                        //disableMember(id, !isDisable)
-                                                    }, () => {
-                                                    })
-
-                                                }} />
-                                            <img src={pencil_black} alt={"edit"} className="icon pointer"
-                                                onClick={(e) => {
-                                                    e.stopPropagation()
-                                                    addMember(id);
-                                                    setEdit(true)
-                                                }} />
-                                        </div>
-
-                                    </div>
-                                )
-
-                            })
-                            )
-                            : <NoData />)
-                    }
+                                            //disableMember(id, !isDisable)
+                                        }, () => {
+                                        })
+                                    }} />
+                            </div>
+                            <div className="child6">
+                                <img src={pencil_black} alt={"edit"} className="icon pointer"
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        addMember(id);
+                                        setEdit(true)
+                                    }} />
+                            </div>
+                        </div>
+                    )
+                })
+            ]
+        } else {
+            return <NoData />;
+        }
+    }
+    return (
+        <div className="myTeam">
+            <div className="midContainer">
+                <div className="projectId__header">
+                    <div className="projectId__body--heading">
+                        <Search
+                            setSearchText={setSearchText}
+                            searchText={searchText}
+                            placeholder="Search users"
+                        />
+                    </div>
+                    <div className="projectId__header--filter">
+                        <button onClick={e => setEdit(true)} className="projectId__header--filter--button" >Add User</button>
+                    </div>
                 </div>
-                <div className="midContainer__button">
-                    <button className="midContainer__button--btn" onClick={() => {
-                        setEdit(true)
-                        addMember()
-                    }}>
-                        <img src={plusBlue} alt="plusBlue" className="midContainer__button--btn--img" />
-                    </button>
+                <div className="midContainer__body">
+                    <div key={0} className="parentGrid gridHeader">
+                        <div className="child1">
+                            <p className="text pointer">Name</p>
+                        </div>
+                        <div className="child2">
+                            <p className="text pointer">Email</p>
+                        </div>
+                        <div className="child3 allignRight">
+                            <p className="text pointer">Phone No.</p>
+                        </div>
+                        <div className="child4">
+                            <p className="text pointer">Role</p>
+                        </div>
+                        <div className="child5">
+                            <p className="text pointer">Status</p>
+                        </div>
+                        <div className="child6">
+                            <p className="text pointer">Edit</p>
+                        </div>
+                    </div>
+                    {loading ? <Loading /> : <div className="projectGrid">{renderUsers()}</div>}
                 </div>
             </div>
 
-            {edit &&
+            {
+                edit &&
                 <div className="rightContainer">
                     <>
                         <div className="detail">
                             <div className="dhead dheadActive">
-                                <p className="dback pointer" onClick={() => { setSelectedMember(null); setEdit(false); }}><b>&#10094;&nbsp; Back</b></p>
+                                <p className="dback pointer" onClick={() => { resetMember(); setEdit(false); }}><b>&#10094;&nbsp; Back</b></p>
                             </div>
                             <div className="editContent">
                                 <p className="editText">
@@ -303,12 +338,14 @@ const MyTeam = ({ history }) => {
                 </div>
             }
 
-            {!edit && <div className="rightContainerEmpty">
-                <p className="editText"> Select view or edit</p>
-                <img src={unDraw} alt={"search"} className="image" />
-            </div>}
-        </div>
+            {
+                !edit && <div className="rightContainerEmpty">
+                    <p className="editText"> Select view or edit</p>
+                    <img src={unDraw} alt={"search"} className="image" />
+                </div>
+            }
+        </div >
     )
 }
 
-export default MyTeam;
+export default Users;

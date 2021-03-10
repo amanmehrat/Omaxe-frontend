@@ -5,6 +5,7 @@ import { usePost } from "../../utils/hooks";
 import NoData from "../NoData";
 import Loading from "../Loading";
 import ViewHistory from './ViewHistory';
+import { LogException } from "../../utils/exception";
 import { useProjectActionsContext } from '../../components/contexts/Project';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -118,7 +119,8 @@ const Flat = () => {
                     setElectricityHistory(data.flat?.electricityHistories);
                 }
             },
-            onReject: (error) => {
+            onReject: (err) => {
+                LogException("Unable To get Flat Details", err);
             }
         });
 
@@ -128,9 +130,9 @@ const Flat = () => {
                 setLoadElectricity(false)
                 setElectricityHistory(data.electricityHistory);
             },
-            onReject: (error) => {
+            onReject: (err) => {
                 setLoadElectricity(false)
-                console.log("error fetchBy 0 ------", error);
+                LogException("Unable To get Electricity Details", err);
             }
         });
 
@@ -141,9 +143,9 @@ const Flat = () => {
                 console.log("Thhis is camDetail my array ", JSON.stringify(data));
                 setCamHistory(data.camDetail);
             },
-            onReject: (error) => {
+            onReject: (err) => {
                 setLoadCam(false)
-                console.log("error fetchBy 0 ------", error);
+                LogException("Unable To get Cam details Details", err);
             }
         });
 
@@ -176,7 +178,7 @@ const Flat = () => {
                 <div className="project__header">
                     <div className="project__body--heading">Flat Details</div>
                     <div className="project__header--filter">
-                        <Link className="project__header--filter--button" to={"/Billings"} >View All Flats</Link>
+                        <Link className="project__header--filter--button" to={"/project/" + setSelectedProjectId} >View All Flats</Link>
                     </div>
                 </div>
                 <div className={classes.body}>

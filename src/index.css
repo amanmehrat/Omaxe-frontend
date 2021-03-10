@@ -48,3 +48,22 @@ code {
   color: #D8000C;
   background-color: #FFBABA;
 }
+
+.noData {
+  text-align: center;
+}
+
+.noData>svg {
+  margin: 5px;
+  border-radius: 50px;
+}
+
+.noData>.noDataText {
+  font-size: 1.5rem;
+  color: #637390;
+  display: block;
+}
+
+.allignRight {
+  text-align: right!important;
+}

@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import cm from "classnames";
 import pencil_black from "../../img/pencil_black.svg";
 import NoData from "../NoData";
+import { LogException } from "../../utils/exception";
 
 
 import Loading from "../../components/Loading";
@@ -18,7 +19,7 @@ import MyTextInput from '../../components/customInputs/MyTextInput';
 
 import { errorContext } from "../contexts/error/errorContext";
 import { useProjectContext } from "../contexts/Project";
-import { useGet, usePost, usePut } from "../../utils/hooks";
+import { useGet, usePost } from "../../utils/hooks";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -103,9 +104,8 @@ const Billing = () => {
                 setBillingHeads(data.billingHeads);
                 setLoading(false);
             },
-            onReject: (error) => {
-                //       setLoadElectricity(false)
-                console.log("error fetchBy 0 ------", error);
+            onReject: (err) => {
+                LogException("Unable To get Billingheads", err);
             }
         });
     const { run: getBillingHeadById } = usePost("/billing/billingHeads/getBillingHeadById", null,
@@ -115,9 +115,8 @@ const Billing = () => {
                 setBillingHead(data?.billingHead.find(billingHead => billingHead.id == billingHeadId));
                 setBillingHeadId(0);
             },
-            onReject: (error) => {
-                //       setLoadElectricity(false)
-                console.log("error fetchBy 0 ------", error);
+            onReject: (err) => {
+                LogException("Unable To get BillingHeadById", err);
             }
         });
     const { run: CreateBillingHead } = usePost("/billing/billingHeads/insertBillingHead", null,
@@ -130,6 +129,7 @@ const Billing = () => {
             },
             onReject: (err) => {
                 errorCtx.setError(err);
+                LogException("Unable To Create Billingheads", err);
             }
         });
     const { run: UpdateBillingHead } = usePost("/billing/billingHeads/updateBillingHead", null,
@@ -144,6 +144,7 @@ const Billing = () => {
                 errorCtx.setSuccess("Billing Head Updated Successfully");
             },
             onReject: (err) => {
+                LogException("Unable To Update Billingheads", err);
                 errorCtx.setError(err);
             }
         });

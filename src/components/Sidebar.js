@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useHistory, Link } from 'react-router-dom';
-import { useGet, usePost, usePut } from "../utils/hooks";
+import { Link } from 'react-router-dom';
+import { usePost } from "../utils/hooks";
 
 import AuthContext from "./contexts/Auth";
 import { useProjectContext } from './contexts/Project';
@@ -16,15 +16,17 @@ import './Sidebar.css'
 const Sidebar = () => {
     const [selectedProject, setSelectedProject] = useState(null);
     const [openBillingHeads, setOpenBillingHeads] = useState(false);
-    const { user, logout } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const { selectedProjectId } = useProjectContext();
-
+    console.log("user", user);
     const { run: getProjectById } = usePost("/projects/GetProject", null,
         {
             onResolve: (data) => {
                 let requiredProject = data?.projects.find(project => project.id == selectedProjectId);
-                requiredProject.projectsBillingInformations = requiredProject?.projectsBillingInformations?.find(billingInfo => billingInfo.proj_id == selectedProjectId);
-                setSelectedProject(requiredProject);
+                if (requiredProject) {
+                    requiredProject.projectsBillingInformations = requiredProject?.projectsBillingInformations?.find(billingInfo => billingInfo.proj_id == selectedProjectId);
+                    setSelectedProject(requiredProject);
+                }
             },
             onReject: (err) => {
                 console.log(err);
@@ -33,11 +35,11 @@ const Sidebar = () => {
 
 
     useEffect(() => {
-        console.log(selectedProjectId);
+        console.log("vhsvdj", selectedProjectId);
         if (selectedProjectId) {
             getProjectById({ projId: selectedProjectId });
         } else {
-            //setSelectedProject(null);
+            setSelectedProject(null);
         }
     }, [selectedProjectId]);
 
