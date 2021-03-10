@@ -2,12 +2,13 @@ import { Switch, Route, useRouteMatch } from "react-router-dom";
 
 import "../App.scss";
 
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
-import IfAuth from "../components/IfAuth";
-import NotFound from "../components/NotFound";
-import MyTeam from "./myTeam/myTeam";
-import Projects from "./project/project";
+import Navbar from './Navbar';
+import Sidebar from './Sidebar';
+import IfAuth from "./IfAuth";
+import NotFound from "./NotFound";
+
+import Users from "./user/Users";
+import Projects from "./project/Projects";
 
 import FlatRoutes from '../routes/FlatRoutes';
 import ProjectRoutes from '../routes/ProjectRoutes';
@@ -17,8 +18,6 @@ import ProjectContextProvider from '../components/contexts/Project';
 import Flat from '../components/flat/Flat';
 
 const Dashboard = () => {
-  let { path, url } = useRouteMatch();
-
   return (
     <IfAuth>
       <div className="container">
@@ -29,7 +28,7 @@ const Dashboard = () => {
             <Switch>
               <Route exact={true} path="/" component={Projects} />
               <Route exact={true} path="/projects" component={Projects} />
-              <Route exact={true} path="/users" component={MyTeam} />
+              <Route exact={true} path="/users" component={Users} />
               <Route exact={true} path="/flats/:flatId" component={Flat} />
               <Route path="/project" component={ProjectRoutes} />
               <Route path="/flat" component={FlatRoutes} />

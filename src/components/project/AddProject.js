@@ -5,9 +5,8 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import cm from "classnames";
 
-import search from "../../img/search.svg";
+import { LogException } from "../../utils/exception";
 import Loading from "../../components/Loading";
-import pencil_black from "../../img/pencil_black.svg";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -21,7 +20,7 @@ import MyTextInput from '../../components/customInputs/MyTextInput';
 
 import { errorContext } from "../../components/contexts/error/errorContext";
 import AuthContext from "../../components/contexts/Auth";
-import { useGet, usePost, usePut } from "../../utils/hooks";
+import { usePost } from "../../utils/hooks";
 
 
 //import "./AddProject.scss";
@@ -62,6 +61,7 @@ const AddProject = ({ history }) => {
                 setLoading(false);
             },
             onReject: (err) => {
+                LogException("Unable To get Project By Id", err);
                 errorCtx.setError(err);
                 setLoading(false);
             }
@@ -88,6 +88,7 @@ const AddProject = ({ history }) => {
                 history.push("/project/add");
             },
             onReject: (err) => {
+                LogException("Unable To Create Project", err);
                 errorCtx.setError(err);
             }
         });
@@ -100,6 +101,7 @@ const AddProject = ({ history }) => {
                 history.push("/project/edit/" + projectId);
             },
             onReject: (err) => {
+                LogException("Unable To Unable Project", err);
                 errorCtx.setError(err);
             }
         });

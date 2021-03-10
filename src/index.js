@@ -1,24 +1,27 @@
-//#region Modules
-
-//#region 3rd party app
 import React from "react";
 import ReactDOM from "react-dom";
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-//#endregion
-
-//#region Inbuilt
 import "./index.css";
 import "./App.scss";
-//Pages
-import HomePage from "./pages/HomePage";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import config from './config';
+
+import Login from "./components/Login";
+import Dashboard from "./components/Dashboard";
 import { AuthContextProvider } from "./components/contexts/Auth";
 import ErrorContext from "./components/contexts/error/errorContext";
-//#endregion
 
-//#endregion
+Sentry.init({
+  dsn: config.sentryLogs,
+  integrations: [new Integrations.BrowserTracing()],
+
+  // We recommend adjusting this value in production, or using tracesSampler
+  // for finer control
+  tracesSampleRate: 1.0,
+});
+
 
 const providers = [[AuthContextProvider, {}]];
 

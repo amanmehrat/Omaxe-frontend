@@ -1,10 +1,7 @@
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 
 import IfProjectSelected from "../components/IfProjectSelected";
-import flatById from "../pages/flat/flatById";
 import AddFlat from "../components/flat/AddFlat";
-import Flat from "../components/flat/Flat";
-import NotFound from '../components/NotFound';
 
 const FlatRoutes = () => {
     let { path, url } = useRouteMatch();

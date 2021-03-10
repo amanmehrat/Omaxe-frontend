@@ -11,7 +11,7 @@ import cm from "classnames";
 
 import Loading from "../../components/Loading";
 
-import DatePicker from "react-datepicker";
+import { LogException } from "../../utils/exception";
 import "react-datepicker/dist/react-datepicker.css";
 //import './AddFlat.css'
 
@@ -84,7 +84,6 @@ const AddFlat = () => {
     const [loading, setLoading] = useState(false)
     const [isEdit, setIsEdit] = useState(false);
     const [isReset, setIsReset] = useState(false);
-    const { user } = useContext(AuthContext);
     const [startDate, setStartDate] = useState(null);
     const [flat, setFlat] = useState(FlatStructure);
 
@@ -102,6 +101,7 @@ const AddFlat = () => {
                 setLoading(false);
             },
             onReject: (err) => {
+                LogException("Unable To get Flat By Id", err);
                 errorCtx.setError(err);
                 setLoading(false);
             }
@@ -126,6 +126,7 @@ const AddFlat = () => {
                 history.push("/flat/add");
             },
             onReject: (err) => {
+                LogException("Unable To Create Flat", err);
                 errorCtx.setError(err);
             }
         });
@@ -139,6 +140,7 @@ const AddFlat = () => {
                 history.push("/flat/edit/" + flatId);
             },
             onReject: (err) => {
+                LogException("Unable To Update Flat", err);
                 errorCtx.setError(err);
             }
         });
