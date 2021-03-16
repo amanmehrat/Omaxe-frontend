@@ -49,6 +49,14 @@ code {
   background-color: #FFBABA;
 }
 
+.errorLabel {
+  color: red;
+  position: absolute;
+  left: 155px;
+  top: 45px;
+  font-size: 13px;
+}
+
 .noData {
   text-align: center;
 }

@@ -8,11 +8,13 @@ const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
     return (
         <div className="form-group">
-            <label className="input-label" htmlFor={props.id || props.name}>{props.placeholder}</label>
+            <label className="input-label" htmlFor={props.id || props.name}>{label}</label>
             <input {...field} {...props} autoComplete="off" />
-            {meta.touched && meta.error ? (
-                <span className="error text-danger">{meta.error}</span>
-            ) : null}
+            {
+                meta.touched && meta.error ? (
+                    <div className="errorLabel">{meta.error}</div>
+                ) : null
+            }
         </div>
     );
 };

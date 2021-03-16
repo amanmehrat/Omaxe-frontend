@@ -81,7 +81,7 @@ const Sidebar = () => {
                                         <p>Billing Heads</p>
                                     </div>
                                 </Link>
-                                <Link to={"/billing/bills"} className="sidebarSubChat padLeft36">
+                                <Link to={"/billing/generatebill"} className="sidebarSubChat padLeft36">
                                     <div className="sidebarChat_info" style={{ marginLeft: "%" }} >
                                         <SubdirectoryArrowRightIcon />
                                         <p>Generate Bill</p>

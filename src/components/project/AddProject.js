@@ -211,14 +211,14 @@ const AddProject = ({ history }) => {
                                                     <div className="formSubHeading"><b>Project Billing Information :</b></div>
                                                     <div className="row">
                                                         <MyTextInput
-                                                            label="CAM_charge_multiplier"
+                                                            label="CAM Charge Multiplier"
                                                             name="projectsBillingInformations.CAM_charge_multiplier"
                                                             type="number"
                                                             placeholder="CAM Charge Multiplier"
                                                             className="input-text wid50"
                                                         />
                                                         <MyTextInput
-                                                            label="DG_charge_multiplier"
+                                                            label="DG Charge Multiplier"
                                                             name="projectsBillingInformations.DG_charge_multiplier"
                                                             type="number"
                                                             placeholder="DG Charge Multiplier"
@@ -227,14 +227,14 @@ const AddProject = ({ history }) => {
                                                     </div>
                                                     <div className="row">
                                                         <MyTextInput
-                                                            label="CAM_penalize_percentage"
+                                                            label="CAM Penalize Percentage"
                                                             name="projectsBillingInformations.CAM_penalize_percentage"
                                                             type="number"
                                                             placeholder="CAM Penalize Percentage"
                                                             className="input-text wid50"
                                                         />
                                                         <MyTextInput
-                                                            label="electricity_penalize_percentage"
+                                                            label="Electricity Penalize Percentage"
                                                             name="projectsBillingInformations.electricity_penalize_percentage"
                                                             type="number"
                                                             placeholder="Electricity Penalize Percentage"
@@ -243,14 +243,14 @@ const AddProject = ({ history }) => {
                                                     </div>
                                                     <div className="row">
                                                         <MyTextInput
-                                                            label="CAM_fixed_charge"
+                                                            label="CAM Fixed Charge"
                                                             name="projectsBillingInformations.CAM_fixed_charge"
                                                             type="number"
                                                             placeholder="CAM Fixed Charge"
                                                             className="input-text wid50"
                                                         />
                                                         <MyTextInput
-                                                            label="IFMS_balance"
+                                                            label="IFMS Balance"
                                                             name="projectsBillingInformations.IFMS_balance"
                                                             type="number"
                                                             placeholder="IFMS Balance"
@@ -259,14 +259,14 @@ const AddProject = ({ history }) => {
                                                     </div>
                                                     <div className="row">
                                                         <MyTextInput
-                                                            label="lift_charge"
+                                                            label="Lift Charge"
                                                             name="projectsBillingInformations.lift_charge"
                                                             type="number"
                                                             placeholder="Lift Charge"
                                                             className="input-text wid50"
                                                         />
                                                         <MyTextInput
-                                                            label="water_charge"
+                                                            label="ater Charge"
                                                             name="projectsBillingInformations.water_charge"
                                                             type="number"
                                                             placeholder="Water Charge"
