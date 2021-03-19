@@ -87,6 +87,12 @@ const Sidebar = () => {
                                         <p>Generate Bill</p>
                                     </div>
                                 </Link>
+                                <Link to={"/billing/viewbills"} className="sidebarSubChat padLeft36">
+                                    <div className="sidebarChat_info" style={{ marginLeft: "%" }} >
+                                        <SubdirectoryArrowRightIcon />
+                                        <p>View Bills</p>
+                                    </div>
+                                </Link>
                             </>
                         )
                     }
@@ -111,18 +117,6 @@ const Sidebar = () => {
                         </div>
                     </Link>
                 }
-                <Link to="/projects" className="sidebarChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
-                    <AccountBalanceIcon />
-                    <div className="sidebarChat_info">
-                        <h2>Transactions</h2>
-                    </div>
-                </Link>
-                <Link to="/project/billings" className="sidebarChat"  >
-                    <ReceiptIcon />
-                    <div className="sidebarChat_info">
-                        <h2>Billing</h2>
-                    </div>
-                </Link>
             </div>
         </div>
     )

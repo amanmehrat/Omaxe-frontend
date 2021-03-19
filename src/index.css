@@ -75,3 +75,34 @@ code {
 .allignRight {
   text-align: right!important;
 }
+
+.wid30 {
+  width: 30%;
+}
+
+.wid23 {
+  width: 23%;
+}
+
+.billsHeading {
+  display: flex;
+  justify-content: space-between;
+}
+
+.billsSubHeading {
+  font-size: 2.4rem;
+  margin-left: 1.5rem;
+  color: #637390;
+}
+
+.materialBtn {
+  display: inline-flex!important;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.materialBtn>.MuiSvgIcon-root {
+  font-size: 2rem !important;
+  margin-right: 0.4rem;
+}

@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     container: {
         display: 'flex',
-        width: '78%',
+        width: '80%',
         margin: '10px',
         height: 'calc(100vh - 7rem)',
         flexDirection: 'column'
@@ -159,7 +159,6 @@ const Flat = () => {
     useEffect(() => {
         if (loadElectricity) {
             console.log(loadElectricity);
-            console.log(request);
             getElectricityDetails(request);
         }
     }, [loadElectricity]);
@@ -243,7 +242,7 @@ const Flat = () => {
                                 </div>
                                 <div className={classes.tableRow}>
                                     <div className={classes.tableItem}>
-                                        <label className={classes.tableItemKey}><b>MeterNumber:</b></label>
+                                        <label className={classes.tableItemKey}><b>Meter Number:</b></label>
                                         <div className={classes.tableItemValue}>{flatDetails.meterNumber}</div>
                                     </div>
                                 </div>
@@ -255,7 +254,7 @@ const Flat = () => {
                                 </div>
                                 <div className={classes.tableRow}>
                                     <div className={classes.tableItem}>
-                                        <label className={classes.tableItemKey}><b>propertyType:</b></label>
+                                        <label className={classes.tableItemKey}><b>Property Type:</b></label>
                                         <div className={classes.tableItemValue}>{flatDetails.propertyType == 0 ? "3BHK" : "Others"}</div>
                                     </div>
                                 </div>

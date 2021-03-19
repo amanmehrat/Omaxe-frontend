@@ -85,10 +85,16 @@ const GenerateBill = () => {
         const yearString = new Date(selectedYear).getFullYear();
         const monthString = new Date(selectedMonth).getMonth() + 1;
         values.projId = selectedProjectId;
-        values.year = yearString;
-        values.month = monthString;
-        values.createdBy = user.id;
-        values.excludedFlats = values.excludedFlats.split(",");
+        values.year = yearString.toString();
+        values.month = monthString.toString();
+        //values.createdBy = user.id;
+        values.dueDate = values.dueDate.toString();
+        values.billType = parseInt(values.billType);
+        if (typeof values.excludedFlats == "string") {
+            values.excludedFlats = values.excludedFlats.split(",");
+        }
+
+
         console.log("Updatedvalues", values);
         generateBill(values);
         setTimeout(() => {
