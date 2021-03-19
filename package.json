@@ -30,6 +30,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-select": "^3.2.0",
+    "react-table": "^7.6.3",
     "sass": "^1.26.10",
     "use-react-router": "^1.0.7",
     "web-vitals": "^0.2.4",

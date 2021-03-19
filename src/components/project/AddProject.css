@@ -1,6 +1,6 @@
 .project {
     display: flex;
-    width: 78%;
+    width: 80%;
     height: calc(100vh - 7rem);
     flex-direction: column;
     padding: 5px;

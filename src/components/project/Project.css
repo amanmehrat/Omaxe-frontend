@@ -1,6 +1,6 @@
 .projectId {
     display: flex;
-    width: 78%;
+    width: 80%;
     margin: 10px;
     height: calc(100vh - 7rem);
     flex-direction: column;
