@@ -107,7 +107,7 @@ const GenerateBill = () => {
             <div className="project__header">
                 <div className="project__body--heading">Generate Bill</div>
                 <div className="project__header--filter">
-                    <Link className="project__header--filter--button" to={"/Project/" + selectedProjectId} >View All Bills</Link>
+                    <Link className="project__header--filter--button" to={"/billing/viewbills"} >View All Bills</Link>
                 </div>
             </div>
             <div className="project__body">
