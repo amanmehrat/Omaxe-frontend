@@ -127,10 +127,10 @@ const Table = ({ columns, data, onRowSelect }) => {
             <div className="pagination">
                 <div></div>
                 <div>
-                    <button className="blue_button" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                    <button className="" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
                         {'<<'}
                     </button>{' '}
-                    <button className="blue_button" onClick={() => previousPage()} disabled={!canPreviousPage}>
+                    <button className="" onClick={() => previousPage()} disabled={!canPreviousPage}>
                         {'<'}
                     </button>{' '}
                     <span>{' '}
@@ -145,10 +145,10 @@ const Table = ({ columns, data, onRowSelect }) => {
                             style={{ width: '8%' }}
                         /> of {pageOptions.length} |{' '}
                     </span>{' '}
-                    <button className="blue_button" onClick={() => nextPage()} disabled={!canNextPage}>
+                    <button className="" onClick={() => nextPage()} disabled={!canNextPage}>
                         {'>'}
                     </button>{' '}
-                    <button className="blue_button" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                    <button className="" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
                         {'>>'}
                     </button>{' '}
                     <select
