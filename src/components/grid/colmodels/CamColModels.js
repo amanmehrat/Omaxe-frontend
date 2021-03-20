@@ -1,3 +1,15 @@
+import BorderColorOutlinedIcon from '@material-ui/icons/BorderColorOutlined';
+import { Tooltip, IconButton } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+
+const LightTooltip = withStyles((theme) => ({
+    tooltip: {
+        backgroundColor: theme.palette.common.white,
+        color: 'rgba(0, 0, 0, 0.87)',
+        boxShadow: theme.shadows[1],
+        fontSize: 11,
+    },
+}))(Tooltip);
 
 const CamColModels = () => [
     {
@@ -40,6 +52,21 @@ const CamColModels = () => [
     {
         Header: 'Paid On',
         accessor: 'paidOn',
+        width: '100',
+        disableFilters: true
+    },
+    {
+        Header: 'Payment',
+        accessor: 'id',
+        Cell: ({ row }) => (
+            <div>
+                <LightTooltip title="Add Payment">
+                    <IconButton aria-label="Add Payment" onClick={() => { console.log("----", row.original.id) }} >
+                        <BorderColorOutlinedIcon />
+                    </IconButton>
+                </LightTooltip>
+            </div >
+        ),
         disableFilters: true
     }
 ]

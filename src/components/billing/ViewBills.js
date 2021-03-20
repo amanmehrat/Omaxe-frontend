@@ -18,7 +18,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
-import MyTextInput from '../../components/customInputs/MyTextInput';
 
 import { errorContext } from "../contexts/error/errorContext";
 import { useProjectContext } from "../contexts/Project";
@@ -63,7 +62,7 @@ const ViewBills = () => {
         month: "",
         projId: "",
     }
-    const [bills, setBills] = useState([]);
+    const [bills, setBills] = useState(-1);
     const classes = useStyles();
     const history = useHistory();
 
@@ -114,12 +113,25 @@ const ViewBills = () => {
         }, 400);
     }
 
+
+    const renderViewTable = () => {
+        if (loading) {
+            return <Loading />
+        } if (bills == -1) {
+            return "";
+        } else if (bills && bills.length > 0) {
+            return <ViewBillsGrid bills={bills} billType={billType} />
+        } else {
+            return <NoData text="No Bills Found" />;
+        }
+    }
+
     return (
         <div className="project">
             <div className="project__header">
-                <div className="project__body--heading">Generate Bill</div>
+                <div className="project__body--heading">View Bills</div>
                 <div className="project__header--filter">
-                    <Link className="project__header--filter--button" to={"/Project/" + selectedProjectId} >View All Bills</Link>
+                    <Link className="project__header--filter--button" to={"/billing/generatebill"} >Generate Bill</Link>
                 </div>
             </div>
             <div className="project__body">
@@ -223,11 +235,7 @@ const ViewBills = () => {
                                 );
                             }}
                         </Formik>
-                        {
-                            bills.length > 0 ?
-                                <ViewBillsGrid bills={bills} billType={billType} /> :
-                                <NoData text="No Bills Found" />
-                        }
+                        {renderViewTable()}
                     </div>
                 </div>
             </div>
