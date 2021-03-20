@@ -2,10 +2,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import ViewBillsGrid from '../grid/ViewBillsGrid'
 import NoData from '../NoData';
+import PaidVia from '../../utils/PaidViaSet';
 import { Link } from 'react-router-dom';
 import cm from "classnames";
 
@@ -24,6 +25,8 @@ import { useProjectContext } from "../contexts/Project";
 import AuthContext from "../contexts/Auth";
 import { usePost } from "../../utils/hooks";
 
+import axios from 'axios';
+import config from '../../config';
 
 const useStyles = makeStyles((theme) => ({
     groups: {
@@ -32,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
     dropdownDiv: {
         display: 'inline-flex',
         flexDirection: 'column',
-        float: 'left'
+        float: 'left',
+        width: '28%'
     },
     selectDropdown: {
         color: '#495057',
@@ -41,7 +45,8 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '14px',
         padding: '7px',
         borderRadius: '100px',
-        marginTop: '11px'
+        marginTop: '11px',
+        width: '80%'
     },
     selectInputDiv: {
         display: 'flex',
@@ -52,6 +57,13 @@ const useStyles = makeStyles((theme) => ({
         border: '1px solid rgba(211,211,211,0.3)',
         padding: '12px',
         marginBottom: '20px'
+    },
+    btnGroups: {
+        width: '26%',
+        display: 'inline-flex',
+        alignItems: 'center',
+        textAlign: 'center',
+        justifyContent: 'space-between',
     }
 }));
 
@@ -73,7 +85,9 @@ const ViewBills = () => {
 
 
     const [billType, setBillType] = useState(-1)
-    const [loading, setLoading] = useState(false)
+    const [viewBillRequest, setViewBillRequest] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [loadViewBills, setLoadViewBills] = useState(false);
     const [selectedYear, setSelectedYear] = useState(new Date());
     const [selectedMonth, setSelectedMonth] = useState(new Date());
 
@@ -85,9 +99,11 @@ const ViewBills = () => {
                 if (typeof data.Bills == "string") {
                     data.Bills = [];
                 }
+                data.Bills.map(item => { item.paidVia = PaidVia.get(item.paidVia); return item; })
                 console.log("BILLS", data.Bills);
                 setBills(data.Bills);
                 setLoading(false);
+                setLoadViewBills(false);
             },
             onReject: (err) => {
                 setLoading(false);
@@ -107,20 +123,62 @@ const ViewBills = () => {
         values.billType = parseInt(values.billType);
         setBillType(values.billType);
         console.log("Updatedvalues", values);
+        setViewBillRequest(values);
         viewBills(values);
         setTimeout(() => {
             setSubmitting(false);
         }, 400);
     }
+    const getExportBills = (values, setSubmitting) => {
+        setLoading(true);
+        const yearString = new Date(selectedYear).getFullYear();
+        const monthString = new Date(selectedMonth).getMonth() + 1;
+        values.projId = selectedProjectId;
+        values.year = yearString.toString();
+        values.month = monthString.toString();
+        //values.createdBy = user.id;
+        values.billType = parseInt(values.billType);
+        setBillType(values.billType);
+        console.log("Updatedvalues", values);
+        //setViewBillRequest(values);
+        //viewBills(values);
+        axios.post(`${config.restApiBase}/billing/downloadBillsCSV`,
+            values
+        ).then(response => {
+            setLoading(false);
+            console.log(response);
+            let { data } = response;
+            if (data && data.meta) {
+                LogException("Unable To Download Excel. Please Contact To Tech-Team");
+            } else {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `Bills-${values.month}-${values.year}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+            }
+        }).catch((error) => {
+            setLoading(false);
+            LogException("Unable To Download view bill excel" + error);
+        });
+        setTimeout(() => {
+            setSubmitting(false);
+        }, 400);
+    }
 
-
+    useEffect(() => {
+        if (loadViewBills)
+            viewBills(viewBillRequest);
+    }, [loadViewBills]);
     const renderViewTable = () => {
         if (loading) {
             return <Loading />
         } if (bills == -1) {
             return "";
         } else if (bills && bills.length > 0) {
-            return <ViewBillsGrid bills={bills} billType={billType} />
+            return <ViewBillsGrid bills={bills} billType={billType} setLoadViewBills={setLoadViewBills} />
         } else {
             return <NoData text="No Bills Found" />;
         }
@@ -170,7 +228,12 @@ const ViewBills = () => {
                                 //    .required('Required')
                             })}
                             onSubmit={(values, { setSubmitting }) => {
-                                getViewBills(values, setSubmitting);
+                                if (values.isForExport) {
+                                    delete values["isForExport"];
+                                    getExportBills(values, setSubmitting);
+                                } else {
+                                    getViewBills(values, setSubmitting);
+                                }
                             }}
                             onReset={() => {
                                 setSelectedMonth(new Date());
@@ -181,11 +244,12 @@ const ViewBills = () => {
                             {props => {
                                 const {
                                     isSubmitting,
-                                    handleChange
+                                    handleChange,
+                                    setFieldValue
                                 } = props;
                                 return (
                                     <Form className={cm(classes.formBorder, "ProjectForm")}>
-                                        <div className={cm(classes.dropdownDiv, "wid30")}>
+                                        <div className={cm(classes.dropdownDiv)}>
                                             <label className="input-label">Bill Type</label>
                                             <select name="billType" onChange={handleChange} className={cm(classes.selectDropdown, "input-text")} >
                                                 <option value="-1">Choose Bill Type</option>
@@ -228,9 +292,20 @@ const ViewBills = () => {
                                                 />
                                             </MuiPickersUtilsProvider>
                                         </div>
-                                        <button disabled={isSubmitting} className={cm("blue_button", "dbutton", "editUp", "btn", classes.groups)} type="submit">
-                                            View Bills
-                                        </button>
+                                        <div className={classes.btnGroups}>
+                                            <button disabled={isSubmitting} className={cm("project__header--filter--button materialBtn")} type="submit">
+                                                View Bills
+                                            </button>
+                                            <span>OR</span>
+                                            <button disabled={isSubmitting} className={cm("project__header--filter--button materialBtn")}
+                                                onClick={() => {
+                                                    setFieldValue('isForExport', true);
+                                                }}
+                                                type="submit"
+                                            >
+                                                Export Data
+                                            </button>
+                                        </div>
                                     </Form>
                                 );
                             }}

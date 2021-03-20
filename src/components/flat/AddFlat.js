@@ -239,8 +239,13 @@ const AddFlat = () => {
                                                             <label className="input-label">Property Type</label>
                                                             <select name="propertyType" defaultValue={flat.propertyType} onChange={handleChange} className={cm(classes.selectDropdown, "input-text")} >
                                                                 <option value="-1">Choose PropertyType</option>
-                                                                <option value="0">3 BHK</option>
-                                                                <option value="1">Others</option>
+                                                                <option value="1">ONE BHK</option>
+                                                                <option value="2">TWO BHK</option>
+                                                                <option value="3">THREE BHK</option>
+                                                                <option value="4">FOUR BHK</option>
+                                                                <option value="5">ENTIRE BUILDING</option>
+                                                                <option value="7">VILLA</option>
+                                                                <option value="20">PLOT</option>
                                                             </select>
                                                         </div>
                                                         <div className="form-group">

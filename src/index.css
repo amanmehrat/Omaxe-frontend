@@ -110,3 +110,11 @@ code {
 .MuiSvgIcon-root {
   cursor: pointer;
 }
+
+.wid100 {
+  width: 100%!important;
+}
+
+.bd-rad {
+  border-radius: 0.9rem!important;
+}

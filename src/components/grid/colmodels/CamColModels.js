@@ -11,10 +11,10 @@ const LightTooltip = withStyles((theme) => ({
     },
 }))(Tooltip);
 
-const CamColModels = () => [
+const CamColModels = (setSelectedBillId, setImportOpen) => [
     {
         Header: 'Flat No',
-        accessor: 'flatNo'
+        accessor: 'flat.flatNumber'
     },
     {
         Header: 'Bill Number',
@@ -60,8 +60,8 @@ const CamColModels = () => [
         accessor: 'id',
         Cell: ({ row }) => (
             <div>
-                <LightTooltip title="Add Payment">
-                    <IconButton aria-label="Add Payment" onClick={() => { console.log("----", row.original.id) }} >
+                <LightTooltip title="Update Payment">
+                    <IconButton aria-label="Update Payment" onClick={() => { setImportOpen(true); console.log("----", row.original.id); setSelectedBillId(row.original.id); }} >
                         <BorderColorOutlinedIcon />
                     </IconButton>
                 </LightTooltip>
