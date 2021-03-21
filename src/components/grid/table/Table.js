@@ -80,7 +80,7 @@ const Table = ({ columns, data, onRowSelect }) => {
     )
 
     useEffect(() => {
-        if (selectedFlatRows != undefined) {
+        if (onRowSelect != undefined && selectedFlatRows != undefined) {
             onRowSelect(selectedFlatRows);
         }
     }, [onRowSelect, selectedFlatRows]);

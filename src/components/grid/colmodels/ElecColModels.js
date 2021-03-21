@@ -1,6 +1,8 @@
+import ReceiptOutlinedIcon from '@material-ui/icons/ReceiptOutlined';
 import BorderColorOutlinedIcon from '@material-ui/icons/BorderColorOutlined';
 import { Tooltip, IconButton } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 
 const LightTooltip = withStyles((theme) => ({
     tooltip: {
@@ -11,10 +13,10 @@ const LightTooltip = withStyles((theme) => ({
     },
 }))(Tooltip);
 
-const ElecColModels = () => (setSelectedBillId, setImportOpen) => [
+const ElecColModels = (setSelectedBillId, setImportOpen) => [
     {
         Header: 'Flat No',
-        accessor: 'flatNo'
+        accessor: 'flat.flatNumber'
     },
     {
         Header: 'Bill Number',
@@ -56,8 +58,8 @@ const ElecColModels = () => (setSelectedBillId, setImportOpen) => [
         disableFilters: true
     },
     {
-        Header: 'Payment',
-        accessor: 'id',
+        Header: '',
+        accessor: 'paymentId',
         Cell: ({ row }) => (
             <div>
                 <LightTooltip title="Update Payment">
@@ -66,6 +68,23 @@ const ElecColModels = () => (setSelectedBillId, setImportOpen) => [
                     </IconButton>
                 </LightTooltip>
             </div >
+        ),
+        disableFilters: true
+    },
+    {
+        Header: '',
+        accessor: 'transactionId',
+        Cell: ({ row }) => (
+            <Link
+                to='/billing/transactions'
+                onClick={() => { localStorage.setItem('billId', row.original.id); }}
+            >
+                <LightTooltip title="Transactions">
+                    <IconButton aria-label="Transactions">
+                        <ReceiptOutlinedIcon />
+                    </IconButton>
+                </LightTooltip>
+            </Link>
         ),
         disableFilters: true
     }
