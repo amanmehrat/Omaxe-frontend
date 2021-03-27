@@ -14,7 +14,7 @@ const LightTooltip = withStyles((theme) => ({
 
 const CamColModels = (setSelectedBillId, setImportOpen) => [
     {
-        Header: 'Flat No',
+        Header: 'Property No',
         accessor: 'flat.flatNumber'
     },
     {

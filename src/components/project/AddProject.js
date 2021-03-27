@@ -8,8 +8,10 @@ import cm from "classnames";
 import { LogException } from "../../utils/exception";
 import Loading from "../../components/Loading";
 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+import { KeyboardDatePicker } from '@material-ui/pickers';
+
 import './AddProject.css'
 
 
@@ -30,7 +32,9 @@ const AddProject = ({ history }) => {
     let projectStructure = {
         createdBy: "",
         name: "",
-        startedOn: "",
+        startedOn: new Date(),
+        address: "",
+        totalUnits: "",
         projectsBillingInformations: {
             CAM_charge_multiplier: "",
             DG_charge_multiplier: "",
@@ -48,14 +52,12 @@ const AddProject = ({ history }) => {
     const [isEdit, setIsEdit] = useState(false);
     const [isReset, setIsReset] = useState(false);
     const { user } = useContext(AuthContext);
-    const [startDate, setStartDate] = useState(null);
     const [project, setProject] = useState(projectStructure);
 
     const { run: getProjectById } = usePost("/projects/GetProject", null,
         {
             onResolve: (data) => {
                 let requiredProject = data?.projects.find(project => project.id == projectId);
-                setStartDate(new Date(requiredProject?.startedOn));
                 requiredProject.projectsBillingInformations = requiredProject?.projectsBillingInformations?.find(billingInfo => billingInfo.proj_id == projectId);
                 setProject(requiredProject);
                 setLoading(false);
@@ -108,17 +110,16 @@ const AddProject = ({ history }) => {
 
     const SaveProject = (values, setSubmitting) => {
         if (isEdit) {
-            const { id, name, startedOn, projectsBillingInformations } = values;
+            const { id, name, startedOn, projectsBillingInformations, address, totalUnits } = values;
             delete projectsBillingInformations["id"];
             delete projectsBillingInformations["proj_id"];
-            let updatedProject = { proj_id: id, name, startedOn, projectsBillingInformations };
+            let updatedProject = { projId: id, name, startedOn, projectsBillingInformations, address, totalUnits };
             UpdateProject(updatedProject);
             setTimeout(() => {
                 setSubmitting(false);
             }, 400);
         } else {
             values.createdBy = user.id;
-            values.startedOn = startDate
             CreateProject(values);
             setTimeout(() => {
                 setSubmitting(false);
@@ -169,19 +170,27 @@ const AddProject = ({ history }) => {
                                     // }),
                                     name: Yup.string()
                                         .max(50, 'Must be 50 characters or less')
+                                        .required('Required'),
+                                    address: Yup.string()
+                                        .max(500, 'Must be 500 characters or less')
+                                        .required('Required'),
+                                    totalUnits: Yup.string()
+                                        .required('Required'),
+                                    startedOn: Yup.string()
                                         .required('Required')
-                                    //startedOn: Yup.string()
-                                    //    .required('Required')
                                 })}
                                 onSubmit={(values, { setSubmitting }) => {
                                     SaveProject(values, setSubmitting);
                                 }}
-                                onReset={() => { setStartDate(null); return projectStructure; }}
+                                onReset={() => projectStructure}
                             >
                                 {props => {
                                     const {
                                         isSubmitting,
-                                        setFieldValue
+                                        setFieldValue,
+                                        values,
+                                        touched,
+                                        errors
                                     } = props;
                                     return (
                                         <div className="project__body--content">
@@ -197,16 +206,42 @@ const AddProject = ({ history }) => {
                                                         />
                                                         <div className="form-group">
                                                             <label className="input-label">Project Started On</label>
-                                                            <DatePicker
-                                                                className="input-text wid-100"
-                                                                name="startedOn"
-                                                                placeholderText="Project Start date"
-                                                                selected={startDate}
-                                                                onChange={date => { setStartDate(date); setFieldValue("startedOn", date) }}
-                                                                dateFormat="dd-MMM-yyyy"
-                                                                autoComplete="off"
-                                                            />
+                                                            <MuiPickersUtilsProvider utils={MomentUtils}>
+                                                                <KeyboardDatePicker
+                                                                    className="input-text"
+                                                                    variant="inline"
+                                                                    format="DD-MM-YYYY"
+                                                                    margin="normal"
+                                                                    value={values.startedOn}
+                                                                    id="date-picker-inline"
+                                                                    name="startedOn"
+                                                                    onChange={date => { setFieldValue('startedOn', date.format("yyyy-MM-DD")) }}
+                                                                    autoOk
+                                                                    autoComplete="off"
+                                                                />
+                                                            </MuiPickersUtilsProvider>
+                                                            {
+                                                                touched.startedOn && errors.startedOn ? (
+                                                                    <div className="errorLabel">{errors.startedOn}</div>
+                                                                ) : null
+                                                            }
                                                         </div>
+                                                    </div>
+                                                    <div className="row">
+                                                        <MyTextInput
+                                                            label="Address"
+                                                            name="address"
+                                                            type="text"
+                                                            placeholder="Address"
+                                                            className="input-text"
+                                                        />
+                                                        <MyTextInput
+                                                            label="Total Units"
+                                                            name="totalUnits"
+                                                            type="number"
+                                                            placeholder="Total Units"
+                                                            className="input-text"
+                                                        />
                                                     </div>
                                                     <div className="formSubHeading"><b>Project Billing Information :</b></div>
                                                     <div className="row">
@@ -288,7 +323,7 @@ const AddProject = ({ history }) => {
                         </>
                 }
             </div>
-        </div>
+        </div >
     )
 }
 

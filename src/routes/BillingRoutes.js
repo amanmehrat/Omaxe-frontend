@@ -12,7 +12,7 @@ const BillingRoutes = () => {
         <Switch>
             <IfProjectSelected>
                 <Route exact={true} path={`${path}/billingheads`} component={Billing} />
-                <Route exact={true} path={`${path}/generatebill`} component={GenerateBill} />
+                <Route exact={true} path={`${path}/generatebills`} component={GenerateBill} />
                 <Route exact={true} path={`${path}/viewbills`} component={ViewBills} />
                 <Route exact={true} path={`${path}/transactions`} component={Transactions} />
             </IfProjectSelected>

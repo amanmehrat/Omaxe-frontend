@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { usePost } from "../../utils/hooks";
 import NoData from "../NoData";
 import Loading from "../Loading";
-import ViewHistory from './ViewHistory';
+import ViewHistoryGrid from '../grid/ViewHistoryGrid';
+import HistoryModal from './HistoryModal';
 import { LogException } from "../../utils/exception";
-import { useProjectActionsContext } from '../../components/contexts/Project';
+import { useProjectActionsContext, useProjectContext } from '../../components/contexts/Project';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -82,20 +83,23 @@ const useStyles = makeStyles((theme) => ({
 
 const Flat = () => {
     const classes = useStyles();
-    const history = useHistory();
     const { flatId } = useParams();
 
     const [loading, setLoading] = useState(true)
-
-    console.log("flatId", flatId);
-
     const [flatDetails, setFlatDetails] = useState({});
     const [electricityHistory, setElectricityHistory] = useState([]);
     const [camHistory, setCamHistory] = useState([]);
 
-    const [loadElectricity, setLoadElectricity] = useState(false);
-    const [loadCam, setLoadCam] = useState(false);
-    const [request, setRequest] = useState(null);
+    const [loadElectricity, setLoadElectricity] = useState(true);
+    const [loadCam, setLoadCam] = useState(true);
+    const [request, setRequest] = useState({
+        flatId: flatId,
+        fetchBy: 1,
+        fetchData: {
+            month: new Date().getMonth(),
+            year: new Date().getFullYear()
+        }
+    });
 
     const [popUpOpen, setPopUpOpen] = useState(false);
     const [popUpFor, setPopUpFor] = useState("");
@@ -104,7 +108,7 @@ const Flat = () => {
     const handlePopUpClose = () => setPopUpOpen(false);
 
     const setSelectedProjectId = useProjectActionsContext();
-
+    const { selectedProjectId } = useProjectContext();
 
     const { run: getFlatDetails } = usePost("/flats/getFlat", null,
         {
@@ -175,9 +179,9 @@ const Flat = () => {
         return (
             <div className={classes.container}>
                 <div className="project__header">
-                    <div className="project__body--heading">Flat Details</div>
+                    <div className="project__body--heading">Property Details</div>
                     <div className="project__header--filter">
-                        <Link className="project__header--filter--button" to={"/project/" + setSelectedProjectId} >View All Flats</Link>
+                        <Link className="project__header--filter--button" to={"/project/" + setSelectedProjectId} >View All Properties</Link>
                     </div>
                 </div>
                 <div className={classes.body}>
@@ -190,9 +194,9 @@ const Flat = () => {
     return (
         <div className={classes.container}>
             <div className="project__header">
-                <div className="project__body--heading">Flat Details</div>
+                <div className="project__body--heading">Property Details</div>
                 <div className="project__header--filter">
-                    <Link className="project__header--filter--button" to={"/Billings"} >View All Flats</Link>
+                    <Link className="project__header--filter--button" to={"/Project/" + selectedProjectId} >View All properties</Link>
                 </div>
             </div>
             <div className={classes.body}>
@@ -201,7 +205,7 @@ const Flat = () => {
                         <div className={classes.Details}>
                             <div className={classes.tableRow}>
                                 <div className={classes.tableItem}>
-                                    <label className={classes.tableItemKey}><b>Flat Number:</b></label>
+                                    <label className={classes.tableItemKey}><b>Property Number:</b></label>
                                     <div className={classes.tableItemValue}>{flatDetails.flatNumber}</div>
                                 </div>
                                 <div className={classes.tableRow}>
@@ -264,97 +268,27 @@ const Flat = () => {
                     : <NoData />)
                 }
                 <div className={classes.subHeading}>
-                    <div className={classes.subHeadingText}><b>Electricity History</b></div>
-                    <div className="project__header--filter">
-                        <button onClick={(e) => { e.stopPropagation(); return handlePopUpOpen("Electricity"); }} className="projectId__header--filter--button" >View</button>
-                    </div>
-                </div>
-                {
-                    electricityHistory && electricityHistory.length > 0 ?
-                        (
-                            <table border={2} className={classes.table}>
-                                <thead>
-                                    <tr>
-                                        <th>Bill Date</th>
-                                        <th>Bill Number</th>
-                                        <th>Amount</th>
-                                        <th>Month</th>
-                                        <th>Paid On</th>
-                                        <th>Paid Via</th>
-                                        <th>Receipt Number</th>
-                                        <th>Total Consumption</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        (
-                                            Object.keys(electricityHistory).map((key) => {
-                                                let { billDate, billNumber, amount, month, paidOn, paidVia, receiptNumber, totalConsumption } = electricityHistory[key]
-                                                return (
-                                                    <tr>
-                                                        <td>{billDate}</td>
-                                                        <td>{billNumber}</td>
-                                                        <td>{amount}</td>
-                                                        <td>{month}</td>
-                                                        <td>{paidOn}</td>
-                                                        <td>{paidVia}</td>
-                                                        <td>{receiptNumber}</td>
-                                                        <td>{totalConsumption}</td>
-                                                    </tr>
-                                                )
-                                            })
-                                        )
-                                    }
-                                </tbody>
-                            </table>
-                        ) : <div className={classes.noData}>{loadElectricity ? "Loading..." : "No Bill In Histroy"}</div>
-                }
-                <div className={classes.subHeading}>
                     <div className={classes.subHeadingText}><b>CAM History</b></div>
                     <div className="project__header--filter">
                         <button onClick={(e) => { e.stopPropagation(); return handlePopUpOpen("Cam"); }} className="projectId__header--filter--button" >View</button>
                     </div>
                 </div>
-                {
-                    camHistory && camHistory.length > 0 ?
-                        (
-                            <table border={2} className={classes.table}>
-                                <thead className={classes.tableHead}>
-                                    <tr>
-                                        <th>Bill Date</th>
-                                        <th>Bill Number</th>
-                                        <th>Amount</th>
-                                        <th>Month</th>
-                                        <th>Paid On</th>
-                                        <th>Paid Via</th>
-                                        <th>Receipt Number</th>
-                                    </tr>
-                                </thead>
-                                <tbody className={classes.tableBody}>
-                                    {
-                                        (
-                                            Object.keys(camHistory).map((key) => {
-                                                let { billDate, billNumber, amount, month, paidOn, paidVia, receiptNumber } = camHistory[key]
-                                                return (
-                                                    <tr className={classes.tableBodyRow}>
-                                                        <td>{billDate}</td>
-                                                        <td>{billNumber}</td>
-                                                        <td>{amount}</td>
-                                                        <td>{month}</td>
-                                                        <td>{paidOn}</td>
-                                                        <td>{paidVia}</td>
-                                                        <td>{receiptNumber}</td>
-                                                    </tr>
-                                                )
-                                            })
-                                        )
-                                    }
-                                </tbody>
-                            </table>
-                        ) : <div className={classes.noData}>{loadCam ? "Loading..." : "No Bill In Histroy"}</div>
+                {(camHistory && camHistory.length > 0) ?
+                    <ViewHistoryGrid bills={camHistory} billType={1} />
+                    : <div className={classes.noData}>{loadCam ? "Loading..." : "No Bill In Histry"}</div>
+                }
+                <div className={classes.subHeading}>
+                    <div className={classes.subHeadingText}><b>Electricity History</b></div>
+                    <div className="project__header--filter">
+                        <button onClick={(e) => { e.stopPropagation(); return handlePopUpOpen("Electricity"); }} className="projectId__header--filter--button" >View</button>
+                    </div>
+                </div>
+                {(electricityHistory && electricityHistory.length > 0) ?
+                    <ViewHistoryGrid bills={electricityHistory} billType={2} />
+                    : <div className={classes.noData}>{loadCam ? "Loading..." : "No Bill In Histry"}</div>
                 }
             </div>
-            <ViewHistory
+            <HistoryModal
                 open={popUpOpen}
                 handlePopUpClose={handlePopUpClose}
                 popUpFor={popUpFor}

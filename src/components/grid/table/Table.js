@@ -21,7 +21,7 @@ function DefaultColumnFilter({
     )
 }
 
-const Table = ({ columns, data, onRowSelect }) => {
+const Table = ({ columns, data, onRowSelect, onHandleRowClick }) => {
     // Use the state and functions returned from useTable to build your UI
     const defaultColumn = React.useMemo(
         () => ({
@@ -111,7 +111,10 @@ const Table = ({ columns, data, onRowSelect }) => {
                     {page.map((row, i) => {
                         prepareRow(row)
                         return (
-                            <tr {...row.getRowProps()}>
+                            <tr
+                                style={{ cursor: 'pointer' }}
+                                onClick={(e) => { e.preventDefault(); if (onHandleRowClick != undefined) onHandleRowClick(row.original.id); }}
+                                {...row.getRowProps()}>
                                 {row.cells.map(cell => {
                                     return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                                 })}
@@ -120,10 +123,6 @@ const Table = ({ columns, data, onRowSelect }) => {
                     })}
                 </tbody>
             </table>
-            {/* 
-        Pagination can be built however you'd like. 
-        This is just a very basic UI implementation:
-      */}
             <div className="pagination">
                 <div></div>
                 <div>
@@ -136,7 +135,7 @@ const Table = ({ columns, data, onRowSelect }) => {
                     <span>{' '}
                         | Page
                         <input
-                            type="number"
+                            type="text"
                             defaultValue={pageIndex + 1}
                             onChange={e => {
                                 const page = e.target.value ? Number(e.target.value) - 1 : 0
