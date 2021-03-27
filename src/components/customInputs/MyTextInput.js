@@ -8,7 +8,9 @@ const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
     return (
         <div className="form-group">
-            <label className="input-label" htmlFor={props.id || props.name}>{label}</label>
+            {
+                label != "" && <label className="input-label" htmlFor={props.id || props.name}>{label}</label>
+            }
             <input {...field} {...props} autoComplete="off" />
             {
                 meta.touched && meta.error ? (

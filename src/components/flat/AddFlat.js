@@ -14,8 +14,6 @@ import Loading from "../../components/Loading";
 import { LogException } from "../../utils/exception";
 import "react-datepicker/dist/react-datepicker.css";
 //import './AddFlat.css'
-
-
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
@@ -24,8 +22,9 @@ import MyCheckBox from '../../components/customInputs/MyCheckBox';
 
 import { errorContext } from "../contexts/error/errorContext";
 import { useProjectContext } from "../contexts/Project";
-import AuthContext from "../contexts/Auth";
 import { useGet, usePost, usePut } from "../../utils/hooks";
+
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
 
 const useStyles = makeStyles((theme) => ({
@@ -68,10 +67,15 @@ const AddFlat = () => {
         blockNumber: "",
         area: "",
         blockIncharge: "",
-        dateOfPossession: "",
+        dateOfPossession: new Date(),
         meterNumber: "",
         hasLift: true,
-        hasDG: true
+        hasDG: true,
+        sameOwner: false,
+        ownerEmail: "",
+        ownerContact: "",
+        residentEmail: "",
+        residentContact: "",
     }
     const classes = useStyles();
     const { flatId } = useParams();
@@ -84,7 +88,6 @@ const AddFlat = () => {
     const [loading, setLoading] = useState(false)
     const [isEdit, setIsEdit] = useState(false);
     const [isReset, setIsReset] = useState(false);
-    const [startDate, setStartDate] = useState(null);
     const [flat, setFlat] = useState(FlatStructure);
 
     const { run: getFlatById } = usePost("/flats/getFlat", null,
@@ -96,7 +99,14 @@ const AddFlat = () => {
                 delete requiredFlat["electricityHistories"];
                 //requiredFlat.hasDG = true;
                 //requiredFlat.hasLift = true;
-                setStartDate(new Date(requiredFlat?.dateOfPossession));
+                //setStartDate(new Date(requiredFlat?.dateOfPossession));
+                requiredFlat.ownerName = requiredFlat.ownerName == null ? "" : requiredFlat.ownerName;
+                requiredFlat.residentName = requiredFlat.residentName == null ? "" : requiredFlat.residentName;
+                requiredFlat.ownerEmail = requiredFlat.ownerEmail == null ? "" : requiredFlat.ownerEmail;
+                requiredFlat.residentEmail = requiredFlat.residentEmail == null ? "" : requiredFlat.residentEmail;
+                requiredFlat.ownerContact = requiredFlat.ownerContact == null ? "" : requiredFlat.ownerContact;
+                requiredFlat.residentContact = requiredFlat.residentContact == null ? "" : requiredFlat.residentContact;
+
                 setFlat(requiredFlat);
                 setLoading(false);
             },
@@ -121,12 +131,12 @@ const AddFlat = () => {
         null,
         {
             onResolve: (data) => {
-                errorCtx.setSuccess("Flat Saved Successfully");
+                errorCtx.setSuccess("Property Saved Successfully");
                 setIsReset(true);
                 history.push("/flat/add");
             },
             onReject: (err) => {
-                LogException("Unable To Create Flat", err);
+                LogException("Unable To Create Property", err);
                 errorCtx.setError(err);
             }
         });
@@ -136,21 +146,21 @@ const AddFlat = () => {
         {
             onResolve: (data) => {
                 console.log("update", selectedProjectId);
-                errorCtx.setSuccess("Flat Updated Successfully");
-                history.push("/flat/edit/" + flatId);
+                errorCtx.setSuccess("Property Updated Successfully");
             },
             onReject: (err) => {
-                LogException("Unable To Update Flat", err);
+                LogException("Unable To Update Property", err);
                 errorCtx.setError(err);
             }
         });
 
-    const SaveFlat = (values, setSubmitting) => {
+    const SaveFlat = (values, setSubmitting, resetForm) => {
+        delete values["sameOwner"];
         if (isEdit) {
             console.log("values", values);
             const updatedProjectId = selectedProjectId;
             delete values["projectId"];
-            values.dateOfPossession = startDate;
+            //values.dateOfPossession = startDate;
             let updatedFlat = { projectId: updatedProjectId, flat: values };
             //values.projectId = updatedProjectId;
             UpdateFlat(updatedFlat);
@@ -159,7 +169,7 @@ const AddFlat = () => {
             }, 400);
         } else {
             //values.createdBy = user.id;
-            values.dateOfPossession = startDate;
+            //values.dateOfPossession = startDate;
             let insertedProject = {
                 projectId: selectedProjectId,
                 flats: [values]
@@ -168,6 +178,7 @@ const AddFlat = () => {
             setTimeout(() => {
                 setSubmitting(false);
             }, 400);
+            resetForm();
         }
     }
 
@@ -176,13 +187,25 @@ const AddFlat = () => {
             setFlat(FlatStructure);
         }
     }, [isReset])
+    const handleSameOwner = (e, values, setFieldValue) => {
+        console.log(e.target.checked);
+        if (e.target.checked) {
+            setFieldValue('residentName', values.ownerName);
+            setFieldValue('residentEmail', values.ownerEmail);
+            setFieldValue('residentContact', values.ownerContact);
+        } else {
+            setFieldValue('residentName', "");
+            setFieldValue('residentEmail', "");
+            setFieldValue('residentContact', "");
+        }
 
+    }
     return (
         <div className="project">
             <div className="project__header">
-                <div className="project__body--heading">{isEdit ? "Edit" : "Add"} Flat</div>
+                <div className="project__body--heading">{isEdit ? "Edit" : "Add"} Property</div>
                 <div className="project__header--filter">
-                    <Link className="project__header--filter--button" to={"/Project/" + selectedProjectId} >View All Flats</Link>
+                    <Link className="project__header--filter--button" to={"/Project/" + selectedProjectId} >View All properties</Link>
                 </div>
             </div>
             <div className="project__body">
@@ -190,45 +213,54 @@ const AddFlat = () => {
                     loading ? <Loading /> :
                         <>
                             <Formik
-                                enableReinitialize
+                                enableReinitialize={true}
                                 validateOnMount={true}
                                 initialValues={flat}
                                 validationSchema={Yup.object({
-                                    // projectsBillingInformations: Yup.object({
-                                    //     CAM_penalize_percentage: Yup.string()
-                                    //         .required('Required'),
-                                    //     electricity_penalize_percentage: Yup.string()
-                                    //         .required('Required'),
-                                    //     IFMS_balance: Yup.string()
-                                    //         .required('Required'),
-                                    //     CAM_fixed_charge: Yup.string()
-                                    //         .required('Required'),
-                                    //     water_charge: Yup.string()
-                                    //         .required('Required'),
-                                    //     lift_charge: Yup.string()
-                                    //         .required('Required'),
-                                    //     CAM_charge_multiplier: Yup.string()
-                                    //         .required('Required'),
-                                    //     DG_charge_multiplier: Yup.string()
-                                    //         .required('Required')
-                                    // }),
-                                    //name: Yup.string()
-                                    //  .max(50, 'Must be 50 characters or less')
-                                    // .required('Required')
-                                    //startedOn: Yup.string()
-                                    //    .required('Required')
+                                    residentName: Yup.string()
+                                        .required('Required'),
+                                    ownerName: Yup.string()
+                                        .required('Required'),
+                                    flatNumber: Yup.string()
+                                        .required('Required'),
+                                    floorNumber: Yup.string()
+                                        .required('Required'),
+                                    blockNumber: Yup.string()
+                                        .required('Required'),
+                                    area: Yup.string()
+                                        .required('Required'),
+                                    blockIncharge: Yup.string()
+                                        .required('Required'),
+                                    dateOfPossession: Yup.string()
+                                        .required('Required'),
+                                    meterNumber: Yup.string()
+                                        .required('Required'),
+                                    ownerEmail: Yup.string()
+                                        .email("Invalid Email")
+                                        .required('Required'),
+                                    ownerContact: Yup.string()
+                                        .matches(phoneRegExp, 'Invalid PhoneNumber')
+                                        .required('Required'),
+                                    residentEmail: Yup.string()
+                                        .email("Invalid Email")
+                                        .required('Required'),
+                                    residentContact: Yup.string()
+                                        .matches(phoneRegExp, 'Invalid PhoneNumber')
+                                        .required('Required')
                                 })}
-                                onSubmit={(values, { setSubmitting }) => {
-                                    SaveFlat(values, setSubmitting);
+                                onSubmit={(values, { setSubmitting }, resetForm) => {
+                                    SaveFlat(values, setSubmitting, resetForm);
                                 }}
-                                onReset={() => { setStartDate(null); return FlatStructure; }}
+                                onReset={() => { return FlatStructure; }}
                             >
                                 {props => {
                                     const {
                                         isSubmitting,
                                         setFieldValue,
                                         handleChange,
-                                        values
+                                        values,
+                                        touched,
+                                        errors
                                     } = props;
                                     return (
                                         <div className="project__body--content">
@@ -239,10 +271,10 @@ const AddFlat = () => {
                                                             <label className="input-label">Property Type</label>
                                                             <select name="propertyType" defaultValue={flat.propertyType} onChange={handleChange} className={cm(classes.selectDropdown, "input-text")} >
                                                                 <option value="-1">Choose PropertyType</option>
-                                                                <option value="1">ONE BHK</option>
-                                                                <option value="2">TWO BHK</option>
-                                                                <option value="3">THREE BHK</option>
-                                                                <option value="4">FOUR BHK</option>
+                                                                <option value="1">1 BHK</option>
+                                                                <option value="2">2 BHK</option>
+                                                                <option value="3">3 BHK</option>
+                                                                <option value="4">4 BHK</option>
                                                                 <option value="5">ENTIRE BUILDING</option>
                                                                 <option value="7">VILLA</option>
                                                                 <option value="20">PLOT</option>
@@ -256,37 +288,26 @@ const AddFlat = () => {
                                                                     variant="inline"
                                                                     format="DD-MM-YYYY"
                                                                     margin="normal"
+                                                                    value={values.dateOfPossession}
                                                                     id="date-picker-inline"
                                                                     name="dateOfPossession"
-                                                                    value={startDate}
-                                                                    onChange={date => { setStartDate(date); }}
+                                                                    onChange={date => { setFieldValue('dateOfPossession', date.format("yyyy-MM-DD")) }}
                                                                     autoOk
                                                                 />
                                                             </MuiPickersUtilsProvider>
+                                                            {
+                                                                touched.dateOfPossession && errors.dateOfPossession ? (
+                                                                    <div className="errorLabel">{errors.dateOfPossession}</div>
+                                                                ) : null
+                                                            }
                                                         </div>
                                                     </div>
                                                     <div className="row">
                                                         <MyTextInput
-                                                            label="Owner Name"
-                                                            name="ownerName"
-                                                            type="text"
-                                                            placeholder="Owner Name"
-                                                            className="input-text"
-                                                        />
-                                                        <MyTextInput
-                                                            label="Resident Name"
-                                                            name="residentName"
-                                                            type="text"
-                                                            placeholder="Resident Name"
-                                                            className="input-text"
-                                                        />
-                                                    </div>
-                                                    <div className="row">
-                                                        <MyTextInput
-                                                            label="Flat Number"
+                                                            label="Property Number"
                                                             name="flatNumber"
                                                             type="text"
-                                                            placeholder="Flat Number"
+                                                            placeholder="Property Number"
                                                             className="input-text wid50"
                                                         />
                                                         <MyTextInput
@@ -329,6 +350,57 @@ const AddFlat = () => {
                                                             className="input-text wid50"
                                                         />
                                                     </div>
+                                                    <div className="formSubHeading"><b>Owner Details :</b></div>
+                                                    <div className="row">
+                                                        <MyTextInput
+                                                            label=""
+                                                            name="ownerName"
+                                                            type="text"
+                                                            placeholder="Owner Name"
+                                                            className="input-text wid100"
+                                                        />
+                                                        <MyTextInput
+                                                            label=""
+                                                            name="ownerContact"
+                                                            type="text"
+                                                            placeholder="Owner Contact"
+                                                            className="input-text wid100"
+                                                        />
+                                                        <MyTextInput
+                                                            label=""
+                                                            name="ownerEmail"
+                                                            type="text"
+                                                            placeholder="Owner Email"
+                                                            className="input-text wid100"
+                                                        />
+                                                    </div>
+                                                    <div className="formSubHeading"><b>Resident Details </b>
+                                                        <input type="checkbox" name="sameOwner" onChange={(e) => handleSameOwner(e, values, setFieldValue)} style={{ verticalAlign: 'middle', marginRight: '0.26rem' }} />
+                                                        (Same as Owner Details)
+                                                   </div>
+                                                    <div className="row">
+                                                        <MyTextInput
+                                                            label=""
+                                                            name="residentName"
+                                                            type="text"
+                                                            placeholder="Resident Name"
+                                                            className="input-text wid100"
+                                                        />
+                                                        <MyTextInput
+                                                            label=""
+                                                            name="residentContact"
+                                                            type="text"
+                                                            placeholder="Resident Contact"
+                                                            className="input-text wid100"
+                                                        />
+                                                        <MyTextInput
+                                                            label=""
+                                                            name="residentEmail"
+                                                            type="text"
+                                                            placeholder="Resident Email"
+                                                            className="input-text wid100"
+                                                        />
+                                                    </div>
                                                     <div className="row">
                                                         <MyCheckBox name="hasLift">
                                                             Is Lift Present
@@ -342,7 +414,8 @@ const AddFlat = () => {
                                                             {isEdit ? "Update" : "Save"}
                                                         </button>
                                                         <button className={cm("grey_button", "dbutton", "btn")} type="reset">Cancel</button>
-                                                    </div></Form>
+                                                    </div>
+                                                </Form>
                                             </div>
                                         </div>
                                     );

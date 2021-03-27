@@ -63,50 +63,33 @@ const Sidebar = () => {
                     <Link to="/flat/add" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
                         <div className="sidebarChat_info">
                             <SubdirectoryArrowRightIcon />
-                            <p>Add Flat</p>
+                            <p>Add Property</p>
                         </div>
                     </Link>
-                    <Link to="/" className="sidebarSubChat" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setOpenBillingHeads(prev => !prev); }} /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                    {/* <Link to="/billing/BillingHeads" className="sidebarSubChat">
                         <div className="sidebarChat_info">
                             <SubdirectoryArrowRightIcon />
-                            <p>Billing</p>
+                            <p>Billing Heads</p>
+                        </div>
+                    </Link> */}
+                    <Link to="/billing/GenerateBills" className="sidebarSubChat" /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                        <div className="sidebarChat_info">
+                            <SubdirectoryArrowRightIcon />
+                            <p>Generate Bills</p>
                         </div>
                     </Link>
-                    {openBillingHeads &&
-                        (
-                            <>
-                                <Link to={"/billing/billingheads"} className="sidebarSubChat padLeft36">
-                                    <div className="sidebarChat_info" style={{ marginLeft: "%" }} >
-                                        <SubdirectoryArrowRightIcon />
-                                        <p>Billing Heads</p>
-                                    </div>
-                                </Link>
-                                <Link to={"/billing/generatebill"} className="sidebarSubChat padLeft36">
-                                    <div className="sidebarChat_info" style={{ marginLeft: "%" }} >
-                                        <SubdirectoryArrowRightIcon />
-                                        <p>Generate Bill</p>
-                                    </div>
-                                </Link>
-                                <Link to={"/billing/viewbills"} className="sidebarSubChat padLeft36">
-                                    <div className="sidebarChat_info" style={{ marginLeft: "%" }} >
-                                        <SubdirectoryArrowRightIcon />
-                                        <p>View Bills</p>
-                                    </div>
-                                </Link>
-                            </>
-                        )
-                    }
-                    {/* {openBillingHeads &&
-                        (billingHeads && billingHeads.map(({ id, billingHead }) => (
-                            <Link to={"/billing/" + id} className="sidebarSubChat">
-                                <div className="sidebarChat_info" style={{ marginLeft: "%" }} >
-                                    <SubdirectoryArrowRightIcon />
-                                    <p>{billingHead}</p>
-                                </div>
-                            </Link>
-                        ))
-                        )
-                    } */}
+                    <Link to="/billing/ViewBills" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                        <div className="sidebarChat_info">
+                            <SubdirectoryArrowRightIcon />
+                            <p>View Bills</p>
+                        </div>
+                    </Link>
+                    <Link to="/billing/waveOff" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                        <div className="sidebarChat_info">
+                            <SubdirectoryArrowRightIcon />
+                            <p>Wave-Off</p>
+                        </div>
+                    </Link>
                 </>
                 }
                 {

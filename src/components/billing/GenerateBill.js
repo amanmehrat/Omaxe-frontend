@@ -212,10 +212,10 @@ const GenerateBill = () => {
                                         </div>
                                         <div className="row">
                                             <MyTextInput
-                                                label="Excluded Flats"
+                                                label="Excluded Properties"
                                                 name="excludedFlats"
                                                 type="text"
-                                                placeholder="Comma Sperated Flats"
+                                                placeholder="Comma Sperated Property Nos."
                                                 className="input-text"
                                             />
                                         </div>

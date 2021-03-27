@@ -16,6 +16,8 @@ import ImportExcel from '../ImportExcel';
 import Loading from '../Loading';
 import NoData from "../NoData";
 import pencil_black from "../../img/pencil_black.svg";
+import FlatGrid from '../grid/FlatGrid';
+import PropertyType from '../../utils/PropertyTypeSet';
 
 import './Project.css'
 
@@ -23,12 +25,10 @@ import './Project.css'
 const Project = () => {
     let history = useHistory();
     const { projectId } = useParams();
-
     const errorCtx = useContext(errorContext);
 
     const [loading, setLoading] = useState(true);
     const [loadFlats, setLoadFlats] = useState(false);
-    const [searchText, setSearchText] = useState("");
     const [project, setProject] = useState(null);
     const [flats, setFlats] = useState(null);
     const [oldFlats, setOldFlats] = useState(null);
@@ -57,8 +57,10 @@ const Project = () => {
     const { run: getFlatsList } = usePost("/flats", null,
         {
             onResolve: (data) => {
+                if (data?.flats != undefined) {
+                    data.flats.map(item => { item.propertyType = PropertyType.get(item.propertyType); return item; })
+                }
                 setFlats(data.flats);
-                setOldFlats(data.flats);
                 setLoading(false);
                 // if (data && data.flats && data.flats[0] && data.flats[0].project)
                 //     setProjectName(data.flats[0].project.name);
@@ -86,81 +88,26 @@ const Project = () => {
         }
     }, [loadFlats]);
 
-    useEffect(() => {
-        setLoading(true);
-        searchFlats();
-    }, [searchText]);
 
-    const searchFlats = () => {
-        const searchValue = searchText;
-        let newFlats = [];
-        if (searchValue == "") {
-            newFlats = oldFlats
-        } else {
-            newFlats = oldFlats.filter(obj => {
-                return obj.residentName.toUpperCase().includes(searchValue.toUpperCase())
-                    || obj.ownerName.toUpperCase().includes(searchValue.toUpperCase())
-                    || obj.flatNumber.toUpperCase().includes(searchValue.toUpperCase())
-                    || obj.blockIncharge.toUpperCase().includes(searchValue.toUpperCase())
-                    || obj.meterNumber.toUpperCase().includes(searchValue.toUpperCase());
-            });
-        }
-        setFlats(newFlats);
-        setLoading(false);
-    }
-    const goToFlat = (id) => { history.push("/flats/" + id) }
     const renderFlats = () => {
-        if (flats && flats.length > 0) {
-            return [
-                flats.map(flat => {
-                    let { id, residentName, ownerName, propertyType, flatNumber, blockNumber, projectId } = flat;
-                    return (
-                        <div key={id} className={cm("parentGrid", { "parentGrid__active": false })}
-                            onClick={(e) => goToFlat(id)}
-                        >
-                            <div className="child1 ">
-                                <p className="text pointer">{flatNumber}</p>
-                            </div>
-                            <div className="child2">
-                                <p className="text pointer">{blockNumber}</p>
-                            </div>
-                            <div className="child3">
-                                <p className="text pointer">{residentName}</p>
-                            </div>
-                            <div className="child4">
-                                <p className="text pointer">{ownerName}</p>
-                            </div>
-                            <div className="child5">
-                                <p className="text pointer">{propertyType === 0 ? "3BHK" : "Others"}</p>
-                            </div>
-                            <div className="child6">
-                                <Link to={'/flat/edit/' + id} onClick={(e) => e.stopPropagation()}>
-                                    <img src={pencil_black}
-                                        alt={"edit"}
-                                        className="icon pointer"
-                                    />
-                                </Link>
-                            </div>
-                        </div >
-                    )
-                })
-            ]
+        if (loading) {
+            return <Loading />
+        } if (flats == null) {
+            return "";
+        } else if (flats && flats.length > 0) {
+            return <FlatGrid flats={flats} />
         } else {
-            return <NoData />;
+            return <NoData text="No Flats Found" />;
         }
     }
     return (
-        <div className="projectId">
-            <div className="projectId__header">
-                <div className="projectId__body--heading">
-                    <Search
-                        setSearchText={setSearchText}
-                        searchText={searchText}
-                        placeholder="Search Flats"
-                    />
+        <div className="project">
+            <div className="project__header">
+                <div className="project__body--heading">
+                    All Properties
                 </div>
-                <div className="projectId__header--filter">
-                    <Link to="/flat/add" className="projectId__header--filter--button" >Add Flat</Link>
+                <div className="project__header--filter">
+                    <Link to="/flat/add" className="project__header--filter--button" >Add Property</Link>
                     <button onClick={(e) => { e.stopPropagation(); return handleExportOpen() }} className="projectId__header--filter--button" >Export Excel</button>
                     <button onClick={(e) => { e.stopPropagation(); return handleImportOpen() }} className="projectId__header--filter--button" >Import Excel</button>
                 </div>
@@ -178,40 +125,24 @@ const Project = () => {
                 handleClose={handleImportClose}
                 setLoadFlats={setLoadFlats}
             />
-            <div className="projectId__body">
+            <div className="project__body">
                 {project ?
                     <div className="projectId__body--header">
                         <div className="projectId__body--header-name">
                             <h1 style={{ color: "#637390" }}><Link to={"/project/" + projectId}><b>{project?.name}</b></Link></h1>
+                            <h3>Address - {project?.address} </h3>
                         </div>
                         <div className="projectId__body--header-details">
-                            <h3><b>Total No of Flats:</b> {flats?.length}</h3>
+                            <h3><b>Total No of Flats:</b> {project?.totalUnits}</h3>
                             <h3><b>Number of Occupied Flats:</b> {flats?.length}</h3>
-                            <h3><b>Number of vacant Flats: 0</b></h3><br />
                         </div>
                     </div>
                     : ''}
-                <div key={0} className="parentGrid gridHeader">
-                    <div className="child1">
-                        <p className="text pointer">Flat No.</p>
-                    </div>
-                    <div className="child2">
-                        <p className="text pointer">Block No.</p>
-                    </div>
-                    <div className="child3">
-                        <p className="text pointer">Resident Name</p>
-                    </div>
-                    <div className="child4">
-                        <p className="text pointer">Owner Name</p>
-                    </div>
-                    <div className="child5">
-                        <p className="text pointer">Property Type</p>
-                    </div>
-                    <div className="child6">
-                        <p className="text pointer">Edit</p>
+                <div className="project__body--content">
+                    <div className="project__body--contentBody">
+                        {loading ? <Loading /> : renderFlats()}
                     </div>
                 </div>
-                {loading ? <Loading /> : <div className="projectGrid">{renderFlats()}</div>}
             </div>
         </div>
     )

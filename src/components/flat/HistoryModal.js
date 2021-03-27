@@ -79,10 +79,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ViewHistory = ({ open, handlePopUpClose, flatId, popUpFor, setLoadElectricity, setLoadCam, setRequest }) => {
+const HistoryModal = ({ open, handlePopUpClose, flatId, popUpFor, setLoadElectricity, setLoadCam, setRequest }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [fetchBy, setFetchBy] = useState(0);
-
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
@@ -211,4 +210,4 @@ const ViewHistory = ({ open, handlePopUpClose, flatId, popUpFor, setLoadElectric
     );
 }
 
-export default ViewHistory;
+export default HistoryModal;

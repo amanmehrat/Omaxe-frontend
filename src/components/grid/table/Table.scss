@@ -53,8 +53,8 @@
   text-align: center;
   color: white;
 }
-.responsive-table thead th:first-of-type {
-  text-align: left;
+.responsive-table tbody>tr:hover {
+    color: #637390;
 }
 .responsive-table tbody,
 .responsive-table tr,
@@ -199,10 +199,11 @@
     justify-content: space-between;
 }
 .tableFilter{
-    width: 12.3rem;
+    width:100%;
     padding: 6px 4px;
-    border-radius: 19px;
+    border-radius: 5px;
     margin-top: 6px;
+    text-align: center;
 }
 .MuiButtonBase-root{
     padding: 6px!important;
