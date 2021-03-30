@@ -12,7 +12,6 @@ import cm from "classnames";
 import Loading from "../../components/Loading";
 
 import { LogException } from "../../utils/exception";
-import "react-datepicker/dist/react-datepicker.css";
 //import './AddFlat.css'
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -275,9 +274,9 @@ const AddFlat = () => {
                                                                 <option value="2">2 BHK</option>
                                                                 <option value="3">3 BHK</option>
                                                                 <option value="4">4 BHK</option>
-                                                                <option value="5">ENTIRE BUILDING</option>
-                                                                <option value="7">VILLA</option>
-                                                                <option value="20">PLOT</option>
+                                                                <option value="5">Entire Building</option>
+                                                                <option value="7">Villa</option>
+                                                                <option value="20">Plot</option>
                                                             </select>
                                                         </div>
                                                         <div className="form-group">

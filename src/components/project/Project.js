@@ -50,17 +50,20 @@ const Project = () => {
                 setProject(requiredProject);
             },
             onReject: (err) => {
+                setLoadFlats(false);
                 LogException("Unable To get Project By Id", err);
-                errorCtx.setError(err);
+                //errorCtx.setError(err);
             }
         });
     const { run: getFlatsList } = usePost("/flats", null,
         {
             onResolve: (data) => {
+                console.log("data", data);
+                setFlats([]);
                 if (data?.flats != undefined) {
                     data.flats.map(item => { item.propertyType = PropertyType.get(item.propertyType); return item; })
+                    setFlats(data.flats);
                 }
-                setFlats(data.flats);
                 setLoading(false);
                 // if (data && data.flats && data.flats[0] && data.flats[0].project)
                 //     setProjectName(data.flats[0].project.name);
@@ -68,6 +71,8 @@ const Project = () => {
                 // setLoading(false);
             },
             onReject: (err) => {
+                setFlats([]);
+                setLoading(false);
                 LogException("Unable To get Flat List", err);
             }
         });
@@ -90,6 +95,7 @@ const Project = () => {
 
 
     const renderFlats = () => {
+        console.log(flats);
         if (loading) {
             return <Loading />
         } if (flats == null) {
