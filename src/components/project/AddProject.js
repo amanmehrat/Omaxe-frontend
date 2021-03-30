@@ -301,7 +301,7 @@ const AddProject = ({ history }) => {
                                                             className="input-text wid50"
                                                         />
                                                         <MyTextInput
-                                                            label="ater Charge"
+                                                            label="Water Charge"
                                                             name="projectsBillingInformations.water_charge"
                                                             type="number"
                                                             placeholder="Water Charge"
