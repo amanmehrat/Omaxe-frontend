@@ -118,3 +118,25 @@ code {
 .bd-rad {
   border-radius: 0.9rem!important;
 }
+
+.MuiAutocomplete-inputRoot {
+  padding: 3%!important;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.success {
+  color: green;
+  text-align: center;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.justify-center {
+  justify-content: center;
+}

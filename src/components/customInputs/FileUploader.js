@@ -56,13 +56,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const FileUploader = ({ onSelectFile, selectedFile }) => {
+const FileUploader = ({ onSelectFile, selectedFile, accept }) => {
     const classes = useStyles();
     return (
         <>
             <div className={classes.customFile}>
                 <input type="file"
-                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    accept={accept}
                     id="customFile"
                     className={classes.customFileInput}
                     onChange={onSelectFile}
