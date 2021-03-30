@@ -13,7 +13,6 @@ import cm from "classnames";
 import Loading from "../../components/Loading";
 
 import { LogException } from "../../utils/exception";
-import "react-datepicker/dist/react-datepicker.css";
 
 
 import { Formik, Form } from 'formik';

@@ -12,7 +12,6 @@ import cm from "classnames";
 import Loading from "../../components/Loading";
 
 import { LogException } from "../../utils/exception";
-import "react-datepicker/dist/react-datepicker.css";
 //import './AddFlat.css'
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
