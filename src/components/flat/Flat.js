@@ -10,6 +10,9 @@ import { LogException } from "../../utils/exception";
 import { useProjectActionsContext, useProjectContext } from '../../components/contexts/Project';
 import { makeStyles } from '@material-ui/core/styles';
 
+import axios from 'axios';
+import config from '../../config';
+
 const useStyles = makeStyles((theme) => ({
     container: {
         display: 'flex',
@@ -174,6 +177,60 @@ const Flat = () => {
             getCamDetails(request);
         }
     }, [loadCam]);
+    const downloadCamHistory = () => {
+        console.log("!!!!!!!", request);
+        axios.post(`${config.restApiBase}/camDetails/getCamById`,
+            {
+                flatId: flatId,
+                fetchBy: 3,
+                fetchData: request.fetchData
+            }
+        ).then(response => {
+            console.log(response);
+            let { data } = response;
+            if (data && data.meta) {
+                LogException("Unable To Download Cam history. Please Contact To Tech-Team");
+            } else {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `Camhistory-${request.year}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+            }
+        }).catch((error) => {
+            setLoading(false);
+            LogException("Unable To Download Cam History excel" + error);
+        });
+    }
+
+    const downloadElecHistory = () => {
+        axios.post(`${config.restApiBase}/electricityDetails/GetElectricityDetailsByFlatId`,
+            {
+                flatId: flatId,
+                fetchBy: 3,
+                fetchData: request.fetchData
+            }
+        ).then(response => {
+            console.log(response);
+            let { data } = response;
+            if (data && data.meta) {
+                LogException("Unable To Download Electricity history. Please Contact To Tech-Team");
+            } else {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `Electricityhistory-${request.year}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+            }
+        }).catch((error) => {
+            setLoading(false);
+            LogException("Unable To Download Electricity History excel" + error);
+        });
+    }
 
     if (loading) {
         return (
@@ -271,6 +328,7 @@ const Flat = () => {
                     <div className={classes.subHeadingText}><b>CAM History</b></div>
                     <div className="project__header--filter">
                         <button onClick={(e) => { e.stopPropagation(); return handlePopUpOpen("Cam"); }} className="projectId__header--filter--button" >View</button>
+                        {(request.fetchBy == 2) && <button onClick={(e) => { e.stopPropagation(); return downloadCamHistory(); }} className="projectId__header--filter--button" >Download</button>}
                     </div>
                 </div>
                 {(camHistory && camHistory.length > 0) ?
@@ -281,11 +339,12 @@ const Flat = () => {
                     <div className={classes.subHeadingText}><b>Electricity History</b></div>
                     <div className="project__header--filter">
                         <button onClick={(e) => { e.stopPropagation(); return handlePopUpOpen("Electricity"); }} className="projectId__header--filter--button" >View</button>
+                        {(request.fetchBy == 2) && <button onClick={(e) => { e.stopPropagation(); return downloadElecHistory(); }} className="projectId__header--filter--button" >Download</button>}
                     </div>
                 </div>
                 {(electricityHistory && electricityHistory.length > 0) ?
                     <ViewHistoryGrid bills={electricityHistory} billType={2} />
-                    : <div className={classes.noData}>{loadCam ? "Loading..." : "No Bill In Histry"}</div>
+                    : <div className={classes.noData}>{loadElectricity ? "Loading..." : "No Bill In Histry"}</div>
                 }
             </div>
             <HistoryModal
