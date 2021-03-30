@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Spinner from '../Spinner';
 import { useGet, usePost, usePut } from "../../utils/hooks";
 import MyTextInput from '../customInputs/MyTextInput';
 import { LogException } from "../../utils/exception";
+import AuthContext from "../contexts/Auth";
 
 function getModalStyle() {
     const top = 50;
@@ -87,6 +88,8 @@ const useStyles = makeStyles((theme) => ({
 const AddPayment = ({ open, handleClose, billId, paidFor, setLoadViewBills }) => {
     console.log("billId", billId);
     console.log("paidFor", paidFor);
+
+    const { user } = useContext(AuthContext);
     const [amount, setAmount] = useState(null);
     const [paidVia, setPaidVia] = useState(-1);
     const [remarks, setRemarks] = useState(null);
@@ -132,7 +135,7 @@ const AddPayment = ({ open, handleClose, billId, paidFor, setLoadViewBills }) =>
             setError("Please Choose Remarks");
         } else {
             setLoading(true);
-            let paymentObject = { billId, paidFor, amountReceived: amount, paidVia, remarks }
+            let paymentObject = { billId, paidFor, amountReceived: amount, paidVia, remarks, createdBy: user.id }
             console.log(paymentObject);
             updatePayment(paymentObject);
         }

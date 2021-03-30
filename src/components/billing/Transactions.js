@@ -13,9 +13,14 @@ import { errorContext } from "../contexts/error/errorContext";
 import { useGet, usePost } from "../../utils/hooks";
 
 
+import axios from 'axios';
+import config from '../../config';
+
 const Transactions = () => {
     const history = useHistory();
     const billId = localStorage.getItem('billId');
+    const flatId = localStorage.getItem('flatId');
+
     console.log("billId", localStorage.getItem('billId'));
     if (!billId) history.push("/billing/viewbills");
 
@@ -42,6 +47,27 @@ const Transactions = () => {
                 LogException("Unable To fetch Transactions", err);
             }
         });
+
+    const downloadTransactions = () => {
+        axios.get(`${config.restApiBase}/billing/getTransactions/${billId}/${flatId}`).then(response => {
+            console.log(response);
+            let { data } = response;
+            if (data && data.meta) {
+                LogException("Unable To Download receipts. Please Contact To Tech-Team");
+            } else {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `transactions-${billId}.pdf`);
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+            }
+        }).catch((error) => {
+            setLoading(false);
+            LogException("Unable To Download view bill excel" + error);
+        });
+    }
     useEffect(() => {
         if (billId) {
             getTransactions();
@@ -66,6 +92,7 @@ const Transactions = () => {
                 <div className="project__body--heading">Transactions</div>
                 <div className="project__header--filter">
                     <Link to='/billing/viewbills' className="project__header--filter--button">View Bills</Link>
+                    <button onClick={() => { downloadTransactions() }} className="project__header--filter--button">Download Receipts</button>
                 </div>
             </div>
 

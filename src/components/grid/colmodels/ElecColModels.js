@@ -77,7 +77,7 @@ const ElecColModels = (setSelectedBillId, setImportOpen) => [
         Cell: ({ row }) => (
             <Link
                 to='/billing/transactions'
-                onClick={() => { localStorage.setItem('billId', row.original.id); }}
+                onClick={() => { localStorage.setItem('billId', row.original.id); localStorage.setItem('flatId', row.original.flatId); }}
             >
                 <LightTooltip title="Transactions">
                     <IconButton aria-label="Transactions">

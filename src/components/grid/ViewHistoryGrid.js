@@ -15,11 +15,6 @@ const ViewHistoryGrid = ({ bills, billType }) => {
     const renderBillTypeText = () => { if (billType == 1) { return "Cam History" } else if (billType == 2) { return "Electricity History" } else { return "Adhoc Bills" } }
     return (
         <>
-            <div className="billsHeading">
-                <div className="billsSubHeading">
-                    {renderBillTypeText()}
-                </div>
-            </div>
             <Table
                 columns={columns}
                 data={data}

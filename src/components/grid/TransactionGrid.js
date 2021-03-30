@@ -7,6 +7,7 @@ const TransactionGrid = ({ transactions }) => {
     let models = TransactionsModels;
     console.log("transactions", transactions);
     transactions = transactions.map(item => { item.paidVia = PaidVia.get(item.paidVia); return item; })
+    transactions = transactions.map(item => { item.paidOn = new Date(item.paidOn).toISOString().split('T')[0]; return item; })
 
     const columns = React.useMemo(
         () => [
