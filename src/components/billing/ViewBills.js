@@ -9,8 +9,6 @@ import NoData from '../NoData';
 import PaidVia from '../../utils/PaidViaSet';
 import { Link } from 'react-router-dom';
 import cm from "classnames";
-import * as jsPDF from 'jspdf';
-import * as html2canvas from 'html2canvas';
 
 import Loading from "../../components/Loading";
 
@@ -116,6 +114,8 @@ const ViewBills = () => {
         });
 
     const getViewBills = (values, setSubmitting) => {
+        setBills([]);
+        setError("");
         setLoading(true);
         const yearString = new Date(selectedYear).getFullYear();
         const monthString = new Date(selectedMonth).getMonth() + 1;
@@ -133,6 +133,7 @@ const ViewBills = () => {
         }, 400);
     }
     const getExportBills = (values, setSubmitting) => {
+        setError("");
         setLoading(true);
         const yearString = new Date(selectedYear).getFullYear();
         const monthString = new Date(selectedMonth).getMonth() + 1;
@@ -166,68 +167,6 @@ const ViewBills = () => {
             setLoading(false);
             LogException("Unable To Download view bill excel" + error);
         });
-        // values.projectId = selectedProjectId;//total remove
-        // values.flatNumber = "AIFC/SF/523E";//total remove
-        // values.year = yearString.toString();
-        // values.month = monthString.toString();
-        // values.billType = parseInt(values.billType);
-        // let obj = { projectId: values.projectId, flatNumber: values.flatNumber, month: values.month, year: values.year, billType: values.billType }
-        // axios.post(`${config.restApiBase}/billing/downloadReceipts`,
-        //     obj
-        // ).then(response => {
-        //     setLoading(false);
-        //     console.log(response);
-        //     let { data } = response;
-        //     console.log(data);
-        //     if (data && data.meta) {
-        //         setError("Unable To Download Excel. Please Contact To Tech-Team");
-        //         LogException("Unable To Download Excel. Please Contact To Tech-Team");
-        //     } else {
-        //         const url = window.URL.createObjectURL(new Blob([response.data]));
-        //         const link = document.createElement('a');
-        //         link.href = url;
-        //         link.setAttribute('download', `Bills-${values.month}-${values.year}.html`);
-        //         document.body.appendChild(link);
-        //         link.click();
-        //         link.remove();
-        //         html2canvas(data)
-        //             .then((canvas) => {
-        //                 const imgData = canvas.toDataURL('image/png');
-
-        //                 const url = window.URL.createObjectURL(new Blob([response.data]));
-        //                 const link = document.createElement('a');
-        //                 link.href = url;
-        //                 link.setAttribute('download', `Bills-${values.month}-${values.year}.html`);
-        //                 document.body.appendChild(link);
-        //                 link.click();
-        //                 link.remove();
-        //                 const pdf = new jsPDF('p', 'px', 'a4');
-        //                 var width = pdf.internal.pageSize.getWidth();
-        //                 var height = pdf.internal.pageSize.getHeight();
-
-        //                 pdf.addImage(imgData, 'JPEG', 0, 0, width, height);
-        //                 pdf.save("test.pdf");
-        //             });
-        //         // const doc = new jsPDF();
-        //         // var pdf = new jsPDF('l', 'pt', 'a4');
-        //         // var options = {
-        //         //     pagesplit: true
-        //         // };
-
-        //         // pdf.html(data, 0, 0, options, function () {
-        //         //     console.log("YES--")
-        //         //     pdf.save("test.pdf");
-        //         // });
-        //         // doc.text(data, 10, 10);
-        //         // doc.save("a4.pdf");
-
-        //     }
-        // }).catch((error) => {
-        //     setLoading(false);
-        //     LogException("Unable To Download view bill excel" + error);
-        // });
-
-
         setTimeout(() => {
             setSubmitting(false);
         }, 400);
@@ -375,7 +314,7 @@ const ViewBills = () => {
                                 );
                             }}
                         </Formik>
-                        {error && <div className="error">error</div>}
+                        {error && <div className="error">{error}</div>}
                         {renderViewTable()}
                     </div>
                 </div>

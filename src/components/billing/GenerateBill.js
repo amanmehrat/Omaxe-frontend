@@ -42,6 +42,14 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         width: '100%'
     },
+    remarks: {
+        width: '100%',
+        margin: '10px 5px',
+        border: '2px solid gray',
+        borderRadius: '0.9rem',
+        height: '124px',
+        padding: '10px'
+    }
 }));
 
 const GenerateBill = () => {
@@ -63,6 +71,8 @@ const GenerateBill = () => {
 
 
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState("")
+    const [success, setSuccess] = useState("")
     const [selectedYear, setSelectedYear] = useState(new Date());
     const [selectedMonth, setSelectedMonth] = useState(new Date());
 
@@ -70,36 +80,43 @@ const GenerateBill = () => {
         null,
         {
             onResolve: (data) => {
+                setSuccess(JSON.stringify(data));
                 console.log(data);
-                errorCtx.setSuccess("Bill Generated Successfully");
-                history.push("/billing/Generatebill");
+                //errorCtx.setSuccess("Bill Generated Successfully");
+                setLoading(false);
             },
             onReject: (err) => {
-                console.log(err);
+                setError(JSON.stringify(err));
+                setLoading(false);
                 LogException("Unable To Generate Bill", err);
-                errorCtx.setError(err);
+                //errorCtx.setError(err);
             }
         });
 
     const SaveBill = (values, setSubmitting) => {
-        const yearString = new Date(selectedYear).getFullYear();
-        const monthString = new Date(selectedMonth).getMonth() + 1;
-        values.projId = selectedProjectId;
-        values.year = yearString.toString();
-        values.month = monthString.toString();
-        //values.createdBy = user.id;
-        values.dueDate = values.dueDate.toString();
-        values.billType = parseInt(values.billType);
-        if (typeof values.excludedFlats == "string") {
-            values.excludedFlats = values.excludedFlats.split(",");
+        setError("");
+        setSuccess("");
+        if (values.billType == "-1") {
+            setError("Please Choose billType");
+        } else {
+            const yearString = new Date(selectedYear).getFullYear();
+            const monthString = new Date(selectedMonth).getMonth() + 1;
+            values.projId = selectedProjectId;
+            values.year = yearString.toString();
+            values.month = monthString.toString();
+            //values.createdBy = user.id;
+            values.dueDate = values.dueDate.toString();
+            values.billType = parseInt(values.billType);
+            if (typeof values.excludedFlats == "string") {
+                values.excludedFlats = values.excludedFlats.split(",");
+            }
+            console.log("Updatedvalues", values);
+            setLoading(true);
+            generateBill(values);
+            setTimeout(() => {
+                setSubmitting(false);
+            }, 400);
         }
-
-
-        console.log("Updatedvalues", values);
-        generateBill(values);
-        setTimeout(() => {
-            setSubmitting(false);
-        }, 400);
     }
 
     return (
@@ -110,56 +127,73 @@ const GenerateBill = () => {
                     <Link className="project__header--filter--button" to={"/billing/viewbills"} >View All Bills</Link>
                 </div>
             </div>
+            {loading &&
+                <div className="project__body">
+                    <div className="project__body--content">
+                        <Loading />
+                    </div>
+                </div>
+            }
+            {error &&
+                <div className="project__body">
+                    <div className="project__body--content">
+                        <div className="project__body--contentBody">
+                            <div className="error">{error}</div>
+                            <div className="success">{success}</div>
+                        </div>
+                    </div>
+                </div>
+            }
             <div className="project__body">
-                <Formik
-                    enableReinitialize
-                    validateOnMount={true}
-                    initialValues={BillStructure}
-                    validationSchema={Yup.object({
-                        // projectsBillingInformations: Yup.object({
-                        //     CAM_penalize_percentage: Yup.string()
-                        //         .required('Required'),
-                        //     electricity_penalize_percentage: Yup.string()
-                        //         .required('Required'),
-                        //     IFMS_balance: Yup.string()
-                        //         .required('Required'),
-                        //     CAM_fixed_charge: Yup.string()
-                        //         .required('Required'),
-                        //     water_charge: Yup.string()
-                        //         .required('Required'),
-                        //     lift_charge: Yup.string()
-                        //         .required('Required'),
-                        //     CAM_charge_multiplier: Yup.string()
-                        //         .required('Required'),
-                        //     DG_charge_multiplier: Yup.string()
-                        //         .required('Required')
-                        // }),
-                        //name: Yup.string()
-                        //  .max(50, 'Must be 50 characters or less')
-                        // .required('Required')
-                        //billType: Yup.string()
-                        //.notOneOf(['0'])
-                        //.required('Please indicate your communications preference')
-                        //startedOn: Yup.string()
-                        //    .required('Required')
-                    })}
-                    onSubmit={(values, { setSubmitting }) => {
-                        SaveBill(values, setSubmitting);
-                    }}
-                    onReset={() => {
-                        setSelectedMonth(new Date());
-                        setSelectedYear(new Date());
-                        return BillStructure;
-                    }}
-                >
-                    {props => {
-                        const {
-                            isSubmitting,
-                            handleChange
-                        } = props;
-                        return (
-                            <div className="project__body--content">
-                                <div className="project__body--contentBody">
+                <div className="project__body--content">
+                    <div className="project__body--contentBody">
+                        <Formik
+                            enableReinitialize
+                            validateOnMount={true}
+                            initialValues={BillStructure}
+                            validationSchema={Yup.object({
+                                // projectsBillingInformations: Yup.object({
+                                //     CAM_penalize_percentage: Yup.string()
+                                //         .required('Required'),
+                                //     electricity_penalize_percentage: Yup.string()
+                                //         .required('Required'),
+                                //     IFMS_balance: Yup.string()
+                                //         .required('Required'),
+                                //     CAM_fixed_charge: Yup.string()
+                                //         .required('Required'),
+                                //     water_charge: Yup.string()
+                                //         .required('Required'),
+                                //     lift_charge: Yup.string()
+                                //         .required('Required'),
+                                //     CAM_charge_multiplier: Yup.string()
+                                //         .required('Required'),
+                                //     DG_charge_multiplier: Yup.string()
+                                //         .required('Required')
+                                // }),
+                                //name: Yup.string()
+                                //  .max(50, 'Must be 50 characters or less')
+                                // .required('Required')
+                                //billType: Yup.string()
+                                //.notOneOf(['0'])
+                                //.required('Please indicate your communications preference')
+                                //startedOn: Yup.string()
+                                //    .required('Required')
+                            })}
+                            onSubmit={(values, { setSubmitting }) => {
+                                SaveBill(values, setSubmitting);
+                            }}
+                            onReset={() => {
+                                setSelectedMonth(new Date());
+                                setSelectedYear(new Date());
+                                return BillStructure;
+                            }}
+                        >
+                            {props => {
+                                const {
+                                    isSubmitting,
+                                    handleChange
+                                } = props;
+                                return (
                                     <Form className="ProjectForm">
                                         <div className="row">
                                             <div className="form-group">
@@ -171,6 +205,13 @@ const GenerateBill = () => {
                                                     <option value="3">Adhoc</option>
                                                 </select>
                                             </div>
+                                            <MyTextInput
+                                                label="Due days"
+                                                name="dueDate"
+                                                type="number"
+                                                placeholder="Due days"
+                                                className="input-text wid50"
+                                            />
                                         </div>
                                         <div className="row">
                                             <div className="form-group">
@@ -190,8 +231,6 @@ const GenerateBill = () => {
                                                     />
                                                 </MuiPickersUtilsProvider>
                                             </div>
-                                        </div>
-                                        <div className="row">
                                             <div className="form-group">
                                                 <label className="input-label">Select Month</label>
                                                 <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -210,37 +249,26 @@ const GenerateBill = () => {
                                                 </MuiPickersUtilsProvider>
                                             </div>
                                         </div>
-                                        <div className="row">
-                                            <MyTextInput
-                                                label="Excluded Properties"
+                                        <div className="form-group wid100">
+                                            <label className="input-label">Excluded Properties</label>
+                                            <textarea
                                                 name="excludedFlats"
-                                                type="text"
-                                                placeholder="Comma Sperated Property Nos."
-                                                className="input-text"
-                                            />
+                                                className={classes.remarks}
+                                                placeholder="Comma Seprated Property Nos.">
+                                            </textarea>
                                         </div>
-                                        <div></div>
-                                        <div className="row">
-                                            <MyTextInput
-                                                label="Due days"
-                                                name="dueDate"
-                                                type="number"
-                                                placeholder="Due days"
-                                                className="input-text"
-                                            />
-                                        </div>
-                                        <div className="row">
-                                            <button disabled={isSubmitting} className={cm("blue_button", "dbutton", "editUp", "btn")} type="submit">
+                                        <div className="row justify-center">
+                                            <button disabled={loading == true ? true : ""} className={cm("blue_button", "dbutton", "editUp", "btn")} type="submit">
                                                 Generate
                                                         </button>
                                             <button className={cm("grey_button", "dbutton", "btn")} type="reset">Cancel</button>
                                         </div>
                                     </Form>
-                                </div>
-                            </div>
-                        );
-                    }}
-                </Formik>
+                                );
+                            }}
+                        </Formik>
+                    </div>
+                </div>
             </div>
         </div>
     )

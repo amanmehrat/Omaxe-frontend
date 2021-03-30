@@ -6,12 +6,9 @@ import FileUploader from './customInputs/FileUploader';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import { Link } from 'react-router-dom';
-import { useGet, usePost } from "../utils/hooks";
 
 import axios from 'axios';
 import config from '../config';
-import { FormatAlignJustify } from '@material-ui/icons';
 
 function getModalStyle() {
     const top = 50;
@@ -186,6 +183,7 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
                     <FileUploader
                         selectedFile={selectedFile}
                         onSelectFile={onSelectFile}
+                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                     />
                     <div className={classes.downloadBtnDiv}>
                         <button onClick={(e) => importExcel(e)} className={classes.downloadBtn} >Upload</button>

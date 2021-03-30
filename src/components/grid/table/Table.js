@@ -113,7 +113,7 @@ const Table = ({ columns, data, onRowSelect, onHandleRowClick }) => {
                         return (
                             <tr
                                 style={{ cursor: 'pointer' }}
-                                onClick={(e) => { e.preventDefault(); if (onHandleRowClick != undefined) onHandleRowClick(row.original.id); }}
+                                onClick={(e) => { e.stopPropagation(); if (onHandleRowClick != undefined) onHandleRowClick(row.original.id); }}
                                 {...row.getRowProps()}>
                                 {row.cells.map(cell => {
                                     return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
