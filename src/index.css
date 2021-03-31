@@ -140,3 +140,31 @@ code {
 .justify-center {
   justify-content: center;
 }
+
+.generateBillTable {
+  height: 400px;
+}
+
+.generateBillTable td {
+  padding: 2px;
+  text-align: center;
+}
+
+.generateBillTable td:nth-child(2n) {
+  width: 22rem;
+  text-align: center;
+}
+
+.generateBillTable thead td {
+  text-align: center;
+  text-decoration: wavy;
+  font-weight: 900
+}
+
+.successBill {
+  color: green;
+  text-align: center;
+  font-size: 12px;
+  height: 282px;
+  overflow: scroll;
+}

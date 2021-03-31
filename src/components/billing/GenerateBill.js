@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-
+import parse from 'html-react-parser';
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -79,7 +79,18 @@ const GenerateBill = () => {
         null,
         {
             onResolve: (data) => {
-                setSuccess(JSON.stringify(data));
+                if (data != null && data?.flatNo != null && data?.flatNo != undefined && data.flatNo.length > 0) {
+                    let ErrorTable = "<table border='1' class='generateBillTable'><thead><tr><th>PropertyNo.</th><th>error</th><th>PropertyNo.</th><th>error</th><th>PropertyNo.</th><th>error</th></tr></thead><tbody>";
+                    let count = 0;
+                    data?.flatNo.forEach(element => {
+                        if (count == 0) ErrorTable += "<tr>";
+                        ErrorTable += `<td><b>${element.flatNumber}</b></td><td>${element.error}</td>`;
+                        if (count == 2) { ErrorTable += "</tr>"; count = 0; } else { count++; }
+                    });
+                    ErrorTable += "</tbody></table>";
+                    setError("Bill generated");
+                    setSuccess(ErrorTable);
+                }
                 console.log(data);
                 //errorCtx.setSuccess("Bill Generated Successfully");
                 setLoading(false);
@@ -106,6 +117,7 @@ const GenerateBill = () => {
             //values.createdBy = user.id;
             values.dueDate = values.dueDate.toString();
             values.billType = parseInt(values.billType);
+            console.log("Updatedvalues", values);
             if (typeof values.excludedFlats == "string") {
                 values.excludedFlats = values.excludedFlats.split(",");
             }
@@ -121,24 +133,31 @@ const GenerateBill = () => {
     return (
         <div className="project">
             <div className="project__header">
-                <div className="project__body--heading">Generate Bill</div>
+                <div className="project__body--heading">Generate Bills</div>
                 <div className="project__header--filter">
                     <Link className="project__header--filter--button" to={"/billing/viewbills"} >View All Bills</Link>
                 </div>
             </div>
             {loading &&
                 <div className="project__body">
-                    <div className="project__body--content">
-                        <Loading />
-                    </div>
+                    <Loading />
                 </div>
             }
-            {error &&
+            {(error && success) &&
                 <div className="project__body">
                     <div className="project__body--content">
                         <div className="project__body--contentBody">
                             <div className="error">{error}</div>
-                            <div className="success">{success}</div>
+                            <div className="successBill">{parse(success)}</div>
+                        </div>
+                    </div>
+                </div>
+            }
+            {(error && !success) &&
+                <div className="project__body">
+                    <div className="project__body--content">
+                        <div className="project__body--contentBody">
+                            <div className="error">{error}</div>
                         </div>
                     </div>
                 </div>
@@ -251,6 +270,7 @@ const GenerateBill = () => {
                                         <div className="form-group wid100">
                                             <label className="input-label">Excluded Properties</label>
                                             <textarea
+                                                onChange={handleChange}
                                                 name="excludedFlats"
                                                 className={classes.remarks}
                                                 placeholder="Comma Seprated Property Nos.">
