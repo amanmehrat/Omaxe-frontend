@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
@@ -12,6 +12,7 @@ import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import { AuthContextProvider } from "./components/contexts/Auth";
 import ErrorContext from "./components/contexts/error/errorContext";
+import DownloadTransactions from "./components/views/DownloadTransactions";
 
 Sentry.init({
   dsn: config.sentryLogs,
@@ -40,11 +41,14 @@ const App = () => (
   <RootProvider>
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Switch>
-        <ErrorContext>
-          <Route path="/" component={Dashboard} />
-          <Route exact={true} path="/login" component={Login} />
-          {/* <Route component={HomePage} />*/}
-        </ErrorContext>
+        <Route exact={true} path={`/Receipts/:billId/:flatId`} component={DownloadTransactions} />
+        <Fragment>
+          <ErrorContext>
+            <Route path="/" component={Dashboard} />
+            <Route exact={true} path="/login" component={Login} />
+            {/* <Route component={HomePage} />*/}
+          </ErrorContext>
+        </Fragment>
       </Switch>
     </BrowserRouter>
   </RootProvider>

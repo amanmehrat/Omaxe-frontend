@@ -14,26 +14,17 @@ const ViewBillsGrid = ({ bills, billType, setLoadViewBills }) => {
     const [importOpen, setImportOpen] = useState(false);
     const [selectedBillId, setSelectedBillId] = useState(null);
     let models = billType == 1 ? CamColModels : ElecColModels;
-    console.log("ViewBillsGrid", billType);
-    console.log("ViewBillsGrid", models());
-    console.log("setSelectedFlatIds", selectedFlats);
-
-    const handleImportOpen = () => setImportOpen(true);
     const handleImportClose = () => setImportOpen(false);
 
     const columns = React.useMemo(
         () => [
             {
                 id: "selection",
-                // The header can use the table's getToggleAllRowsSelectedProps method
-                // to render a checkbox
                 Header: ({ getToggleAllRowsSelectedProps }) => (
                     <div>
                         <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
                     </div>
                 ),
-                // The cell can use the individual row's getToggleRowSelectedProps method
-                // to the render a checkbox
                 Cell: ({ row }) => (
                     <div>
                         <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
@@ -61,11 +52,11 @@ const ViewBillsGrid = ({ bills, billType, setLoadViewBills }) => {
                 </div>
                 <div>
                     <button className={cm("project__header--filter--button", "materialBtn")}
-                        onClick={(e) => { e.stopPropagation(); downloadBills(selectedFlats.map(d => d.original.flatId)) }}>
-                        <GetAppOutlinedIcon />Download Bills</button>
-                    <button className={cm("project__header--filter--button", "materialBtn")}
-                        onClick={(e) => { e.stopPropagation(); printBills(selectedFlats.map(d => d.original.flatId)) }}>
-                        <PrintOutlinedIcon />Print Bills</button>
+                        onClick={(e) => { e.stopPropagation(); downloadBills(selectedFlats.map(d => d.original.flatId)) }}
+                    >
+                        <GetAppOutlinedIcon />
+                        Download Bills
+                    </button>
                 </div>
             </div>
             <Table
@@ -77,11 +68,11 @@ const ViewBillsGrid = ({ bills, billType, setLoadViewBills }) => {
                 billId={selectedBillId}
                 paidFor={billType}
                 open={importOpen}
-                handleClose={handleImportClose}
+                setImportOpen={setImportOpen}
                 setLoadViewBills={setLoadViewBills}
             />
         </>
     )
 }
 
-export default ViewBillsGrid;
+export default React.memo(ViewBillsGrid);
