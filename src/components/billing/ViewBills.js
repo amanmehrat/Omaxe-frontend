@@ -94,7 +94,6 @@ const ViewBills = () => {
         null,
         {
             onResolve: (data) => {
-                console.log(data);
                 if (typeof data.Bills == "string") {
                     data.Bills = [];
                 }
@@ -102,9 +101,9 @@ const ViewBills = () => {
                 console.log("BILLS", data.Bills);
                 setBills(data.Bills);
                 setLoading(false);
-                setLoadViewBills(false);
             },
             onReject: (err) => {
+                setBills([]);
                 setError("Unable To view electricity bill, Please Contact Tech-Team");
                 setLoading(false);
                 console.log(err);
@@ -112,43 +111,36 @@ const ViewBills = () => {
             }
         });
 
-    const getViewBills = (values, setSubmitting) => {
-        setBills([]);
+    const getViewBills = (values) => {
         setError("");
         setLoading(true);
-        const yearString = new Date(selectedYear).getFullYear();
-        const monthString = new Date(selectedMonth).getMonth() + 1;
-        values.projId = selectedProjectId;
-        values.year = yearString.toString();
-        values.month = monthString.toString();
-        //values.createdBy = user.id;
-        values.billType = parseInt(values.billType);
+        let billObject = {
+            projId: selectedProjectId,
+            year: new Date(selectedYear).getFullYear().toString(),
+            month: (new Date(selectedMonth).getMonth() + 1).toString(),
+            //createdBy = user.id,
+            billType: parseInt(values.billType)
+        }
         setBillType(values.billType);
-        console.log("Updatedvalues", values);
-        setViewBillRequest(values);
-        viewBills(values);
-        setTimeout(() => {
-            setSubmitting(false);
-        }, 400);
+        setViewBillRequest(billObject);
+        viewBills(billObject);
     }
-    const getExportBills = (values, setSubmitting) => {
+    const getExportBills = (values) => {
+        console.log("VALUESESS", values);
         setError("");
-        setLoading(true);
-        const yearString = new Date(selectedYear).getFullYear();
-        const monthString = new Date(selectedMonth).getMonth() + 1;
-        values.projId = selectedProjectId;///comment remove
-        values.year = yearString.toString();
-        values.month = monthString.toString();
-        //values.createdBy = user.id;
-        values.billType = parseInt(values.billType);
-        setBillType(values.billType);
-        console.log("Updatedvalues", values);
-        setViewBillRequest(values);
-        viewBills(values);
+        let exportObject = {
+            projId: selectedProjectId,
+            year: new Date(selectedYear).getFullYear().toString(),
+            month: (new Date(selectedMonth).getMonth() + 1).toString(),
+            //createdBy = user.id,
+            billType: parseInt(values.billType)
+        }
+        //setBillType(values.billType);
+        //setViewBillRequest(values);
+        //viewBills(values);
         axios.post(`${config.restApiBase}/billing/downloadBillsCSV`,
-            values
+            exportObject
         ).then(response => {
-            setLoading(false);
             console.log(response);
             let { data } = response;
             if (data && data.meta) {
@@ -157,24 +149,25 @@ const ViewBills = () => {
                 const url = window.URL.createObjectURL(new Blob([response.data]));
                 const link = document.createElement('a');
                 link.href = url;
-                link.setAttribute('download', `Bills-${values.month}-${values.year}.csv`);
+                link.setAttribute('download', `Bills-${exportObject.month}-${exportObject.year}.csv`);
                 document.body.appendChild(link);
                 link.click();
                 link.remove();
             }
         }).catch((error) => {
-            setLoading(false);
+            setError("Unable to download Excel");
             LogException("Unable To Download view bill excel" + error);
         });
-        setTimeout(() => {
-            setSubmitting(false);
-        }, 400);
     }
 
     useEffect(() => {
-        if (loadViewBills)
+        if (loadViewBills) {
             viewBills(viewBillRequest);
+            setLoadViewBills(false);
+        }
+
     }, [loadViewBills]);
+
     const renderViewTable = () => {
         if (loading) {
             return <Loading />
@@ -199,56 +192,16 @@ const ViewBills = () => {
                 <div className="project__body--content">
                     <div className="project__body--contentBody">
                         <Formik
-                            enableReinitialize
-                            validateOnMount={true}
                             initialValues={RequestStructure}
-                            validationSchema={Yup.object({
-                                // projectsBillingInformations: Yup.object({
-                                //     CAM_penalize_percentage: Yup.string()
-                                //         .required('Required'),
-                                //     electricity_penalize_percentage: Yup.string()
-                                //         .required('Required'),
-                                //     IFMS_balance: Yup.string()
-                                //         .required('Required'),
-                                //     CAM_fixed_charge: Yup.string()
-                                //         .required('Required'),
-                                //     water_charge: Yup.string()
-                                //         .required('Required'),
-                                //     lift_charge: Yup.string()
-                                //         .required('Required'),
-                                //     CAM_charge_multiplier: Yup.string()
-                                //         .required('Required'),
-                                //     DG_charge_multiplier: Yup.string()
-                                //         .required('Required')
-                                // }),
-                                //name: Yup.string()
-                                //  .max(50, 'Must be 50 characters or less')
-                                // .required('Required')
-                                //billType: Yup.string()
-                                //.notOneOf(['0'])
-                                //.required('Please indicate your communications preference')
-                                //startedOn: Yup.string()
-                                //    .required('Required')
-                            })}
-                            onSubmit={(values, { setSubmitting }) => {
-                                if (values.isForExport) {
-                                    delete values["isForExport"];
-                                    getExportBills(values, setSubmitting);
-                                } else {
-                                    getViewBills(values, setSubmitting);
-                                }
-                            }}
-                            onReset={() => {
-                                setSelectedMonth(new Date());
-                                setSelectedYear(new Date());
-                                return RequestStructure;
+                            onSubmit={(values) => {
+                                getViewBills(values);
                             }}
                         >
                             {props => {
                                 const {
                                     isSubmitting,
                                     handleChange,
-                                    setFieldValue
+                                    values
                                 } = props;
                                 return (
                                     <Form className={cm(classes.formBorder, "ProjectForm")}>
@@ -296,15 +249,12 @@ const ViewBills = () => {
                                             </MuiPickersUtilsProvider>
                                         </div>
                                         <div className={classes.btnGroups}>
-                                            <button disabled={isSubmitting} className={cm("project__header--filter--button materialBtn")} type="submit">
+                                            <button className={cm("project__header--filter--button materialBtn")} type="submit">
                                                 View Bills
                                             </button>
                                             <span>OR</span>
-                                            <button disabled={isSubmitting} className={cm("project__header--filter--button materialBtn")}
-                                                onClick={() => {
-                                                    setFieldValue('isForExport', true);
-                                                }}
-                                                type="submit"
+                                            <button className={cm("project__header--filter--button materialBtn")}
+                                                onClick={(e) => { e.preventDefault(); getExportBills(values) }}
                                             >
                                                 Export Data
                                             </button>
@@ -318,8 +268,8 @@ const ViewBills = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
-export default ViewBills;
+export default React.memo(ViewBills);

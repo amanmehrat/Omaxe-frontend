@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const AddPayment = ({ open, handleClose, billId, paidFor, setLoadViewBills }) => {
+const AddPayment = ({ open, setImportOpen, billId, paidFor, setLoadViewBills }) => {
     console.log("billId", billId);
     console.log("paidFor", paidFor);
 
@@ -190,7 +190,7 @@ const AddPayment = ({ open, handleClose, billId, paidFor, setLoadViewBills }) =>
     return (
         <Modal
             open={open}
-            onClose={handleClose}
+            onClose={() => setImportOpen(false)}
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
         >
