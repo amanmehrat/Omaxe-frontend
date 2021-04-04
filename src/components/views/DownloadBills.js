@@ -60,7 +60,7 @@ const DownloadBills = () => {
                 </>
             }
             {error && <div style={{ marginTop: "10%" }} class="error">{error}</div>}
-            {loading && <div style={{ marginTop: "10%" }}><Loading /><div style={{ paddingTop: "15%" }} class="success">Fetching Bill...</div></div>}
+            {loading && <div style={{ marginTop: "10%" }}><Loading /><div style={{ paddingTop: "3%", fontSize: "20px" }} class="success">Fetching Bill...</div></div>}
         </>
     )
 
