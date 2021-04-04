@@ -123,7 +123,6 @@ const HistoryModal = ({ open, handlePopUpClose, flatId, popUpFor, setLoadElectri
                 fetchBy: 0
             });
         }
-        console.log(popUpFor);
         if (popUpFor == "Cam") {
             setLoadCam(true);
         } else if (popUpFor == "Electricity") {

@@ -98,7 +98,6 @@ const ViewBills = () => {
                     data.Bills = [];
                 }
                 data.Bills.map(item => { item.paidVia = PaidVia.get(item.paidVia); return item; })
-                console.log("BILLS", data.Bills);
                 setBills(data.Bills);
                 setLoading(false);
             },
@@ -106,7 +105,6 @@ const ViewBills = () => {
                 setBills([]);
                 setError("Unable To view electricity bill, Please Contact Tech-Team");
                 setLoading(false);
-                console.log(err);
                 LogException("Unable To View bills", err);
             }
         });
@@ -126,7 +124,6 @@ const ViewBills = () => {
         viewBills(billObject);
     }
     const getExportBills = (values) => {
-        console.log("VALUESESS", values);
         setError("");
         let exportObject = {
             projId: selectedProjectId,
@@ -141,7 +138,6 @@ const ViewBills = () => {
         axios.post(`${config.restApiBase}/billing/downloadBillsCSV`,
             exportObject
         ).then(response => {
-            console.log(response);
             let { data } = response;
             if (data && data.meta) {
                 LogException("Unable To Download Excel. Please Contact To Tech-Team");

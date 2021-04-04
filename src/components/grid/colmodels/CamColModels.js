@@ -63,7 +63,7 @@ const CamColModels = (setSelectedBillId, setImportOpen) => [
         Cell: ({ row }) => (
             <div>
                 <LightTooltip title="Update Payment">
-                    <IconButton aria-label="Update Payment" onClick={() => { setImportOpen(true); console.log("----", row.original.id); setSelectedBillId(row.original.id); }} >
+                    <IconButton aria-label="Update Payment" onClick={() => { setImportOpen(true); setSelectedBillId(row.original.id); }} >
                         <BorderColorOutlinedIcon />
                     </IconButton>
                 </LightTooltip>

@@ -86,8 +86,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddPayment = ({ open, setImportOpen, billId, paidFor, setLoadViewBills }) => {
-    console.log("billId", billId);
-    console.log("paidFor", paidFor);
 
     const { user } = useContext(AuthContext);
     const [amount, setAmount] = useState(null);
@@ -102,7 +100,6 @@ const AddPayment = ({ open, setImportOpen, billId, paidFor, setLoadViewBills }) 
         null,
         {
             onResolve: (data) => {
-                console.log(data);
                 if (data?.transactionDetails?.transactionId) {
                     setSuccess("Payment Updated successfully. \r\n Your Receipt no. is " + data?.transactionDetails?.receiptNumber);
                     setAmount(null);
@@ -116,7 +113,6 @@ const AddPayment = ({ open, setImportOpen, billId, paidFor, setLoadViewBills }) 
                 setLoading(false);
             },
             onReject: (err) => {
-                console.log(err);
                 setLoading(false);
                 LogException("Unable To Generate Bill", err);
                 setError("Unable to Update payment, Please contact Administrator.");
@@ -136,7 +132,6 @@ const AddPayment = ({ open, setImportOpen, billId, paidFor, setLoadViewBills }) 
         } else {
             setLoading(true);
             let paymentObject = { billId, paidFor, amountReceived: amount, paidVia, remarks, createdBy: user.id }
-            console.log(paymentObject);
             updatePayment(paymentObject);
         }
     };

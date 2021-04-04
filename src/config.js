@@ -18,6 +18,5 @@ const prod = {
 
 //const buildEnv = process.env.REACT_APP_BUILD_ENV;
 const buildEnv = process.env.NODE_ENV;
-console.log(buildEnv);
 
 export default buildEnv === 'development' ? dev : buildEnv === 'staging' ? staging : prod;

@@ -85,7 +85,6 @@ const Billing = () => {
     const errorCtx = useContext(errorContext);
 
     const { selectedProjectId } = useProjectContext();
-    console.log(selectedProjectId);
     if (!selectedProjectId) history.push("/projects");
 
     const [isLoadBillingHeads, setIsLoadBillingHeads] = useState(false)
@@ -111,7 +110,6 @@ const Billing = () => {
     const { run: getBillingHeadById } = usePost("/billing/billingHeads/getBillingHeadById", null,
         {
             onResolve: (data) => {
-                console.log("DATA".data);
                 setBillingHead(data?.billingHead.find(billingHead => billingHead.id == billingHeadId));
                 setBillingHeadId(0);
             },
@@ -135,7 +133,6 @@ const Billing = () => {
     const { run: UpdateBillingHead } = usePost("/billing/billingHeads/updateBillingHead", null,
         {
             onResolve: (data) => {
-                console.log("update", data);
                 setIsLoadBillingHeads(true);
                 setIsView(false)
                 setBillingHead(billingHeadStructure);
@@ -156,9 +153,6 @@ const Billing = () => {
     }, [selectedProjectId, isLoadBillingHeads]);
 
     useEffect(() => {
-        console.log(isEdit);
-        console.log(selectedProjectId);
-        console.log(billingHeadId);
         if (isEdit && selectedProjectId && billingHeadId != 0) {
             getBillingHeadById({ projectId: selectedProjectId, billingHeadId: billingHeadId });
         }
@@ -166,7 +160,6 @@ const Billing = () => {
 
     const SaveBillingHead = (values, setSubmitting) => {
         if (isEdit) {
-            console.log("values", values);
             let updatedBillingHeads = {
                 projectId: values.projectId,
                 billingHeadId: values.id,
@@ -182,7 +175,6 @@ const Billing = () => {
             }, 400);
         } else {
             //values.createdBy = user.id;
-            console.log("values", values);
             let insertedProject = {
                 billingHead: {
                     projectId: selectedProjectId,

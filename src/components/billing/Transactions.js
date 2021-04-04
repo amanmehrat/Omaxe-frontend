@@ -21,7 +21,6 @@ const Transactions = () => {
     const billId = localStorage.getItem('billId');
     const flatId = localStorage.getItem('flatId');
 
-    console.log("billId", localStorage.getItem('billId'));
     if (!billId) history.push("/billing/viewbills");
 
     const errorCtx = useContext(errorContext);
@@ -33,7 +32,6 @@ const Transactions = () => {
     const { run: getTransactions } = useGet("/billing/getTransactions/" + billId, null,
         {
             onResolve: (data) => {
-                console.log("data", data);
                 if (data?.transactionsData) {
                     setTransactions(data.transactionsData);
                 } else {
