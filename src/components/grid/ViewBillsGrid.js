@@ -5,6 +5,7 @@ import IndeterminateCheckbox from './table/IndeterminateCheckbox';
 import Table from './table/Table';
 import cm from "classnames";
 import AddPayment from '../billing/AddPayment';
+import { Link } from 'react-router-dom';
 
 import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import PrintOutlinedIcon from '@material-ui/icons/PrintOutlined';
@@ -15,7 +16,6 @@ const ViewBillsGrid = ({ bills, billType, setLoadViewBills }) => {
     const [selectedBillId, setSelectedBillId] = useState(null);
     let models = billType == 1 ? CamColModels : ElecColModels;
     const handleImportClose = () => setImportOpen(false);
-
     const columns = React.useMemo(
         () => [
             {
@@ -36,13 +36,6 @@ const ViewBillsGrid = ({ bills, billType, setLoadViewBills }) => {
         []
     );
     const data = React.useMemo(() => bills, [bills]);
-    const downloadBills = (flatsNos) => {
-        console.log("downloadBills", flatsNos);
-    }
-    const printBills = (flatsNos) => {
-        console.log("printBills", flatsNos);
-    }
-
     const renderBillTypeText = () => { if (billType == 1) { return "Cam Bills" } else if (billType == 2) { return "Electricity Bills" } else { return "Adhoc Bills" } }
     return (
         <>
@@ -51,12 +44,14 @@ const ViewBillsGrid = ({ bills, billType, setLoadViewBills }) => {
                     {renderBillTypeText()}
                 </div>
                 <div>
-                    <button className={cm("project__header--filter--button", "materialBtn")}
-                        onClick={(e) => { e.stopPropagation(); downloadBills(selectedFlats.map(d => d.original.flatId)) }}
+                    <Link
+                        to={'/Bills/' + billType}
+                        className={cm("project__header--filter--button", "materialBtn")}
+                        onClick={() => { localStorage.setItem("downloadBillIds", selectedFlats.map(d => d.original.id)) }}
                     >
-                        <GetAppOutlinedIcon />
-                        Download Bills
-                    </button>
+                        <PrintOutlinedIcon />
+                        Print Bills
+                    </Link>
                 </div>
             </div>
             <Table

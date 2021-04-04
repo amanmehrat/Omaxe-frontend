@@ -18,7 +18,6 @@ const Sidebar = () => {
     const [openBillingHeads, setOpenBillingHeads] = useState(false);
     const { user } = useContext(AuthContext);
     const { selectedProjectId } = useProjectContext();
-    console.log("user", user);
     const { run: getProjectById } = usePost("/projects/GetProject", null,
         {
             onResolve: (data) => {
@@ -29,13 +28,11 @@ const Sidebar = () => {
                 }
             },
             onReject: (err) => {
-                console.log(err);
             }
         });
 
 
     useEffect(() => {
-        console.log("vhsvdj", selectedProjectId);
         if (selectedProjectId) {
             getProjectById({ projId: selectedProjectId });
         } else {

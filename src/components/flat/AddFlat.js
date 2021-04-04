@@ -81,7 +81,6 @@ const AddFlat = () => {
     const history = useHistory();
     const errorCtx = useContext(errorContext);
     const { selectedProjectId } = useProjectContext();
-    console.log(selectedProjectId);
     if (!selectedProjectId) history.push("/projects");
 
     const [loading, setLoading] = useState(false)
@@ -93,7 +92,6 @@ const AddFlat = () => {
         {
             onResolve: (data) => {
                 let requiredFlat = data?.flat;
-                console.log(requiredFlat);
                 delete requiredFlat["CAMHistories"];
                 delete requiredFlat["electricityHistories"];
                 //requiredFlat.hasDG = true;
@@ -144,7 +142,6 @@ const AddFlat = () => {
         null,
         {
             onResolve: (data) => {
-                console.log("update", selectedProjectId);
                 errorCtx.setSuccess("Property Updated Successfully");
             },
             onReject: (err) => {
@@ -156,7 +153,6 @@ const AddFlat = () => {
     const SaveFlat = (values, setSubmitting, resetForm) => {
         delete values["sameOwner"];
         if (isEdit) {
-            console.log("values", values);
             const updatedProjectId = selectedProjectId;
             delete values["projectId"];
             //values.dateOfPossession = startDate;
@@ -187,7 +183,6 @@ const AddFlat = () => {
         }
     }, [isReset])
     const handleSameOwner = (e, values, setFieldValue) => {
-        console.log(e.target.checked);
         if (e.target.checked) {
             setFieldValue('residentName', values.ownerName);
             setFieldValue('residentEmail', values.ownerEmail);

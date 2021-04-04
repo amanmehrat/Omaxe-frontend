@@ -6,8 +6,6 @@ import Table from './table/Table';
 
 const ViewHistoryGrid = ({ bills, billType }) => {
     let models = billType == 1 ? CamByIdModels : ElecByIdModels;
-    console.log("ViewBillsGrid", billType);
-    console.log("ViewBillsGrid", models());
 
     const columns = React.useMemo(() => [...models()], []);
     const data = React.useMemo(() => bills, [bills]);

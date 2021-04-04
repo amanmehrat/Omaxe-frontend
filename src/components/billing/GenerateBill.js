@@ -91,7 +91,6 @@ const GenerateBill = () => {
                     setError("Bill generated");
                     setSuccess(ErrorTable);
                 }
-                console.log(data);
                 //errorCtx.setSuccess("Bill Generated Successfully");
                 setLoading(false);
             },
@@ -117,11 +116,9 @@ const GenerateBill = () => {
             //values.createdBy = user.id;
             values.dueDate = values.dueDate.toString();
             values.billType = parseInt(values.billType);
-            console.log("Updatedvalues", values);
             if (typeof values.excludedFlats == "string") {
                 values.excludedFlats = values.excludedFlats.split(",");
             }
-            console.log("Updatedvalues", values);
             setLoading(true);
             generateBill(values);
             setTimeout(() => {

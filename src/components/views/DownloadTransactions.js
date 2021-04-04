@@ -21,10 +21,8 @@ const DownloadTransactions = () => {
 
     const downloadTransactions = () => {
         axios.get(`${config.restApiBase}/billing/getTransactions/${billId}/${flatId}`).then(response => {
-            console.log(response);
             let { data } = response;
             setReciepts(data);
-            console.log(data);
 
             // if (data && data.meta) {
             //     LogException("Unable To Download receipts. Please Contact To Tech-Team");

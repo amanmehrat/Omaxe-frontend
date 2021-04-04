@@ -103,7 +103,6 @@ const WaveOff = () => {
     const { run: getWaveOffs } = useGet("/billing/waiveOff/" + selectedProjectId, null,
         {
             onResolve: (data) => {
-                console.log("data", data);
                 setIsloadWaveOffs(false);
                 if (data?.waiveOffData) {
                     setWaveOffs(data.waiveOffData);
@@ -133,11 +132,9 @@ const WaveOff = () => {
     const { run: getDues } = usePost("/flats/getFlatDues", null,
         {
             onResolve: (data) => {
-                console.log("RESPONSE-------", data)
                 if (data?.flatDues != undefined) {
                     let duesArray = [];
                     data.flatDues.forEach(element => {
-                        console.log("---", element);
                         duesArray.push(element?.CAMHistories);
                         duesArray.push(element?.electricityHistories);
                     });
@@ -164,12 +161,9 @@ const WaveOff = () => {
     }, [flatNo]);
 
     useEffect(() => {
-        console.log("flatNo", duesData);
-        console.log("flatNo", billType);
         if (billType != -1 && duesData != null) {
             setDueMessage("");
             setBillId("");
-            console.log("flatNo", billType);
             switch (parseInt(billType)) {
                 case 1:
                     if (duesData[0][0]?.dueAmount != undefined) {
@@ -192,7 +186,6 @@ const WaveOff = () => {
         event.preventDefault();
         event.stopPropagation();
 
-        console.log("HIIIII", billId);
         setSuccess("");
         setError("");
         if (billId == "") {
@@ -208,7 +201,6 @@ const WaveOff = () => {
         }
     }
     const addWaveOff = () => {
-        console.log("HII", billId);
         let formData = new FormData();
         formData.append("doc", file);
         formData.append("billId", billId);
@@ -243,7 +235,6 @@ const WaveOff = () => {
         });
     };
     const renderWaveOffs = () => {
-        console.log(waveOffs);
         if (loading) {
             return <Loading />
         } if (waveOffs == null) {

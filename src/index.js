@@ -13,6 +13,8 @@ import Dashboard from "./components/Dashboard";
 import { AuthContextProvider } from "./components/contexts/Auth";
 import ErrorContext from "./components/contexts/error/errorContext";
 import DownloadTransactions from "./components/views/DownloadTransactions";
+import DownloadBills from "./components/views/DownloadBills";
+import PrintBill from "./components/views/PrintBill";
 
 Sentry.init({
   dsn: config.sentryLogs,
@@ -42,6 +44,8 @@ const App = () => (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Switch>
         <Route exact={true} path={`/Receipts/:billId/:flatId`} component={DownloadTransactions} />
+        <Route exact={true} path={`/PrintBill/:billType/:billId`} component={PrintBill} />
+        <Route exact={true} path={`/Bills/:billType`} component={DownloadBills} />
         <Fragment>
           <ErrorContext>
             <Route path="/" component={Dashboard} />

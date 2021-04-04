@@ -58,7 +58,6 @@ const Project = () => {
     const { run: getFlatsList } = usePost("/flats", null,
         {
             onResolve: (data) => {
-                console.log("data", data);
                 setFlats([]);
                 if (data?.flats != undefined) {
                     data.flats.map(item => { item.propertyType = PropertyType.get(item.propertyType); return item; })
@@ -95,7 +94,6 @@ const Project = () => {
 
 
     const renderFlats = () => {
-        console.log(flats);
         if (loading) {
             return <Loading />
         } if (flats == null) {

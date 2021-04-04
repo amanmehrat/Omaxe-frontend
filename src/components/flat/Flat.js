@@ -147,7 +147,6 @@ const Flat = () => {
         {
             onResolve: (data) => {
                 setLoadCam(false)
-                console.log("Thhis is camDetail my array ", JSON.stringify(data));
                 setCamHistory(data.camDetail);
             },
             onReject: (err) => {
@@ -165,20 +164,16 @@ const Flat = () => {
 
     useEffect(() => {
         if (loadElectricity) {
-            console.log(loadElectricity);
             getElectricityDetails(request);
         }
     }, [loadElectricity]);
 
     useEffect(() => {
         if (loadCam) {
-            console.log(loadCam);
-            console.log(request);
             getCamDetails(request);
         }
     }, [loadCam]);
     const downloadCamHistory = () => {
-        console.log("!!!!!!!", request);
         axios.post(`${config.restApiBase}/camDetails/getCamById`,
             {
                 flatId: flatId,
@@ -186,7 +181,6 @@ const Flat = () => {
                 fetchData: request.fetchData
             }
         ).then(response => {
-            console.log(response);
             let { data } = response;
             if (data && data.meta) {
                 LogException("Unable To Download Cam history. Please Contact To Tech-Team");
@@ -213,7 +207,6 @@ const Flat = () => {
                 fetchData: request.fetchData
             }
         ).then(response => {
-            console.log(response);
             let { data } = response;
             if (data && data.meta) {
                 LogException("Unable To Download Electricity history. Please Contact To Tech-Team");
