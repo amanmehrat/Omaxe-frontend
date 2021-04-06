@@ -321,23 +321,23 @@ const Flat = () => {
                     <div className={classes.subHeadingText}><b>CAM History</b></div>
                     <div className="project__header--filter">
                         <button onClick={(e) => { e.stopPropagation(); return handlePopUpOpen("Cam"); }} className="projectId__header--filter--button" >View</button>
-                        {(request.fetchBy == 2) && <button onClick={(e) => { e.stopPropagation(); return downloadCamHistory(); }} className="projectId__header--filter--button" >Download</button>}
+                        {(request.fetchBy == 2 && camHistory && camHistory.length > 0) && <button onClick={(e) => { e.stopPropagation(); return downloadCamHistory(); }} className="projectId__header--filter--button" >Download</button>}
                     </div>
                 </div>
                 {(camHistory && camHistory.length > 0) ?
                     <ViewHistoryGrid bills={camHistory} billType={1} />
-                    : <div className={classes.noData}>{loadCam ? "Loading..." : "No Bill In Histry"}</div>
+                    : <div className={classes.noData}>{loadCam ? "Loading..." : "No Bill In History"}</div>
                 }
                 <div className={classes.subHeading}>
                     <div className={classes.subHeadingText}><b>Electricity History</b></div>
                     <div className="project__header--filter">
                         <button onClick={(e) => { e.stopPropagation(); return handlePopUpOpen("Electricity"); }} className="projectId__header--filter--button" >View</button>
-                        {(request.fetchBy == 2) && <button onClick={(e) => { e.stopPropagation(); return downloadElecHistory(); }} className="projectId__header--filter--button" >Download</button>}
+                        {(request.fetchBy == 2 && electricityHistory && electricityHistory.length > 0) && <button onClick={(e) => { e.stopPropagation(); return downloadElecHistory(); }} className="projectId__header--filter--button" >Download</button>}
                     </div>
                 </div>
                 {(electricityHistory && electricityHistory.length > 0) ?
                     <ViewHistoryGrid bills={electricityHistory} billType={2} />
-                    : <div className={classes.noData}>{loadElectricity ? "Loading..." : "No Bill In Histry"}</div>
+                    : <div className={classes.noData}>{loadElectricity ? "Loading..." : "No Bill In History"}</div>
                 }
             </div>
             <HistoryModal

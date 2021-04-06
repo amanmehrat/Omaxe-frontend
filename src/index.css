@@ -142,7 +142,7 @@ code {
 }
 
 .generateBillTable {
-  height: 400px;
+  max-height: 400px;
 }
 
 .generateBillTable td {
@@ -165,6 +165,6 @@ code {
   color: green;
   text-align: center;
   font-size: 12px;
-  height: 282px;
+  max-height: 282px;
   overflow: scroll;
 }

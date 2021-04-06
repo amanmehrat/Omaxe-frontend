@@ -90,6 +90,8 @@ const GenerateBill = () => {
                     ErrorTable += "</tbody></table>";
                     setError("Bill generated");
                     setSuccess(ErrorTable);
+                } else if (data != null && data.message != undefined) {
+                    setSuccess(data.message);
                 }
                 //errorCtx.setSuccess("Bill Generated Successfully");
                 setLoading(false);
