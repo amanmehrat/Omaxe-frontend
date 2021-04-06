@@ -94,6 +94,7 @@ const AddFlat = () => {
                 let requiredFlat = data?.flat;
                 delete requiredFlat["CAMHistories"];
                 delete requiredFlat["electricityHistories"];
+                if (requiredFlat.meterNumber == null) requiredFlat.meterNumber = "";
                 //requiredFlat.hasDG = true;
                 //requiredFlat.hasLift = true;
                 //setStartDate(new Date(requiredFlat?.dateOfPossession));

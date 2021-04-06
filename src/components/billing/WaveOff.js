@@ -108,12 +108,12 @@ const WaveOff = () => {
                     setWaveOffs(data.waiveOffData);
                 } else {
                     //errorCtx.setError("Unable To fetch Transactions");
-                    LogException("Unable To fetch Transactions", data);
+                    LogException("Unable To fetch WaveOffs", data);
                 }
                 setLoading(false);
             },
             onReject: (err) => {
-                LogException("Unable To fetch Transactions", err);
+                LogException("Unable To fetch WaveOffs", err);
                 setIsloadWaveOffs(false);
             }
         });
@@ -169,16 +169,19 @@ const WaveOff = () => {
                     if (duesData[0][0]?.dueAmount != undefined) {
                         setBillId(duesData[0][0]?.id);
                         setDueMessage("Due Amount -" + duesData[0][0]?.dueAmount);
+                    } else {
+                        setDueMessage("No Dues/Bills found");
                     }
                     break;
                 case 2:
                     if (duesData[1][0]?.dueAmount != undefined) {
                         setBillId(duesData[1][0]?.id);
                         setDueMessage("Due Amount -" + duesData[1][0]?.dueAmount);
+                    } else {
+                        setDueMessage("No Dues/Bills found");
                     }
                     break;
             }
-
         }
     }, [billType]);
 
@@ -223,7 +226,6 @@ const WaveOff = () => {
             if (data.meta.code >= 200 && data.meta.code < 300) {
                 setIsloadWaveOffs(true);
                 setFile(null);
-                setBillType(-1);
                 setAmount("");
                 setSuccess("Wave-Off Added Successfully");
             } else {

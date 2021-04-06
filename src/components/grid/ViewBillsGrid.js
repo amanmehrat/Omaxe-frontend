@@ -47,6 +47,7 @@ const ViewBillsGrid = ({ bills, billType, setLoadViewBills }) => {
                     <Link
                         to={'/Bills/' + billType}
                         className={cm("project__header--filter--button", "materialBtn")}
+                        target="_blank"
                         onClick={() => { localStorage.setItem("downloadBillIds", selectedFlats.map(d => d.original.id)) }}
                     >
                         <PrintOutlinedIcon />

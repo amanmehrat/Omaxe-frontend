@@ -24,6 +24,7 @@ const DownloadBills = () => {
         setError("");
         let printRequest = { billType: parseInt(billType), billId: billIds };
         axios.post(`${config.restApiBase}/billing/getBillPDF`, printRequest).then(response => {
+            console.log(response);
             setLoading(false);
             let { data } = response;
             let dataResponse = data.data;
@@ -38,6 +39,7 @@ const DownloadBills = () => {
                 setError("Unable to print Bills " + viewBillError);
             }
         }).catch((error) => {
+            console.log(error);
             setLoading(false);
             LogException("Unable To Print bills" + error);
             setError("Unable to print Bills Please Contact Tech Team");
