@@ -130,7 +130,7 @@ const AddPayment = ({ open, setImportOpen, billId, paidFor, setLoadViewBills }) 
             setError("Please Choose Remarks");
         } else {
             setLoading(true);
-            let paymentObject = { billId, paidFor, amountReceived: amount, paidVia, remarks, createdBy: user.id }
+            let paymentObject = { billId, paidFor: parseInt(paidFor), amountReceived: parseInt(amount), paidVia: parseInt(paidVia), remarks, createdBy: user.id }
             updatePayment(paymentObject);
         }
     };
