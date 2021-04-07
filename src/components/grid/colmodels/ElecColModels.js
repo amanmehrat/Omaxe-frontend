@@ -1,8 +1,9 @@
-import ReceiptOutlinedIcon from '@material-ui/icons/ReceiptOutlined';
-import BorderColorOutlinedIcon from '@material-ui/icons/BorderColorOutlined';
 import { Tooltip, IconButton } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+
+import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutlined';
+import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutlined';
 
 const LightTooltip = withStyles((theme) => ({
     tooltip: {
@@ -58,13 +59,13 @@ const ElecColModels = (setSelectedBillId, setImportOpen) => [
         disableFilters: true
     },
     {
-        Header: '',
+        Header: 'Payment',
         accessor: 'paymentId',
         Cell: ({ row }) => (
             <div>
                 <LightTooltip title="Update Payment">
                     <IconButton aria-label="Update Payment" onClick={() => { setImportOpen(true); setSelectedBillId(row.original.id); }} >
-                        <BorderColorOutlinedIcon />
+                        <MonetizationOnOutlinedIcon />
                     </IconButton>
                 </LightTooltip>
             </div >
@@ -72,16 +73,16 @@ const ElecColModels = (setSelectedBillId, setImportOpen) => [
         disableFilters: true
     },
     {
-        Header: '',
+        Header: 'Transactions',
         accessor: 'transactionId',
         Cell: ({ row }) => (
             <Link
                 to='/billing/transactions'
                 onClick={() => { localStorage.setItem('billId', row.original.id); localStorage.setItem('flatId', row.original.flatId); }}
             >
-                <LightTooltip title="Transactions">
-                    <IconButton aria-label="Transactions">
-                        <ReceiptOutlinedIcon />
+                <LightTooltip title="View Transactions">
+                    <IconButton aria-label="View Transactions">
+                        <AccountBalanceOutlinedIcon />
                     </IconButton>
                 </LightTooltip>
             </Link>

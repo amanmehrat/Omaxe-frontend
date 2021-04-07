@@ -1,9 +1,10 @@
 import React from 'react'
-import ReceiptOutlinedIcon from '@material-ui/icons/ReceiptOutlined';
-import BorderColorOutlinedIcon from '@material-ui/icons/BorderColorOutlined';
 import { Tooltip, IconButton } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+
+import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutlined';
+import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutlined';
 const LightTooltip = React.memo(withStyles((theme) => ({
     tooltip: {
         backgroundColor: theme.palette.common.white,
@@ -58,13 +59,13 @@ const CamColModels = (setSelectedBillId, setImportOpen) => [
         disableFilters: true
     },
     {
-        Header: '',
+        Header: 'Payment',
         accessor: 'paymentId',
         Cell: ({ row }) => (
             <div>
                 <LightTooltip title="Update Payment">
                     <IconButton aria-label="Update Payment" onClick={() => { setImportOpen(true); setSelectedBillId(row.original.id); }} >
-                        <BorderColorOutlinedIcon />
+                        <MonetizationOnOutlinedIcon />
                     </IconButton>
                 </LightTooltip>
             </div >
@@ -72,7 +73,7 @@ const CamColModels = (setSelectedBillId, setImportOpen) => [
         disableFilters: true
     },
     {
-        Header: '',
+        Header: 'Transaction',
         accessor: 'transactionId',
         Cell: ({ row }) => (
             <Link
@@ -81,7 +82,7 @@ const CamColModels = (setSelectedBillId, setImportOpen) => [
             >
                 <LightTooltip title="Transactions">
                     <IconButton aria-label="Transactions">
-                        <ReceiptOutlinedIcon />
+                        <AccountBalanceOutlinedIcon />
                     </IconButton>
                 </LightTooltip>
             </Link>

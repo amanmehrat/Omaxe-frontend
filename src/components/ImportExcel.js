@@ -157,9 +157,9 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
                 <div id="simple-modal-description" className={classes.exportInput}>
                     <div className={classes.selectInputDiv}>
                         <select onChange={(e) => setCsvType(e.target.value)} className={classes.selectDropdown}>
-                            <option value="-1">Choose Billing</option>
-                            <option value="0">CAM Billling</option>
-                            <option value="1">Electricity Billling</option>
+                            <option value="-1">Choose Bill Type</option>
+                            <option value="1">Cam</option>
+                            <option value="2">Electricity</option>
                         </select>
                     </div>
                     <div>
