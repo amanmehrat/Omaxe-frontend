@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import CamByIdModels from './colmodels/CamByIdModels';
 import ElecByIdModels from './colmodels/ElecByIdModels';
 import Table from './table/Table';

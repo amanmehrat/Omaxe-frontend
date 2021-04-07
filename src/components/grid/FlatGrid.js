@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import FlatsModels from './colmodels/FlatsModels';
 import Table from './table/Table';
 import { useHistory } from 'react-router-dom';

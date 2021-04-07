@@ -5,7 +5,7 @@ import AddProject from '../components/project/AddProject';
 
 
 const ProjectRoutes = () => {
-    let { path, url } = useRouteMatch();
+    let { path } = useRouteMatch();
     return (
         <Switch>
             <Route exact={true} path={`${path}/add`} component={AddProject} />

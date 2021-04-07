@@ -8,7 +8,7 @@ import Transactions from "../components/billing/Transactions";
 import WaveOff from "../components/billing/WaveOff";
 
 const BillingRoutes = () => {
-    let { path, url } = useRouteMatch();
+    let { path } = useRouteMatch();
     return (
         <Switch>
             <IfProjectSelected>

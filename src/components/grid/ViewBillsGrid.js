@@ -7,7 +7,6 @@ import cm from "classnames";
 import AddPayment from '../billing/AddPayment';
 import { Link } from 'react-router-dom';
 
-import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
 import PrintOutlinedIcon from '@material-ui/icons/PrintOutlined';
 
 const ViewBillsGrid = ({ bills, billType, setLoadViewBills }) => {
@@ -15,7 +14,6 @@ const ViewBillsGrid = ({ bills, billType, setLoadViewBills }) => {
     const [importOpen, setImportOpen] = useState(false);
     const [selectedBillId, setSelectedBillId] = useState(null);
     let models = billType == 1 ? CamColModels : ElecColModels;
-    const handleImportClose = () => setImportOpen(false);
     const columns = React.useMemo(
         () => [
             {

@@ -1,20 +1,14 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { Link } from 'react-router-dom';
 import NoData from "../NoData";
 import { LogException } from "../../utils/exception";
+import { useGet } from "../../utils/hooks";
+
 import TransactionGrid from "../grid/TransactionGrid";
-
-
 import Loading from "../../components/Loading";
 
-import { errorContext } from "../contexts/error/errorContext";
-import { useGet, usePost } from "../../utils/hooks";
-
-
-import axios from 'axios';
-import config from '../../config';
 
 const Transactions = () => {
     const history = useHistory();
@@ -22,9 +16,6 @@ const Transactions = () => {
     const flatId = localStorage.getItem('flatId');
 
     if (!billId) history.push("/billing/viewbills");
-
-    const errorCtx = useContext(errorContext);
-    //if (!selectedProjectId) history.push("/projects");
 
     const [loading, setLoading] = useState(false)
     const [transactions, setTransactions] = useState(null);

@@ -1,4 +1,3 @@
-import ReceiptOutlinedIcon from '@material-ui/icons/ReceiptOutlined';
 import BorderColorOutlinedIcon from '@material-ui/icons/BorderColorOutlined';
 import { Tooltip, IconButton } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';

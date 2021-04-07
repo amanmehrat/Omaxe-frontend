@@ -4,7 +4,7 @@ import IfProjectSelected from "../components/IfProjectSelected";
 import AddFlat from "../components/flat/AddFlat";
 
 const FlatRoutes = () => {
-    let { path, url } = useRouteMatch();
+    let { path } = useRouteMatch();
     return (
         <Switch>
             <IfProjectSelected>

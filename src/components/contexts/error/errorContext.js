@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, { useState } from "react";
 import SweetAlert from "react-bootstrap-sweetalert";
 import "./error.scss";
 // import {userContext} from "../user/userContext";
@@ -16,8 +16,8 @@ const ErrorContext = (props) => {
         setError: (error) => {
           setError(error);
         },
-        setSuccess: (msg,props={}) => {
-          setSuccess({msg,...props});
+        setSuccess: (msg, props = {}) => {
+          setSuccess({ msg, ...props });
         },
         setWarning: (msg, onConfirm, onCancel) => {
           setWarning({
@@ -32,18 +32,18 @@ const ErrorContext = (props) => {
         <div className={"errorDialog"}>
           <SweetAlert
             warning
-            confirmBtnText={error.code in [4025,403]?"Logout":"OK"}
+            confirmBtnText={error.code in [4025, 403] ? "Logout" : "OK"}
             onConfirm={() => {
-                if(error.code in [4025,403]){
-                    // userCtx.logout();
-                }
-                setError(null)
+              if (error.code in [4025, 403]) {
+                // userCtx.logout();
+              }
+              setError(null)
             }}
             title="Error"
             focusConfirmBtn
           >
-               <div className="message">
-            {error.message}
+            <div className="message">
+              {error.message}
             </div>
           </SweetAlert>
         </div>
@@ -55,9 +55,9 @@ const ErrorContext = (props) => {
             title="Success!"
             onConfirm={() => setSuccess(null)}
           >
-               <div className="message">
-                            {success.msg}
-                            </div>
+            <div className="message">
+              {success.msg}
+            </div>
           </SweetAlert>
         </div>
       )}
@@ -78,10 +78,10 @@ const ErrorContext = (props) => {
             }}
             focusCancelBtn
           >
-            
+
             <div className="message">
-             {warning.msg}
-             </div>
+              {warning.msg}
+            </div>
           </SweetAlert>
         </div>
       )}

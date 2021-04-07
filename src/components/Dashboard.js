@@ -1,4 +1,4 @@
-import { Switch, Route, useRouteMatch } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 import "../App.scss";
 

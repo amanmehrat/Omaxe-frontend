@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useTable, usePagination, useRowSelect, useSortBy, useFilters } from 'react-table'
 import './Table.scss';
 
-// Define a default UI for filtering
-// Define a default UI for filtering
 function DefaultColumnFilter({
     column: { filterValue, preFilteredRows, setFilter },
 }) {
@@ -63,9 +61,7 @@ const Table = ({ columns, data, onRowSelect, onHandleRowClick }) => {
         previousPage,
         setPageSize,
         selectedFlatRows,
-        state: { pageIndex, pageSize, selectedRowIds, globalFilter },
-        visibleColumns,
-        preGlobalFilteredRows
+        state: { pageIndex, pageSize }
     } = useTable(
         {
             columns,
