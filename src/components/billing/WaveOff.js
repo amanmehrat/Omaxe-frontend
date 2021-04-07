@@ -2,13 +2,11 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState, useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import NoData from "../NoData";
 import { LogException } from "../../utils/exception";
 import WaveOffGrid from "../grid/WaveOffGrid";
 import Loading from "../../components/Loading";
-import { errorContext } from "../contexts/error/errorContext";
 import AuthContext from "../contexts/Auth";
 import { useProjectContext } from "../contexts/Project";
 import { useGet, usePost } from "../../utils/hooks";
@@ -75,9 +73,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 const WaveOff = () => {
-    const history = useHistory();
     const classes = useStyles();
-    const errorCtx = useContext(errorContext);
 
     const { selectedProjectId } = useProjectContext();
     const [loading, setLoading] = useState(false);

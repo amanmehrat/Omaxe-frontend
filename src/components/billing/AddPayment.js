@@ -2,8 +2,7 @@ import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Spinner from '../Spinner';
-import { useGet, usePost, usePut } from "../../utils/hooks";
-import MyTextInput from '../customInputs/MyTextInput';
+import { usePut } from "../../utils/hooks";
 import { LogException } from "../../utils/exception";
 import AuthContext from "../contexts/Auth";
 

@@ -1,21 +1,17 @@
 
-import React, { useState, useContext, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-import cm from "classnames";
 import { Link } from 'react-router-dom';
 
 import { usePost } from "../../utils/hooks";
-import { errorContext } from "../../components/contexts/error/errorContext";
 import { LogException } from "../../utils/exception";
 import { useProjectActionsContext } from '../../components/contexts/Project';
 
-import Search from '../customInputs/Search';
 import ExportExcel from '../ExportExcel';
 import ImportExcel from '../ImportExcel';
 import Loading from '../Loading';
 import NoData from "../NoData";
-import pencil_black from "../../img/pencil_black.svg";
 import FlatGrid from '../grid/FlatGrid';
 import PropertyType from '../../utils/PropertyTypeSet';
 
@@ -23,15 +19,12 @@ import './Project.css'
 
 
 const Project = () => {
-    let history = useHistory();
     const { projectId } = useParams();
-    const errorCtx = useContext(errorContext);
 
     const [loading, setLoading] = useState(true);
     const [loadFlats, setLoadFlats] = useState(false);
     const [project, setProject] = useState(null);
     const [flats, setFlats] = useState(null);
-    const [oldFlats, setOldFlats] = useState(null);
     const [exportOpen, setExportOpen] = useState(false);
     const [importOpen, setImportOpen] = useState(false);
     const setSelectedProjectId = useProjectActionsContext();

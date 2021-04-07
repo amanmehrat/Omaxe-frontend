@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import ViewBillsGrid from '../grid/ViewBillsGrid'
 import NoData from '../NoData';
@@ -14,14 +14,9 @@ import Loading from "../../components/Loading";
 
 import { LogException } from "../../utils/exception";
 
-
 import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
 
-
-import { errorContext } from "../contexts/error/errorContext";
 import { useProjectContext } from "../contexts/Project";
-import AuthContext from "../contexts/Auth";
 import { usePost } from "../../utils/hooks";
 
 import axios from 'axios';
@@ -77,7 +72,6 @@ const ViewBills = () => {
     const classes = useStyles();
     const history = useHistory();
 
-    const { user } = useContext(AuthContext);
     const { selectedProjectId } = useProjectContext();
     if (!selectedProjectId) history.push("/projects");
 
@@ -195,7 +189,6 @@ const ViewBills = () => {
                         >
                             {props => {
                                 const {
-                                    isSubmitting,
                                     handleChange,
                                     values
                                 } = props;

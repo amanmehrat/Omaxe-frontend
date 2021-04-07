@@ -20,7 +20,6 @@ import * as Yup from 'yup';
 
 import MyTextInput from '../../components/customInputs/MyTextInput';
 
-import { errorContext } from "../contexts/error/errorContext";
 import { useProjectContext } from "../contexts/Project";
 import AuthContext from "../contexts/Auth";
 import { usePost } from "../../utils/hooks";
@@ -63,7 +62,6 @@ const GenerateBill = () => {
     const classes = useStyles();
     const history = useHistory();
 
-    const errorCtx = useContext(errorContext);
     const { user } = useContext(AuthContext);
     const { selectedProjectId } = useProjectContext();
     if (!selectedProjectId) history.push("/projects");
@@ -88,7 +86,6 @@ const GenerateBill = () => {
                         if (count == 2) { ErrorTable += "</tr>"; count = 0; } else { count++; }
                     });
                     ErrorTable += "</tbody></table>";
-                    setError("Bill generated");
                     setSuccess(ErrorTable);
                 } else if (data != null && data.message != undefined) {
                     setSuccess(data.message);
@@ -207,7 +204,6 @@ const GenerateBill = () => {
                         >
                             {props => {
                                 const {
-                                    isSubmitting,
                                     handleChange
                                 } = props;
                                 return (

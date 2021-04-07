@@ -1,4 +1,4 @@
-import { useHistory, useParams, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
 import { usePost } from "../../utils/hooks";
@@ -99,7 +99,7 @@ const Flat = () => {
         flatId: flatId,
         fetchBy: 1,
         fetchData: {
-            month: new Date().getMonth(),
+            month: new Date().getMonth() + 1,
             year: new Date().getFullYear()
         }
     });

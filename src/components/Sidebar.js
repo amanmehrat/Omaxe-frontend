@@ -6,16 +6,13 @@ import AuthContext from "./contexts/Auth";
 import { useProjectContext } from './contexts/Project';
 
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
-import ReceiptIcon from '@material-ui/icons/Receipt';
 import AssessmentIcon from '@material-ui/icons/Assessment';
-import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import SubdirectoryArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
 
 import './Sidebar.css'
 
 const Sidebar = () => {
     const [selectedProject, setSelectedProject] = useState(null);
-    const [openBillingHeads, setOpenBillingHeads] = useState(false);
     const { user } = useContext(AuthContext);
     const { selectedProjectId } = useProjectContext();
     const { run: getProjectById } = usePost("/projects/GetProject", null,
@@ -63,12 +60,6 @@ const Sidebar = () => {
                             <p>Add Property</p>
                         </div>
                     </Link>
-                    {/* <Link to="/billing/BillingHeads" className="sidebarSubChat">
-                        <div className="sidebarChat_info">
-                            <SubdirectoryArrowRightIcon />
-                            <p>Billing Heads</p>
-                        </div>
-                    </Link> */}
                     <Link to="/billing/GenerateBills" className="sidebarSubChat" /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
                         <div className="sidebarChat_info">
                             <SubdirectoryArrowRightIcon />

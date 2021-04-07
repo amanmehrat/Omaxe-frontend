@@ -7,8 +7,6 @@ import { useGet, usePost, usePut } from "../../utils/hooks";
 import { errorContext } from "../../components/contexts/error/errorContext";
 import NoData from "../../components/NoData";
 import Loading from "../../components/Loading";
-import search from "../../img/search.svg";
-import plusBlue from "../../img/plus-blue.svg";
 import unDraw from "../../img/undraw.svg";
 import eye_black from "../../img/lock.svg";
 import eye from "../../img/unlock.svg";
@@ -16,7 +14,7 @@ import pencil_black from "../../img/pencil_black.svg";
 import "./Users.scss";
 import Search from "../customInputs/Search";
 
-const Users = ({ history }) => {
+const Users = () => {
 
     const [searchText, setSearchText] = useState("");
     const [selectedMember, setSelectedMember] = useState(null);
