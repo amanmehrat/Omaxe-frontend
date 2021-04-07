@@ -5,6 +5,7 @@ import Spinner from '../Spinner';
 import { usePut } from "../../utils/hooks";
 import { LogException } from "../../utils/exception";
 import AuthContext from "../contexts/Auth";
+import { Link } from 'react-router-dom';
 
 function getModalStyle() {
     const top = 50;
@@ -19,6 +20,11 @@ function getModalStyle() {
     };
 }
 const useStyles = makeStyles((theme) => ({
+    print: {
+        textAlign: 'center',
+        display: 'block',
+        fontSize: '1.6rem',
+    },
     error: {
         color: 'red',
         textAlign: 'center',
@@ -84,12 +90,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const AddPayment = ({ open, setImportOpen, billId, paidFor, setLoadViewBills }) => {
+const AddPayment = ({ open, setImportOpen, billId, paidFor, setLoadViewBills, flatid }) => {
 
     const { user } = useContext(AuthContext);
     const [amount, setAmount] = useState(null);
     const [paidVia, setPaidVia] = useState(-1);
     const [remarks, setRemarks] = useState(null);
+    const [transactionId, setTransactionId] = useState("");
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -100,6 +107,7 @@ const AddPayment = ({ open, setImportOpen, billId, paidFor, setLoadViewBills }) 
         {
             onResolve: (data) => {
                 if (data?.transactionDetails?.transactionId) {
+                    setTransactionId(data?.transactionDetails?.transactionId);
                     setSuccess("Payment Updated successfully. \r\n Your Receipt no. is " + data?.transactionDetails?.receiptNumber);
                     setAmount(null);
                     setPaidVia(-1);
@@ -141,7 +149,14 @@ const AddPayment = ({ open, setImportOpen, billId, paidFor, setLoadViewBills }) 
     const body = (
         <div style={modalStyle} className={classes.paper}>
             <h2 id="simple-modal-title" className={classes.modalHeading}>Update Payment</h2>
-            {success && <div className={classes.success}>{success}</div>}
+            {success &&
+                <>
+                    <div className={classes.success}>
+                        {success}
+                    </div>
+                    <Link className={classes.print} target="_blank" to={'/Receipts/' + billId + '/' + flatid + '/' + transactionId}>Download Receipt</Link>
+                </>
+            }
             {error && <div className={classes.error}>{error}</div>}
             { !loading &&
                 <div id="simple-modal-description" className={classes.exportInput}>

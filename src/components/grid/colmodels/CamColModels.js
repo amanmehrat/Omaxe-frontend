@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 
 import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutlined';
 import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutlined';
+
+import { useProjectActionsContext, useProjectContext } from '../../contexts/Project';
+
 const LightTooltip = React.memo(withStyles((theme) => ({
     tooltip: {
         backgroundColor: theme.palette.common.white,
@@ -14,14 +17,16 @@ const LightTooltip = React.memo(withStyles((theme) => ({
     },
 }))(Tooltip));
 
-const CamColModels = (setSelectedBillId, setImportOpen) => [
+const CamColModels = (setSelectedBillId, setImportOpen, setSelectedFlatId) => [
     {
         Header: 'Property No',
-        accessor: 'flat.flatNumber'
+        accessor: 'flat.flatNumber',
+        disableSortBy: true
     },
     {
         Header: 'Bill Number',
-        accessor: 'billNumber'
+        accessor: 'billNumber',
+        disableSortBy: true
     },
     {
         Header: 'Amount',
@@ -40,7 +45,8 @@ const CamColModels = (setSelectedBillId, setImportOpen) => [
     },
     {
         Header: 'Receipt Number',
-        accessor: 'receiptNumber'
+        accessor: 'receiptNumber',
+        disableSortBy: true
     },
     {
         Header: 'Amount Received',
@@ -50,13 +56,15 @@ const CamColModels = (setSelectedBillId, setImportOpen) => [
     {
         Header: 'Paid Via',
         accessor: 'paidVia',
-        disableFilters: true
+        disableFilters: true,
+        disableSortBy: true
     },
     {
         Header: 'Paid On',
         accessor: 'paidOn',
         width: '100',
-        disableFilters: true
+        disableFilters: true,
+        disableSortBy: true
     },
     {
         Header: 'Payment',
@@ -64,13 +72,14 @@ const CamColModels = (setSelectedBillId, setImportOpen) => [
         Cell: ({ row }) => (
             <div>
                 <LightTooltip title="Update Payment">
-                    <IconButton aria-label="Update Payment" onClick={() => { setImportOpen(true); setSelectedBillId(row.original.id); }} >
+                    <IconButton aria-label="Update Payment" onClick={() => { setImportOpen(true); setSelectedBillId(row.original.id); setSelectedFlatId(row.original.flatId); }} >
                         <MonetizationOnOutlinedIcon />
                     </IconButton>
                 </LightTooltip>
             </div >
         ),
-        disableFilters: true
+        disableFilters: true,
+        disableSortBy: true
     },
     {
         Header: 'Transaction',
@@ -87,7 +96,8 @@ const CamColModels = (setSelectedBillId, setImportOpen) => [
                 </LightTooltip>
             </Link>
         ),
-        disableFilters: true
+        disableFilters: true,
+        disableSortBy: true
     }
 ]
 

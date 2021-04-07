@@ -2,11 +2,13 @@
 const TransactionsModels = () => [
     {
         Header: 'Receipt Number',
-        accessor: 'receiptNumber'
+        accessor: 'receiptNumber',
+        disableSortBy: true
     },
     {
         Header: 'Paid Via',
-        accessor: 'paidVia'
+        accessor: 'paidVia',
+        disableSortBy: true
     },
     {
         Header: 'Amount Paid',
@@ -16,17 +18,20 @@ const TransactionsModels = () => [
     {
         Header: 'Paid On',
         accessor: 'paidOn',
-        disableFilters: true
+        disableFilters: true,
+        disableSortBy: true
     },
     {
         Header: 'CreatedBy',
         accessor: 'createdBy',
-        disableFilters: true
+        disableFilters: true,
+        disableSortBy: true
     },
     {
         Header: 'Remarks',
         accessor: 'remarks',
-        disableFilters: true
+        disableFilters: true,
+        disableSortBy: true
     }
 ]
 

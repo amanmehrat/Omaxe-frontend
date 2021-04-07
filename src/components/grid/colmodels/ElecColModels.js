@@ -14,14 +14,16 @@ const LightTooltip = withStyles((theme) => ({
     },
 }))(Tooltip);
 
-const ElecColModels = (setSelectedBillId, setImportOpen) => [
+const ElecColModels = (setSelectedBillId, setImportOpen, setSelectedFlatId) => [
     {
         Header: 'Property No',
-        accessor: 'flat.flatNumber'
+        accessor: 'flat.flatNumber',
+        disableSortBy: true
     },
     {
         Header: 'Bill Number',
-        accessor: 'billNumber'
+        accessor: 'billNumber',
+        disableSortBy: true
     },
     {
         Header: 'Amount',
@@ -40,23 +42,27 @@ const ElecColModels = (setSelectedBillId, setImportOpen) => [
     },
     {
         Header: 'Receipt Number',
-        accessor: 'receiptNumber'
+        accessor: 'receiptNumber',
+        disableSortBy: true
     },
     {
         Header: 'Amount Received',
         accessor: 'amountReceived',
-        disableFilters: true
+        disableFilters: true,
+        disableSortBy: true
     },
     {
         Header: 'Paid Via',
         accessor: 'paidVia',
-        disableFilters: true
+        disableFilters: true,
+        disableSortBy: true
     },
     {
         Header: 'Paid On',
         accessor: 'paidOn',
         width: '100',
-        disableFilters: true
+        disableFilters: true,
+        disableSortBy: true
     },
     {
         Header: 'Payment',
@@ -64,13 +70,14 @@ const ElecColModels = (setSelectedBillId, setImportOpen) => [
         Cell: ({ row }) => (
             <div>
                 <LightTooltip title="Update Payment">
-                    <IconButton aria-label="Update Payment" onClick={() => { setImportOpen(true); setSelectedBillId(row.original.id); }} >
+                    <IconButton aria-label="Update Payment" onClick={() => { setImportOpen(true); setSelectedBillId(row.original.id); setSelectedFlatId(row.original.flatId); }} >
                         <MonetizationOnOutlinedIcon />
                     </IconButton>
                 </LightTooltip>
             </div >
         ),
-        disableFilters: true
+        disableFilters: true,
+        disableSortBy: true
     },
     {
         Header: 'Transactions',
@@ -87,7 +94,8 @@ const ElecColModels = (setSelectedBillId, setImportOpen) => [
                 </LightTooltip>
             </Link>
         ),
-        disableFilters: true
+        disableFilters: true,
+        disableSortBy: true
     }
 ]
 

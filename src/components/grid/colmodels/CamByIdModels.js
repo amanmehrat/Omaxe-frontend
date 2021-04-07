@@ -2,7 +2,8 @@
 const CamByIdModels = (setSelectedBillId, setImportOpen) => [
     {
         Header: 'Bill Number',
-        accessor: 'billNumber'
+        accessor: 'billNumber',
+        disableSortBy: true
     },
     {
         Header: 'Amount',
@@ -21,7 +22,8 @@ const CamByIdModels = (setSelectedBillId, setImportOpen) => [
     },
     {
         Header: 'Receipt Number',
-        accessor: 'receiptNumber'
+        accessor: 'receiptNumber',
+        disableSortBy: true
     },
     {
         Header: 'Amount Received',
@@ -31,13 +33,15 @@ const CamByIdModels = (setSelectedBillId, setImportOpen) => [
     {
         Header: 'Paid Via',
         accessor: 'paidVia',
-        disableFilters: true
+        disableFilters: true,
+        disableSortBy: true
     },
     {
         Header: 'Paid On',
         accessor: 'paidOn',
         width: '100',
-        disableFilters: true
+        disableFilters: true,
+        disableSortBy: true
     }
 ]
 

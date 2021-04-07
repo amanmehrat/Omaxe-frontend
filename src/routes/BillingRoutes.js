@@ -12,11 +12,12 @@ const BillingRoutes = () => {
     return (
         <Switch>
             <IfProjectSelected>
-                <Route exact={true} path={`${path}/billingheads`} component={Billing} />
-                <Route exact={true} path={`${path}/generatebills`} component={GenerateBill} />
-                <Route exact={true} path={`${path}/viewbills`} component={ViewBills} />
-                <Route exact={true} path={`${path}/transactions`} component={Transactions} />
-                <Route exact={true} path={`${path}/waveOff`} component={WaveOff} />
+                <Route exact={true} path={`${path}/BillingHeads`} component={Billing} />
+                <Route exact={true} path={`${path}/GenerateBills`} component={GenerateBill} />
+                <Route exact={true} path={`${path}/ViewBills`} component={ViewBills} />
+                <Route exact={true} path={`${path}/Transactions`} component={Transactions} />
+                <Route exact={true} path={`${path}/UpdateReadings`} component={ViewBills} />
+                <Route exact={true} path={`${path}/WaveOff`} component={WaveOff} />
             </IfProjectSelected>
         </Switch>
     );

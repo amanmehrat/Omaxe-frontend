@@ -72,6 +72,12 @@ const Sidebar = () => {
                             <p>View Bills</p>
                         </div>
                     </Link>
+                    <Link to="/billing/UpdateReadings" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                        <div className="sidebarChat_info">
+                            <SubdirectoryArrowRightIcon />
+                            <p>Update Readings</p>
+                        </div>
+                    </Link>
                     <Link to="/billing/waveOff" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
                         <div className="sidebarChat_info">
                             <SubdirectoryArrowRightIcon />

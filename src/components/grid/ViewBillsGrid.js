@@ -13,6 +13,7 @@ const ViewBillsGrid = ({ bills, billType, setLoadViewBills }) => {
     const [selectedFlats, setSelectedFlats] = useState([])
     const [importOpen, setImportOpen] = useState(false);
     const [selectedBillId, setSelectedBillId] = useState(null);
+    const [selectedflatId, setSelectedFlatId] = useState(null);
     let models = billType == 1 ? CamColModels : ElecColModels;
     const columns = React.useMemo(
         () => [
@@ -29,7 +30,7 @@ const ViewBillsGrid = ({ bills, billType, setLoadViewBills }) => {
                     </div>
                 )
             },
-            ...models(setSelectedBillId, setImportOpen)
+            ...models(setSelectedBillId, setImportOpen, setSelectedFlatId)
         ],
         []
     );
@@ -60,6 +61,7 @@ const ViewBillsGrid = ({ bills, billType, setLoadViewBills }) => {
             />
             <AddPayment
                 billId={selectedBillId}
+                flatid={selectedflatId}
                 paidFor={billType}
                 open={importOpen}
                 setImportOpen={setImportOpen}
