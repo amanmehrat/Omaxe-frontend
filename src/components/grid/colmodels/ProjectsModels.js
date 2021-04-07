@@ -18,22 +18,26 @@ const ProjectsModels = () => {
         {
             Header: 'Project Name',
             accessor: 'name',
-            width: 50000
+            width: 50000,
+            disableSortBy: true
         },
         {
             Header: 'Started On',
             accessor: 'startedOn',
-            disableFilters: true
+            disableFilters: true,
+            disableSortBy: true
         },
         {
             Header: 'Address',
             accessor: 'address',
-            disableFilters: true
+            disableFilters: true,
+            disableSortBy: true
         },
         {
             Header: 'Total Units',
             accessor: 'totalUnits',
-            disableFilters: true
+            disableFilters: true,
+            disableSortBy: true
         },
         {
             Header: 'Edit',
@@ -47,7 +51,8 @@ const ProjectsModels = () => {
                     </IconButton>
                 </LightTooltip>
             ),
-            disableFilters: true
+            disableFilters: true,
+            disableSortBy: true
 
         }
     ]

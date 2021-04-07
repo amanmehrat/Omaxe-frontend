@@ -18,28 +18,34 @@ const FlatsModels = () => {
         {
             Header: 'Property No.',
             accessor: 'flatNumber',
+            disableSortBy: true
         },
         {
             Header: 'Owner',
             accessor: 'ownerName',
+            disableSortBy: true
         },
         {
             Header: 'Block Incharge',
             accessor: 'blockIncharge',
+            disableSortBy: true
         },
         {
             Header: 'Block Number',
             accessor: 'blockNumber',
-            disableFilters: true
+            disableFilters: true,
+            disableSortBy: true
         },
         {
             Header: 'floor Number',
             accessor: 'floorNumber',
-            disableFilters: true
+            disableFilters: true,
+            disableSortBy: true
         },
         {
             Header: 'Property',
             accessor: 'propertyType',
+            disableSortBy: true
         },
         {
             Header: 'Edit',
@@ -53,7 +59,8 @@ const FlatsModels = () => {
                     </IconButton>
                 </LightTooltip>
             ),
-            disableFilters: true
+            disableFilters: true,
+            disableSortBy: true
 
         }
     ]

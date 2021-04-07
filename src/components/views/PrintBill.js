@@ -58,8 +58,8 @@ const PrintBill = () => {
                     <Bill ref={componentRef} bills={bills} />
                 </>
             }
-            {error && <div style={{ marginTop: "10%" }} class="error">{error}</div>}
-            {loading && <div style={{ marginTop: "10%" }}><Loading /><div style={{ paddingTop: "3%", fontSize: "20px" }} class="success">Fetching Bill...</div></div>}
+            {error && <div style={{ marginTop: "10%" }} className="error">{error}</div>}
+            {loading && <div style={{ marginTop: "10%" }}><Loading /><div style={{ paddingTop: "3%", fontSize: "20px" }} className="success">Fetching Bill...</div></div>}
         </>
     )
 

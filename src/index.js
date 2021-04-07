@@ -43,6 +43,7 @@ const App = () => (
   <RootProvider>
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Switch>
+        <Route exact={true} path={`/Receipts/:billId/:flatId/:transactionId`} component={DownloadTransactions} />
         <Route exact={true} path={`/Receipts/:billId/:flatId`} component={DownloadTransactions} />
         <Route exact={true} path={`/PrintBill/:billType/:billId`} component={PrintBill} />
         <Route exact={true} path={`/Bills/:billType`} component={DownloadBills} />

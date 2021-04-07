@@ -62,7 +62,7 @@ const Transactions = () => {
                 <div className="project__body--heading">Transactions</div>
                 <div className="project__header--filter">
                     <Link to='/billing/viewbills' className="project__header--filter--button">View Bills</Link>
-                    <Link to={'/Receipts/' + billId + '/' + flatId} className="project__header--filter--button">Downloads</Link>
+                    <Link target="_blank" to={'/Receipts/' + billId + '/' + flatId} className="project__header--filter--button">Downloads</Link>
                 </div>
             </div>
 

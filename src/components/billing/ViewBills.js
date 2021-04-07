@@ -175,7 +175,7 @@ const ViewBills = () => {
             <div className="project__header">
                 <div className="project__body--heading">View Bills</div>
                 <div className="project__header--filter">
-                    <Link className="project__header--filter--button" to={"/billing/generatebill"} >Generate Bill</Link>
+                    <Link className="project__header--filter--button" to={"/billing/generateBills"} >Generate Bill</Link>
                 </div>
             </div>
             <div className="project__body">
