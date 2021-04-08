@@ -22,7 +22,7 @@ const PrintBill = () => {
     const [error, setError] = useState("");
 
     const viewBills = () => {
-        axios.get(`${config.restApiBase}/billing/getBillPDF/${billType}/${billId}`)
+        axios.post(`${config.restApiBase}/billing/getBillPDF`)
             .then(response => {
                 setLoading(false);
                 let { data } = response;
@@ -46,7 +46,7 @@ const PrintBill = () => {
 
     useEffect(() => {
         if (billType && billId)
-            viewBills();
+            viewBills({ billType, billId: billId.split(",") });
     }, [billType])
     return (
         <>
@@ -55,6 +55,7 @@ const PrintBill = () => {
                     <ReactToPrint
                         trigger={() => <button>Print this out!</button>}
                         content={() => componentRef.current}
+                        documentTitle={"Omaxe-Bill-" + billId}
                     />
                     <Bill ref={componentRef} bills={bills} />
                 </>

@@ -36,7 +36,7 @@ const WaveOffModels = () => [
     {
         Header: 'Document',
         accessor: 'transactionId',
-        Cell: ({ row }) => <Link target="_blank" to={row.original.docUrl}>View Document</Link>,
+        Cell: ({ row }) => <a target="_blank" href={row.original.docUrl}>View Document</a>,
         disableFilters: true,
         disableSortBy: true
     },
