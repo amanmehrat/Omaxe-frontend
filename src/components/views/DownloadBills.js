@@ -55,6 +55,7 @@ const DownloadBills = () => {
                     <ReactToPrint
                         trigger={() => <button>Print this out!</button>}
                         content={() => componentRef.current}
+                        documentTitle="Omaxe-Bill"
                     />
                     <Bill ref={componentRef} bills={bills} />
                 </>

@@ -112,7 +112,7 @@ const GenerateBill = () => {
             values.projId = selectedProjectId;
             values.year = yearString.toString();
             values.month = monthString.toString();
-            //values.createdBy = user.id;
+            values.createdBy = user.id;
             values.dueDate = values.dueDate.toString();
             values.billType = parseInt(values.billType);
             if (typeof values.excludedFlats == "string") {
@@ -139,7 +139,7 @@ const GenerateBill = () => {
                     <Loading />
                 </div>
             }
-            {(error && success) &&
+            {(success) &&
                 <div className="project__body">
                     <div className="project__body--content">
                         <div className="project__body--contentBody">
@@ -184,9 +184,8 @@ const GenerateBill = () => {
                                 //     DG_charge_multiplier: Yup.string()
                                 //         .required('Required')
                                 // }),
-                                //name: Yup.string()
-                                //  .max(50, 'Must be 50 characters or less')
-                                // .required('Required')
+                                dueDate: Yup.string()
+                                    .required('Required')
                                 //billType: Yup.string()
                                 //.notOneOf(['0'])
                                 //.required('Please indicate your communications preference')

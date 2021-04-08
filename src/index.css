@@ -143,6 +143,7 @@ code {
 
 .generateBillTable {
   max-height: 400px;
+  width: 100%;
 }
 
 .generateBillTable td {

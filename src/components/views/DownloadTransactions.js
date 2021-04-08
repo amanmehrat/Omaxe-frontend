@@ -18,7 +18,6 @@ const DownloadTransactions = () => {
     const { billId } = useParams();
     const { flatId } = useParams();
     const { transactionId } = useParams();
-    console.log(transactionId);
     const [reciepts, setReciepts] = useState(null);
     const [error, setError] = useState("");
 
@@ -62,6 +61,7 @@ const DownloadTransactions = () => {
                     <ReactToPrint
                         trigger={() => <button>Print this out!</button>}
                         content={() => componentRef.current}
+                        documentTitle={"Omaxe-Receipt_" + billId}
                     />
                     <Receipt ref={componentRef} reciepts={reciepts} />
                 </>

@@ -5,6 +5,7 @@ import Billing from "../components/billing/Billling";
 import GenerateBill from "../components/billing/GenerateBill";
 import ViewBills from "../components/billing/ViewBills";
 import Transactions from "../components/billing/Transactions";
+import UploadReadings from "../components/billing/UploadReadings";
 import WaveOff from "../components/billing/WaveOff";
 
 const BillingRoutes = () => {
@@ -16,7 +17,7 @@ const BillingRoutes = () => {
                 <Route exact={true} path={`${path}/GenerateBills`} component={GenerateBill} />
                 <Route exact={true} path={`${path}/ViewBills`} component={ViewBills} />
                 <Route exact={true} path={`${path}/Transactions`} component={Transactions} />
-                <Route exact={true} path={`${path}/UpdateReadings`} component={ViewBills} />
+                <Route exact={true} path={`${path}/UpdateReadings`} component={UploadReadings} />
                 <Route exact={true} path={`${path}/WaveOff`} component={WaveOff} />
             </IfProjectSelected>
         </Switch>
