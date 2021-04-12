@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Link } from 'react-router-dom';
@@ -14,12 +14,15 @@ import Loading from '../Loading';
 import NoData from "../NoData";
 import FlatGrid from '../grid/FlatGrid';
 import PropertyType from '../../utils/PropertyTypeSet';
+import AuthContext from "../contexts/Auth";
+
 
 import './Project.css'
 
 
 const Project = () => {
     const { projectId } = useParams();
+    const { user } = useContext(AuthContext);
 
     const [loading, setLoading] = useState(true);
     const [loadFlats, setLoadFlats] = useState(false);
@@ -104,9 +107,11 @@ const Project = () => {
                     All Properties
                 </div>
                 <div className="project__header--filter">
-                    <Link to="/flat/add" className="project__header--filter--button" >Add Property</Link>
+                    {(user && user.role == "admin") && <Link to="/flat/add" className="project__header--filter--button" >Add Property</Link>}
+
                     <button onClick={(e) => { e.stopPropagation(); return handleExportOpen() }} className="projectId__header--filter--button" >Export Excel</button>
-                    <button onClick={(e) => { e.stopPropagation(); return handleImportOpen() }} className="projectId__header--filter--button" >Import Excel</button>
+
+                    {(user && user.role == "admin") && <button onClick={(e) => { e.stopPropagation(); return handleImportOpen() }} className="projectId__header--filter--button" >Import Excel</button>}
                 </div>
             </div>
             <ExportExcel

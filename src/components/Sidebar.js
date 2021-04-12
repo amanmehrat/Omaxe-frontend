@@ -47,6 +47,9 @@ const Sidebar = () => {
                         <h2>Projects</h2>
                     </div>
                 </Link>
+
+
+
                 {selectedProject && <>
                     <Link to={"/project/" + selectedProjectId} className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
                         <div className="sidebarChat_info">
@@ -54,30 +57,36 @@ const Sidebar = () => {
                             <p>{selectedProject?.name}</p>
                         </div>
                     </Link>
-                    <Link to="/flat/add" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
-                        <div className="sidebarChat_info">
-                            <SubdirectoryArrowRightIcon />
-                            <p>Add Property</p>
-                        </div>
-                    </Link>
-                    <Link to="/billing/GenerateBills" className="sidebarSubChat" /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
-                        <div className="sidebarChat_info">
-                            <SubdirectoryArrowRightIcon />
-                            <p>Generate Bills</p>
-                        </div>
-                    </Link>
+                    {user && user.role == "admin" && <>
+                        <Link to="/flat/add" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                            <div className="sidebarChat_info">
+                                <SubdirectoryArrowRightIcon />
+                                <p>Add Property</p>
+                            </div>
+                        </Link>
+                        <Link to="/billing/GenerateBills" className="sidebarSubChat" /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                            <div className="sidebarChat_info">
+                                <SubdirectoryArrowRightIcon />
+                                <p>Generate Bills</p>
+                            </div>
+                        </Link>
+                    </>
+                    }
                     <Link to="/billing/ViewBills" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
                         <div className="sidebarChat_info">
                             <SubdirectoryArrowRightIcon />
                             <p>View Bills</p>
                         </div>
                     </Link>
-                    <Link to="/billing/UpdateReadings" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
-                        <div className="sidebarChat_info">
-                            <SubdirectoryArrowRightIcon />
-                            <p>Update Readings</p>
-                        </div>
-                    </Link>
+                    {
+                        user && user.role == "admin" &&
+                        <Link to="/billing/UpdateReadings" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                            <div className="sidebarChat_info">
+                                <SubdirectoryArrowRightIcon />
+                                <p>Update Readings</p>
+                            </div>
+                        </Link>
+                    }
                     <Link to="/billing/waveOff" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
                         <div className="sidebarChat_info">
                             <SubdirectoryArrowRightIcon />

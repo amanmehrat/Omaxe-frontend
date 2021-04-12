@@ -68,7 +68,7 @@ const CamColModels = (setSelectedBillId, setImportOpen, setSelectedFlatId) => [
     },
     {
         Header: 'Payment',
-        accessor: 'paymentId',
+        accessor: 'Payment',
         Cell: ({ row }) => (
             <div>
                 <LightTooltip title="Update Payment">
@@ -84,6 +84,7 @@ const CamColModels = (setSelectedBillId, setImportOpen, setSelectedFlatId) => [
     {
         Header: 'Transaction',
         accessor: 'transactionId',
+        show: false,
         Cell: ({ row }) => (
             <Link
                 to='/billing/transactions'

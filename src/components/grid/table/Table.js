@@ -19,7 +19,7 @@ function DefaultColumnFilter({
     )
 }
 
-const Table = ({ columns, data, onRowSelect, onHandleRowClick }) => {
+const Table = ({ columns, data, onRowSelect, onHandleRowClick, hiddenColumns }) => {
     // Use the state and functions returned from useTable to build your UI
     const defaultColumn = React.useMemo(
         () => ({
@@ -67,7 +67,8 @@ const Table = ({ columns, data, onRowSelect, onHandleRowClick }) => {
             columns,
             data,
             defaultColumn,
-            filterTypes
+            filterTypes,
+            initialState: { hiddenColumns: hiddenColumns }
         },
         useFilters,
         useSortBy,

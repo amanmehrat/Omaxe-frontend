@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useHistory } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
 import { usePost } from "../../utils/hooks";
@@ -9,6 +9,7 @@ import HistoryModal from './HistoryModal';
 import { LogException } from "../../utils/exception";
 import { useProjectActionsContext, useProjectContext } from '../../components/contexts/Project';
 import { makeStyles } from '@material-ui/core/styles';
+import PropertyType from '../../utils/PropertyTypeSet';
 
 import axios from 'axios';
 import config from '../../config';
@@ -87,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
 const Flat = () => {
     const classes = useStyles();
     const { flatId } = useParams();
+    const history = useHistory();
 
     const [loading, setLoading] = useState(true)
     const [flatDetails, setFlatDetails] = useState({});
@@ -135,7 +137,7 @@ const Flat = () => {
         {
             onResolve: (data) => {
                 setLoadElectricity(false)
-                setElectricityHistory(data.electricityHistory);
+                setElectricityHistory(data.elecDetail);
             },
             onReject: (err) => {
                 setLoadElectricity(false)
@@ -173,6 +175,7 @@ const Flat = () => {
             getCamDetails(request);
         }
     }, [loadCam]);
+
     const downloadCamHistory = () => {
         axios.post(`${config.restApiBase}/camDetails/getCamById`,
             {
@@ -246,6 +249,15 @@ const Flat = () => {
             <div className="project__header">
                 <div className="project__body--heading">Property Details</div>
                 <div className="project__header--filter">
+                    {
+                        flatDetails &&
+                        <button
+                            className="project__header--filter--button"
+                            onClick={(e) => { e.stopPropagation(); history.push('/flat/edit/' + flatDetails.id); }}
+                        >
+                            Edit Property
+                    </button>
+                    }
                     <Link className="project__header--filter--button" to={"/Project/" + selectedProjectId} >View All properties</Link>
                 </div>
             </div>
@@ -258,11 +270,9 @@ const Flat = () => {
                                     <label className={classes.tableItemKey}><b>Property Number:</b></label>
                                     <div className={classes.tableItemValue}>{flatDetails.flatNumber}</div>
                                 </div>
-                                <div className={classes.tableRow}>
-                                    <div className={classes.tableItem}>
-                                        <label className={classes.tableItemKey}><b>Floor Number:</b></label>
-                                        <div className={classes.tableItemValue}>{flatDetails.floorNumber}</div>
-                                    </div>
+                                <div className={classes.tableItem}>
+                                    <label className={classes.tableItemKey}><b>Floor Number:</b></label>
+                                    <div className={classes.tableItemValue}>{flatDetails.floorNumber}</div>
                                 </div>
                             </div>
                             <div className={classes.tableRow}>
@@ -270,23 +280,29 @@ const Flat = () => {
                                     <label className={classes.tableItemKey}><b>Block No:</b></label>
                                     <div className={classes.tableItemValue}>{flatDetails.blockNumber}</div>
                                 </div>
-                                <div className={classes.tableRow}>
-                                    <div className={classes.tableItem}>
-                                        <label className={classes.tableItemKey}><b>Area:</b></label>
-                                        <div className={classes.tableItemValue}>{flatDetails.area}</div>
-                                    </div>
+                                <div className={classes.tableItem}>
+                                    <label className={classes.tableItemKey}><b>Area:</b></label>
+                                    <div className={classes.tableItemValue}>{flatDetails.area}</div>
                                 </div>
                             </div>
                             <div className={classes.tableRow}>
                                 <div className={classes.tableItem}>
+                                    <label className={classes.tableItemKey}><b>Owner Name:</b></label>
+                                    <div className={classes.tableItemValue}>{flatDetails.ownerName}</div>
+                                </div>
+                                <div className={classes.tableItem}>
                                     <label className={classes.tableItemKey}><b>Resident Name:</b></label>
                                     <div className={classes.tableItemValue}>{flatDetails.residentName}</div>
                                 </div>
-                                <div className={classes.tableRow}>
-                                    <div className={classes.tableItem}>
-                                        <label className={classes.tableItemKey}><b>Owner Name:</b></label>
-                                        <div className={classes.tableItemValue}>{flatDetails.ownerName}</div>
-                                    </div>
+                            </div>
+                            <div className={classes.tableRow}>
+                                <div className={classes.tableItem}>
+                                    <label className={classes.tableItemKey}><b>Owner Email:</b></label>
+                                    <div className={classes.tableItemValue}>{flatDetails.ownerEmail}</div>
+                                </div>
+                                <div className={classes.tableItem}>
+                                    <label className={classes.tableItemKey}><b>Owner Contact:</b></label>
+                                    <div className={classes.tableItemValue}>{flatDetails.ownerContact}</div>
                                 </div>
                             </div>
                             <div className={classes.tableRow}>
@@ -294,11 +310,9 @@ const Flat = () => {
                                     <label className={classes.tableItemKey}><b>Date Of Possession:</b></label>
                                     <div className={classes.tableItemValue}>{flatDetails.dateOfPossession}</div>
                                 </div>
-                                <div className={classes.tableRow}>
-                                    <div className={classes.tableItem}>
-                                        <label className={classes.tableItemKey}><b>Meter Number:</b></label>
-                                        <div className={classes.tableItemValue}>{flatDetails.meterNumber}</div>
-                                    </div>
+                                <div className={classes.tableItem}>
+                                    <label className={classes.tableItemKey}><b>Meter Number:</b></label>
+                                    <div className={classes.tableItemValue}>{flatDetails.meterNumber}</div>
                                 </div>
                             </div>
                             <div className={classes.tableRow}>
@@ -306,11 +320,9 @@ const Flat = () => {
                                     <label className={classes.tableItemKey}><b>Block Incharge:</b></label>
                                     <div className={classes.tableItemValue}>{flatDetails.blockIncharge}</div>
                                 </div>
-                                <div className={classes.tableRow}>
-                                    <div className={classes.tableItem}>
-                                        <label className={classes.tableItemKey}><b>Property Type:</b></label>
-                                        <div className={classes.tableItemValue}>{flatDetails.propertyType == 0 ? "3BHK" : "Others"}</div>
-                                    </div>
+                                <div className={classes.tableItem}>
+                                    <label className={classes.tableItemKey}><b>Property Type:</b></label>
+                                    <div className={classes.tableItemValue}>{PropertyType.get(flatDetails.propertyType)}</div>
                                 </div>
                             </div>
                         </div>

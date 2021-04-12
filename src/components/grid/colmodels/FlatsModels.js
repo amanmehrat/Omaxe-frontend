@@ -49,7 +49,7 @@ const FlatsModels = () => {
         },
         {
             Header: 'Edit',
-            accessor: 'edit',
+            accessor: 'Edit',
             Cell: ({ row }) => (
                 <LightTooltip title="Edit Property">
                     <IconButton aria-label="Edit Property"

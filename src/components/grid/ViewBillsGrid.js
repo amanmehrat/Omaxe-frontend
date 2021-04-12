@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import CamColModels from './colmodels/CamColModels';
 import ElecColModels from './colmodels/ElecColModels';
 import IndeterminateCheckbox from './table/IndeterminateCheckbox';
@@ -6,6 +6,7 @@ import Table from './table/Table';
 import cm from "classnames";
 import AddPayment from '../billing/AddPayment';
 import { Link } from 'react-router-dom';
+import AuthContext from "../contexts/Auth";
 
 import PrintOutlinedIcon from '@material-ui/icons/PrintOutlined';
 
@@ -15,6 +16,7 @@ const ViewBillsGrid = ({ bills, billType, setLoadViewBills }) => {
     const [selectedBillId, setSelectedBillId] = useState(null);
     const [selectedflatId, setSelectedFlatId] = useState(null);
     let models = billType == 1 ? CamColModels : ElecColModels;
+    const { user } = useContext(AuthContext);
     const columns = React.useMemo(
         () => [
             {
@@ -58,6 +60,7 @@ const ViewBillsGrid = ({ bills, billType, setLoadViewBills }) => {
                 columns={columns}
                 data={data}
                 onRowSelect={rows => setSelectedFlats(rows)}
+                hiddenColumns={(user && user.role == "admin") ? [] : ["Payment", "Edit"]}
             />
             <AddPayment
                 billId={selectedBillId}

@@ -41,7 +41,7 @@ const ProjectsModels = () => {
         },
         {
             Header: 'Edit',
-            accessor: 'edit',
+            accessor: 'Edit',
             Cell: ({ row }) => (
                 <LightTooltip title="Edit Project">
                     <IconButton aria-label="Edit Project"
