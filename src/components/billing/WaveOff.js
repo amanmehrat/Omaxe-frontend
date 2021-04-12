@@ -254,48 +254,50 @@ const WaveOff = () => {
             <div className="project__body">
                 <div className="project__body--content">
                     <div className="project__body--contentBody">
-                        <form className={cm(classes.formBorder, "ProjectForm")} onSubmit={e => validateWaveOff(e)}>
-                            <div className={cm(classes.autocomplete, "")}>
-                                <Autocomplete
-                                    options={flatList}
-                                    getOptionLabel={(option) => option.flatNumber}
-                                    onChange={(event, newValue) => {
-                                        setFlatNo(newValue);
-                                    }}
-                                    renderInput={(params) => <TextField {...params} label="Property No" variant="outlined" />}
-                                />
-                                <div className="success">{dueMessage}</div>
-                            </div>
-                            <div className={cm(classes.dropdownDiv)}>
-                                <select name="billType" onChange={(e) => setBillType(e.target.value)} className={cm(classes.selectDropdown, "input-text")} defaultValue={billType} >
-                                    <option value="-1">Choose Bill Type</option>
-                                    <option value="1">Cam</option>
-                                    <option value="2">Electricity</option>
-                                </select>
-                            </div>
-                            <div className={cm(classes.amountDiv, "")}>
-                                <input
-                                    placeholder="Amount"
-                                    type="number"
-                                    className="input-text wid100"
-                                    value={amount}
-                                    onChange={(e) => setAmount(e.target.value)}
-                                />
-                            </div>
-                            <div className={cm(classes.fileUploader, "")}>
-                                <label className="input-label">Document</label>
-                                <FileUploader
-                                    selectedFile={file}
-                                    onSelectFile={onSelectFile}
-                                    accept={null}
-                                />
-                            </div>
-                            <div className={classes.btnGroups}>
-                                <button className={cm("project__header--filter--button materialBtn")} type="submit">
-                                    Add Wave-Off
+                        {(user && user.role == "admin") &&
+                            <form className={cm(classes.formBorder, "ProjectForm")} onSubmit={e => validateWaveOff(e)}>
+                                <div className={cm(classes.autocomplete, "")}>
+                                    <Autocomplete
+                                        options={flatList}
+                                        getOptionLabel={(option) => option.flatNumber}
+                                        onChange={(event, newValue) => {
+                                            setFlatNo(newValue);
+                                        }}
+                                        renderInput={(params) => <TextField {...params} label="Property No" variant="outlined" />}
+                                    />
+                                    <div className="success">{dueMessage}</div>
+                                </div>
+                                <div className={cm(classes.dropdownDiv)}>
+                                    <select name="billType" onChange={(e) => setBillType(e.target.value)} className={cm(classes.selectDropdown, "input-text")} defaultValue={billType} >
+                                        <option value="-1">Choose Bill Type</option>
+                                        <option value="1">Cam</option>
+                                        <option value="2">Electricity</option>
+                                    </select>
+                                </div>
+                                <div className={cm(classes.amountDiv, "")}>
+                                    <input
+                                        placeholder="Amount"
+                                        type="number"
+                                        className="input-text wid100"
+                                        value={amount}
+                                        onChange={(e) => setAmount(e.target.value)}
+                                    />
+                                </div>
+                                <div className={cm(classes.fileUploader, "")}>
+                                    <label className="input-label">Document</label>
+                                    <FileUploader
+                                        selectedFile={file}
+                                        onSelectFile={onSelectFile}
+                                        accept={null}
+                                    />
+                                </div>
+                                <div className={classes.btnGroups}>
+                                    <button className={cm("project__header--filter--button materialBtn")} type="submit">
+                                        Add Wave-Off
                                 </button>
-                            </div>
-                        </form>
+                                </div>
+                            </form>
+                        }
                         {error && <div className="error">{error}</div>}
                         {success && <div className="success">{success}</div>}
                         {loading ? <Loading /> : renderWaveOffs()}

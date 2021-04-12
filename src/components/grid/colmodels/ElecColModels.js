@@ -66,7 +66,7 @@ const ElecColModels = (setSelectedBillId, setImportOpen, setSelectedFlatId) => [
     },
     {
         Header: 'Payment',
-        accessor: 'paymentId',
+        accessor: 'Payment',
         Cell: ({ row }) => (
             <div>
                 <LightTooltip title="Update Payment">

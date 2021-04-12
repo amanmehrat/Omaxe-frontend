@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useGet } from "../../utils/hooks";
 import { LogException } from "../../utils/exception";
@@ -6,11 +6,13 @@ import Loading from '../Loading';
 import ProjectGrid from '../grid/ProjectGrid';
 import NoData from "../NoData";
 import { useProjectActionsContext } from '../contexts/Project';
+import AuthContext from "../contexts/Auth";
 
 const Projects = () => {
     const [projects, setProjects] = useState(null)
     const [loading, setLoading] = useState(true);
     const setSelectedProjectId = useProjectActionsContext();
+    const { user } = useContext(AuthContext);
 
     const { run: getProjectList } = useGet("/projects", null,
         {
@@ -50,7 +52,9 @@ const Projects = () => {
                     All Projects
                 </div>
                 <div className="project__header--filter">
-                    <Link to="/project/add" className="projectId__header--filter--button" >Add Project</Link>
+                    {(user && user.role == "admin") &&
+                        <Link to="/project/add" className="projectId__header--filter--button" >Add Project</Link>
+                    }
                 </div>
             </div>
             <div className="project__body">

@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import ViewBillsGrid from '../grid/ViewBillsGrid'
 import NoData from '../NoData';
@@ -21,6 +21,7 @@ import { usePost } from "../../utils/hooks";
 
 import axios from 'axios';
 import config from '../../config';
+import AuthContext from "../contexts/Auth";
 
 const useStyles = makeStyles((theme) => ({
     groups: {
@@ -68,6 +69,7 @@ const ViewBills = () => {
         month: "",
         projId: "",
     }
+    const { user } = useContext(AuthContext);
     const [bills, setBills] = useState(-1);
     const classes = useStyles();
     const history = useHistory();
@@ -175,7 +177,7 @@ const ViewBills = () => {
             <div className="project__header">
                 <div className="project__body--heading">View Bills</div>
                 <div className="project__header--filter">
-                    <Link className="project__header--filter--button" to={"/billing/generateBills"} >Generate Bill</Link>
+                    {(user && user.role == "admin") && <Link className="project__header--filter--button" to={"/billing/generateBills"} >Generate Bill</Link>}
                 </div>
             </div>
             <div className="project__body">

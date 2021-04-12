@@ -21,6 +21,7 @@ const WaveOffGrid = ({ waveOffs }) => {
             <Table
                 columns={columns}
                 data={data}
+                hiddenColumns={[]}
             />
         </>
     )

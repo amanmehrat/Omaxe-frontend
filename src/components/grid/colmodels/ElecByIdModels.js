@@ -6,13 +6,8 @@ const ElecByIdModels = (setSelectedBillId, setImportOpen) => [
         disableSortBy: true
     },
     {
-        Header: 'Amount',
-        accessor: 'amount',
-        disableFilters: true
-    },
-    {
-        Header: 'Due Amount',
-        accessor: 'dueAmount',
+        Header: 'Net Payable',
+        accessor: 'netPayable',
         disableFilters: true
     },
     {
@@ -21,13 +16,18 @@ const ElecByIdModels = (setSelectedBillId, setImportOpen) => [
         disableFilters: true
     },
     {
-        Header: 'Receipt Number',
-        accessor: 'receiptNumber'
-    },
-    {
         Header: 'Amount Received',
         accessor: 'amountReceived',
         disableFilters: true
+    },
+    {
+        Header: 'Due Amount',
+        accessor: 'dueAmount',
+        disableFilters: true
+    },
+    {
+        Header: 'Receipt Number',
+        accessor: 'receiptNumber'
     },
     {
         Header: 'Paid Via',
@@ -38,7 +38,6 @@ const ElecByIdModels = (setSelectedBillId, setImportOpen) => [
     {
         Header: 'Paid On',
         accessor: 'paidOn',
-        width: '100',
         disableFilters: true,
         disableSortBy: true
     }
