@@ -76,7 +76,7 @@ const WaveOff = () => {
     const classes = useStyles();
 
     const { selectedProjectId } = useProjectContext();
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [isloadWaveOffs, setIsloadWaveOffs] = useState(true);
     const [waveOffs, setWaveOffs] = useState(null);
     const [duesData, setDuesData] = useState(null);
@@ -300,7 +300,7 @@ const WaveOff = () => {
                         }
                         {error && <div className="error">{error}</div>}
                         {success && <div className="success">{success}</div>}
-                        {loading ? <Loading /> : renderWaveOffs()}
+                        {renderWaveOffs()}
                     </div>
                 </div>
             </div>

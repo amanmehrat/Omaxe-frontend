@@ -1,5 +1,5 @@
 import { useParams, Link, useHistory } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { usePost } from "../../utils/hooks";
 import NoData from "../NoData";
@@ -13,6 +13,9 @@ import PropertyType from '../../utils/PropertyTypeSet';
 
 import axios from 'axios';
 import config from '../../config';
+import AuthContext from "../contexts/Auth";
+import cm from "classnames";
+import PrintOutlinedIcon from '@material-ui/icons/PrintOutlined';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -89,6 +92,9 @@ const Flat = () => {
     const classes = useStyles();
     const { flatId } = useParams();
     const history = useHistory();
+    const { user } = useContext(AuthContext);
+    const [selectedCamBills, setSelectedCamBills] = useState([])
+    const [selectedElecBills, setSelectedElecBills] = useState([])
 
     const [loading, setLoading] = useState(true)
     const [flatDetails, setFlatDetails] = useState({});
@@ -250,7 +256,7 @@ const Flat = () => {
                 <div className="project__body--heading">Property Details</div>
                 <div className="project__header--filter">
                     {
-                        flatDetails &&
+                        (flatDetails && user && user.role == "admin") &&
                         <button
                             className="project__header--filter--button"
                             onClick={(e) => { e.stopPropagation(); history.push('/flat/edit/' + flatDetails.id); }}
@@ -334,10 +340,20 @@ const Flat = () => {
                     <div className="project__header--filter">
                         <button onClick={(e) => { e.stopPropagation(); return handlePopUpOpen("Cam"); }} className="projectId__header--filter--button" >View</button>
                         {(request.fetchBy == 2 && camHistory && camHistory.length > 0) && <button onClick={(e) => { e.stopPropagation(); return downloadCamHistory(); }} className="projectId__header--filter--button" >Download</button>}
+                        {(camHistory.length > 0) && <>
+                            <Link
+                                to={'/Bills/1'}
+                                className={cm("project__header--filter--button", "materialBtn")}
+                                target="_blank"
+                                onClick={() => { localStorage.setItem("downloadBillIds", selectedCamBills.map(d => d.original.id)) }}
+                            >
+                                <PrintOutlinedIcon />Print Bills
+                            </Link>
+                        </>}
                     </div>
                 </div>
                 {(camHistory && camHistory.length > 0) ?
-                    <ViewHistoryGrid bills={camHistory} billType={1} />
+                    <ViewHistoryGrid bills={camHistory} billType={1} setBills={setSelectedCamBills} />
                     : <div className={classes.noData}>{loadCam ? "Loading..." : "No Bill In History"}</div>
                 }
                 <div className={classes.subHeading}>
@@ -345,10 +361,20 @@ const Flat = () => {
                     <div className="project__header--filter">
                         <button onClick={(e) => { e.stopPropagation(); return handlePopUpOpen("Electricity"); }} className="projectId__header--filter--button" >View</button>
                         {(request.fetchBy == 2 && electricityHistory && electricityHistory.length > 0) && <button onClick={(e) => { e.stopPropagation(); return downloadElecHistory(); }} className="projectId__header--filter--button" >Download</button>}
+                        {(electricityHistory.length > 0) && <>
+                            <Link
+                                to={'/Bills/2'}
+                                className={cm("project__header--filter--button", "materialBtn")}
+                                target="_blank"
+                                onClick={() => { localStorage.setItem("downloadBillIds", selectedElecBills.map(d => d.original.id)) }}
+                            >
+                                <PrintOutlinedIcon />Print Bills
+                            </Link>
+                        </>}
                     </div>
                 </div>
                 {(electricityHistory && electricityHistory.length > 0) ?
-                    <ViewHistoryGrid bills={electricityHistory} billType={2} />
+                    <ViewHistoryGrid bills={electricityHistory} billType={2} setBills={setSelectedElecBills} />
                     : <div className={classes.noData}>{loadElectricity ? "Loading..." : "No Bill In History"}</div>
                 }
             </div>

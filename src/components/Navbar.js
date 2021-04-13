@@ -17,13 +17,13 @@ const Navbar = () => {
                 <div className="navbar__headerRight">
                     <ul className="rightnavlist">
                         <li>
-                            <a className="topnav">
+                            <span className="topnav">
                                 <IconButton>
                                     <Avatar className="userprofile navbar__headerRight--Icon" src="https://pbs.twimg.com/profile_images/964867480580636672/7BCvJq4g_400x400.jpg" />
                                 </IconButton>
-                            </a>
+                            </span>
                             <div className="hovermenu">
-                                <NavLink to="/" className="hmenulink">{user.name}({user.role})</NavLink>
+                                <NavLink to="/" className="hmenulink">{user.name}{user.role == "admin" && <>{" (Admin)"}</>}</NavLink>
                                 <NavLink to="/logout" className="hmenulink" onClick={logout}> Logout</NavLink>
                             </div>
                         </li>

@@ -6,12 +6,7 @@ const TransactionGrid = ({ transactions }) => {
     let models = TransactionsModels;
     transactions = transactions.map(item => { item.paidOn = new Date(item.paidOn).toISOString().split('T')[0]; return item; })
 
-    const columns = React.useMemo(
-        () => [
-            ...models()
-        ],
-        []
-    );
+    const columns = React.useMemo(() => [...models()], []);
     const data = React.useMemo(() => transactions, [transactions]);
     return (
         <>

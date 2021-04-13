@@ -3,14 +3,15 @@ import CamColModels from './colmodels/CamColModels';
 import ElecColModels from './colmodels/ElecColModels';
 import IndeterminateCheckbox from './table/IndeterminateCheckbox';
 import Table from './table/Table';
-import cm from "classnames";
 import AddPayment from '../billing/AddPayment';
 import { Link } from 'react-router-dom';
+import cm from "classnames";
+import PrintOutlinedIcon from '@material-ui/icons/PrintOutlined';
 import AuthContext from "../contexts/Auth";
 
-import PrintOutlinedIcon from '@material-ui/icons/PrintOutlined';
 
 const ViewBillsGrid = ({ bills, billType, setLoadViewBills }) => {
+    localStorage.removeItem("downloadBillIds")
     const [selectedFlats, setSelectedFlats] = useState([])
     const [importOpen, setImportOpen] = useState(false);
     const [selectedBillId, setSelectedBillId] = useState(null);
