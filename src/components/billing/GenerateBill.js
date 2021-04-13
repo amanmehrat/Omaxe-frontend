@@ -112,7 +112,7 @@ const GenerateBill = () => {
             values.projId = selectedProjectId;
             values.year = yearString.toString();
             values.month = monthString.toString();
-            //values.createdBy = user.id;
+            values.createdBy = user.id;
             values.dueDate = values.dueDate.toString();
             values.billType = parseInt(values.billType);
             if (typeof values.excludedFlats == "string") {
