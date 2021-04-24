@@ -6,6 +6,7 @@ import FileUploader from './customInputs/FileUploader';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import { KeyboardDatePicker } from '@material-ui/pickers';
+import AuthContext from "./contexts/Auth";
 
 import axios from 'axios';
 import config from '../config';
@@ -95,6 +96,7 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
     const onSelectFile = (event) => {
         setSelectedFile(event.target.files[0]);
     }
+    const { user } = useContext(AuthContext);
 
     const importExcel = (event) => {
         event.stopPropagation();
@@ -111,6 +113,7 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
         formData.append("month", month);
         formData.append("year", year);
         formData.append("csvType", csvType);
+        formData.append("createdBy", user.id);
         if (csvType == "-1") {
             setError("Please Choose Billing Type");
         } else if (!selectedFile) {
