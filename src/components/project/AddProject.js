@@ -113,7 +113,7 @@ const AddProject = ({ history }) => {
             const { id, name, startedOn, projectsBillingInformations, address, totalUnits } = values;
             delete projectsBillingInformations["id"];
             delete projectsBillingInformations["proj_id"];
-            let updatedProject = { projId: id, name, startedOn, projectsBillingInformations, address, totalUnits };
+            let updatedProject = { updatedBy: user.id, projId: id, name, startedOn, projectsBillingInformations, address, totalUnits };
             UpdateProject(updatedProject);
             setTimeout(() => {
                 setSubmitting(false);

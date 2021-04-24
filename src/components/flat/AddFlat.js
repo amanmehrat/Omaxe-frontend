@@ -21,6 +21,7 @@ import MyCheckBox from '../../components/customInputs/MyCheckBox';
 
 import { errorContext } from "../contexts/error/errorContext";
 import { useProjectContext } from "../contexts/Project";
+import AuthContext from "../../components/contexts/Auth";
 import { useGet, usePost, usePut } from "../../utils/hooks";
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -80,6 +81,7 @@ const AddFlat = () => {
     const { flatId } = useParams();
     const history = useHistory();
     const errorCtx = useContext(errorContext);
+    const { user } = useContext(AuthContext);
     const { selectedProjectId } = useProjectContext();
     if (!selectedProjectId) history.push("/projects");
 
@@ -157,7 +159,7 @@ const AddFlat = () => {
             const updatedProjectId = selectedProjectId;
             delete values["projectId"];
             //values.dateOfPossession = startDate;
-            let updatedFlat = { projectId: updatedProjectId, flat: values };
+            let updatedFlat = { projectId: updatedProjectId, flat: values, updatedBy: user.id };
             //values.projectId = updatedProjectId;
             UpdateFlat(updatedFlat);
             setTimeout(() => {
@@ -167,6 +169,7 @@ const AddFlat = () => {
             //values.createdBy = user.id;
             //values.dateOfPossession = startDate;
             let insertedProject = {
+                createdBy: user.id,
                 projectId: selectedProjectId,
                 flats: [values]
             }
