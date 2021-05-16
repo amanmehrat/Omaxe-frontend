@@ -12,6 +12,7 @@ export class Bill extends React.PureComponent {
         return (<>{this.props.bills != null && <>{parse(this.props.bills)}</>}</>)
     }
 }
+                
 const PrintBill = () => {
     const componentRef = useRef();
     const { billType } = useParams();
