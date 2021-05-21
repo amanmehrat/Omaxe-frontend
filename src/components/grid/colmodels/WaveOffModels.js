@@ -4,6 +4,7 @@ const WaveOffModels = () => [
         Header: 'Property No',
         accessor: 'flat.flatNumber',
         disableSortBy: true
+
     },
     {
         Header: 'Owner',
