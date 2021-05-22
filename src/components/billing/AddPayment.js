@@ -134,6 +134,10 @@ const AddPayment = ({ open, setImportOpen, billId, paidFor, setLoadViewBills, fl
             setError("Please Choose Paid Via Option");
         } else if (amount == null || amount == 0) {
             setError("Please Enter Amount");
+        } else if (paidVia == "4" && (remarks == null || remarks.trim() == "")) {
+            setError("Please provide Cheque No.");
+        } else if (paidVia == "4" && (remarks.trim().length != 5)) {
+            setError("Please provide Valid Cheque No.");
         } else if (remarks == null || remarks.trim() == "") {
             setError("Please Choose Remarks");
         } else {
@@ -185,8 +189,14 @@ const AddPayment = ({ open, setImportOpen, billId, paidFor, setLoadViewBills, fl
                         </div>
                     </div>
                     <div className="row">
-                        <textarea className={classes.remarks} onChange={(e) => setRemarks(e.target.value)} placeholder={"Enter Remarks"}></textarea>
+                        {paidVia == "4" ?
+                            <div className="form-group wid100">
+                                <input className="input-text wid100 bd-rad" onChange={(e) => setRemarks(e.target.value)} placeholder={"Cheque No."} />
+                            </div> :
+                            <textarea className={classes.remarks} onChange={(e) => setRemarks(e.target.value)} placeholder={"Enter Remarks"}></textarea>
+                        }
                     </div>
+
                     <div className={classes.downloadBtnDiv}>
                         <button onClick={(e) => addPayment(e)} className={classes.downloadBtn} >Update Payment</button>
                     </div>

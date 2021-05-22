@@ -27,7 +27,6 @@ import { usePost } from "../../utils/hooks";
 
 //import "./AddProject.scss";
 
-
 const AddProject = ({ history }) => {
     let projectStructure = {
         createdBy: "",
@@ -44,11 +43,13 @@ const AddProject = ({ history }) => {
             IFMS_balance: "",
             lift_charge: "",
             water_charge: "",
+            due_days: "",
+            cheque_bounce_penalty: ""
         }
     }
 
     const { projectId } = useParams();
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [isReset, setIsReset] = useState(false);
     const { user } = useContext(AuthContext);
@@ -150,24 +151,24 @@ const AddProject = ({ history }) => {
                                 validateOnMount={true}
                                 initialValues={project}
                                 validationSchema={Yup.object({
-                                    // projectsBillingInformations: Yup.object({
-                                    //     CAM_penalize_percentage: Yup.string()
-                                    //         .required('Required'),
-                                    //     electricity_penalize_percentage: Yup.string()
-                                    //         .required('Required'),
-                                    //     IFMS_balance: Yup.string()
-                                    //         .required('Required'),
-                                    //     CAM_fixed_charge: Yup.string()
-                                    //         .required('Required'),
-                                    //     water_charge: Yup.string()
-                                    //         .required('Required'),
-                                    //     lift_charge: Yup.string()
-                                    //         .required('Required'),
-                                    //     CAM_charge_multiplier: Yup.string()
-                                    //         .required('Required'),
-                                    //     DG_charge_multiplier: Yup.string()
-                                    //         .required('Required')
-                                    // }),
+                                    projectsBillingInformations: Yup.object({
+                                        CAM_penalize_percentage: Yup.string()
+                                            .required('Required'),
+                                        electricity_penalize_percentage: Yup.string()
+                                            .required('Required'),
+                                        IFMS_balance: Yup.string()
+                                            .required('Required'),
+                                        CAM_fixed_charge: Yup.string()
+                                            .required('Required'),
+                                        water_charge: Yup.string()
+                                            .required('Required'),
+                                        lift_charge: Yup.string()
+                                            .required('Required'),
+                                        CAM_charge_multiplier: Yup.string()
+                                            .required('Required'),
+                                        DG_charge_multiplier: Yup.string()
+                                            .required('Required')
+                                    }),
                                     name: Yup.string()
                                         .max(50, 'Must be 50 characters or less')
                                         .required('Required'),
@@ -305,6 +306,22 @@ const AddProject = ({ history }) => {
                                                             name="projectsBillingInformations.water_charge"
                                                             type="number"
                                                             placeholder="Water Charge"
+                                                            className="input-text wid50"
+                                                        />
+                                                    </div>
+                                                    <div className="row">
+                                                        <MyTextInput
+                                                            label="Check Bounce Penality"
+                                                            name="projectsBillingInformations.cheque_bounce_penalty"
+                                                            type="number"
+                                                            placeholder="Check Bounce Penality"
+                                                            className="input-text wid50"
+                                                        />
+                                                        <MyTextInput
+                                                            label="Due Days For Bill"
+                                                            name="projectsBillingInformations.due_days"
+                                                            type="number"
+                                                            placeholder="Days(in number)"
                                                             className="input-text wid50"
                                                         />
                                                     </div>
