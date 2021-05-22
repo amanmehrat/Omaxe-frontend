@@ -8,6 +8,7 @@ import IfAuth from "./IfAuth";
 import NotFound from "./NotFound";
 
 import Users from "./user/Users";
+import DownloadReport from "./report/DownloadReport";
 import Projects from "./project/Projects";
 
 import FlatRoutes from '../routes/FlatRoutes';
@@ -26,7 +27,8 @@ const Dashboard = () => {
           <ProjectContextProvider>
             <Sidebar />
             <Switch>
-              <Route exact={true} path="/" component={Projects} />
+              <Route exact={true} path="/report" component={DownloadReport} />
+              <Route exact={true} path="/" component={DownloadReport} />
               <Route exact={true} path="/projects" component={Projects} />
               <Route exact={true} path="/users" component={Users} />
               <Route exact={true} path="/flats/:flatId" component={Flat} />
@@ -41,5 +43,4 @@ const Dashboard = () => {
     </IfAuth>
   );
 };
-
 export default Dashboard;

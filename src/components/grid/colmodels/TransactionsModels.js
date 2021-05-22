@@ -32,6 +32,18 @@ const TransactionsModels = () => [
         accessor: 'remarks',
         disableFilters: true,
         disableSortBy: true
+    },
+    {
+        Header: 'status',
+        accessor: 'isSuccessful',
+        Cell: ({ row }) => {
+            if (row.original.isSuccessful == null || row.original.isSuccessful == true) {
+                return <b><span style={{ color: "green" }}>{"Successful"}</span></b>;
+            }
+            else return <b><span style={{ color: "red" }}>{"UnSuccessful"}</span></b>;
+        },
+        disableFilters: true,
+        disableSortBy: true
     }
 ]
 

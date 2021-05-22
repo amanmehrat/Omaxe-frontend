@@ -87,6 +87,7 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedFile, setSelectedFile] = useState(null);
     const [csvType, setCsvType] = useState(-1);
+    const [sheetNo, setSheetNo] = useState(null);
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -102,7 +103,10 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
         event.stopPropagation();
         setSuccess("");
         setError("");
-
+        if (sheetNo == null) {
+            setError("Please Specify Sheet No.");
+            return false;
+        }
         let dateString = new Date(selectedDate);
         const month = dateString.getMonth() + 1;
         const year = dateString.getFullYear();
@@ -114,6 +118,7 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
         formData.append("year", year);
         formData.append("csvType", csvType);
         formData.append("createdBy", user.id);
+        formData.append("sheetNo", sheetNo);
         if (csvType == "-1") {
             setError("Please Choose Billing Type");
         } else if (!selectedFile) {
@@ -138,6 +143,7 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
                     setCsvType(-1)
                     setSuccess("Import Successfully");
                     setLoadFlats(true);
+                    setSheetNo(null);
                 } else {
                     setError("Unable to import excel");
                 }
@@ -188,6 +194,9 @@ const ImportExcel = ({ open, handleClose, projectId, setLoadFlats }) => {
                         onSelectFile={onSelectFile}
                         accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                     />
+                    <div className={classes.selectInputDiv}>
+                        <input placeholder="Sheet No" type="number" onChange={(e) => setSheetNo(e.target.value)} className={classes.selectDropdown} />
+                    </div>
                     <div className={classes.downloadBtnDiv}>
                         <button onClick={(e) => importExcel(e)} className={classes.downloadBtn} >Upload</button>
                     </div>

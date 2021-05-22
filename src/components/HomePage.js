@@ -9,11 +9,11 @@ import React from 'react';
 
 //#endregion
 
-
 const HomePage = () => {
-    return(<div>
-        <p>This is HomePage</p>
-    </div>);
+    return (
+        <div>
+            <p>This is HomePage</p>
+        </div>);
 };
 
 export default HomePage;

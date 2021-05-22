@@ -7,6 +7,7 @@ import { useProjectContext } from './contexts/Project';
 
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import AssessmentIcon from '@material-ui/icons/Assessment';
+import PostAddIcon from '@material-ui/icons/PostAdd';
 import SubdirectoryArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
 
 import './Sidebar.css'
@@ -93,6 +94,15 @@ const Sidebar = () => {
                             <p>Wave-Off</p>
                         </div>
                     </Link>
+                    {
+                        user && user.role == "admin" &&
+                        <Link to="/billing/ChequeBounce" className="sidebarSubChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                            <div className="sidebarChat_info">
+                                <SubdirectoryArrowRightIcon />
+                                <p>Cheque Bounce Entry</p>
+                            </div>
+                        </Link>
+                    }
                 </>
                 }
                 {
@@ -100,6 +110,14 @@ const Sidebar = () => {
                         <PeopleOutlineIcon />
                         <div className="sidebarChat_info">
                             <h2>Users</h2>
+                        </div>
+                    </Link>
+                }
+                {
+                    user && user.role == "admin" && <Link to="/report" className="sidebarChat"  /*style={(selectedRoom == roomName) ? { backgroundColor: "gray" } : { backgroundColor: "white" }}*/  >
+                        <PostAddIcon />
+                        <div className="sidebarChat_info">
+                            <h2>Report</h2>
                         </div>
                     </Link>
                 }

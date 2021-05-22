@@ -1,6 +1,6 @@
 const dev = {
-    ///restApiBase: 'https://api.techencode.in',
-    restApiBase: 'http://localhost:3000',
+    restApiBase: 'https://api.techencode.in',
+    //restApiBase: 'http://localhost:3000',
     graphQLApi: 'https://graph.techencode.in/v1/graphql',
     sentryLogs: 'https://fe07833aa39a4b59a908529720162e72@o547107.ingest.sentry.io/5669337'
 };
