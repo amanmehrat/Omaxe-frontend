@@ -28,7 +28,7 @@ const Dashboard = () => {
             <Sidebar />
             <Switch>
               <Route exact={true} path="/report" component={DownloadReport} />
-              <Route exact={true} path="/" component={DownloadReport} />
+              <Route exact={true} path="/" component={Projects} />
               <Route exact={true} path="/projects" component={Projects} />
               <Route exact={true} path="/users" component={Users} />
               <Route exact={true} path="/flats/:flatId" component={Flat} />
