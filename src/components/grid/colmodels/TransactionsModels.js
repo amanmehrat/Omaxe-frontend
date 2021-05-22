@@ -28,7 +28,7 @@ const TransactionsModels = () => [
         disableSortBy: true
     },
     {
-        Header: 'Remarks',
+        Header: 'Remarks/Cheque No.',
         accessor: 'remarks',
         disableFilters: true,
         disableSortBy: true

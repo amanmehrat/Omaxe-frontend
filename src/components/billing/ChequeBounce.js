@@ -57,8 +57,7 @@ const ChequeBounce = () => {
     const [success, setSuccess] = useState("");
     const [receiptNo, setReceiptNo] = useState("")
     const [chequeNo, setChequeNo] = useState("")
-    const [notification, setNotification] = useState(-1)
-    const [chequeError, setChequeError] = useState("");
+    const [notification, setNotification] = useState(false);
 
     const { user } = useContext(AuthContext);
 
